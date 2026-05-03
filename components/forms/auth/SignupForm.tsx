@@ -58,7 +58,7 @@ export default function SignUpForm() {
                     style={{
                         fontFamily: "'DynaPuff', cursive",
                         fontWeight: 500,
-                        fontSize: '40px',
+                        fontSize: '38px',
                     }}
                 >
                     Zayelle
@@ -71,7 +71,7 @@ export default function SignUpForm() {
                     <div className="flex gap-5 mb-6">
                         <div className="flex-1">
                             <label
-                                className="block text-[12px] text-black mb-2"
+                                className="block text-[14px] font-medium text-black mb-2"
 
                             >
                                 Firstname
@@ -79,13 +79,13 @@ export default function SignUpForm() {
                             <input
                                 type="text"
                                 placeholder="Enter firstname"
-                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
 
                             />
                         </div>
                         <div className="flex-1">
                             <label
-                                className="block text-[12px] text-black mb-2"
+                                className="block  text-[14px] font-medium text-black mb-2"
 
                             >
                                 Lastname
@@ -93,7 +93,7 @@ export default function SignUpForm() {
                             <input
                                 type="text"
                                 placeholder="Enter lastname"
-                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
 
                             />
                         </div>
@@ -102,7 +102,7 @@ export default function SignUpForm() {
                     {/* Email */}
                     <div className="mb-6">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block  text-[14px] font-medium text-black mb-2"
 
                         >
                             Email
@@ -110,7 +110,7 @@ export default function SignUpForm() {
                         <input
                             type="email"
                             placeholder="Enter email"
-                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
 
                         />
                     </div>
@@ -118,7 +118,7 @@ export default function SignUpForm() {
                     {/* Phonenumber */}
                     <div className="mb-6">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block  text-[14px] font-medium text-black mb-2"
 
                         >
                             Phonenumber
@@ -126,7 +126,7 @@ export default function SignUpForm() {
                         <input
                             type="tel"
                             placeholder="Enter phonenumber"
-                            className="w-full border-0 border-b rounded-md border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                            className="w-full border-0 border-b rounded-md border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
 
                         />
                     </div>
@@ -134,7 +134,7 @@ export default function SignUpForm() {
                     {/* Password */}
                     <div className="mb-6">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block  text-[14px] font-medium text-black mb-2"
 
                         >
                             Password
@@ -143,7 +143,7 @@ export default function SignUpForm() {
                              <input
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Enter Password"
-                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
 
                         />
                             <button
@@ -159,7 +159,7 @@ export default function SignUpForm() {
                     {/* Confirm Password */}
                     <div className="mb-6">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block  text-[14px] font-medium text-black mb-2"
 
                         >
                             Confirm Password
@@ -168,7 +168,7 @@ export default function SignUpForm() {
                             <input
                                 type={showConfirmPassword ? 'text' : 'password'}
                                 placeholder="Confirm Password"
-                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[12px] text-black placeholder-[#8B8282]"
+                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent  text-[14px] font-medium text-black placeholder-[#8B8282]"
                             />
                             <button
                                 type="button"
@@ -187,7 +187,7 @@ export default function SignUpForm() {
                             className="w-3.5 h-3.5 accent-[#4E8ED9] cursor-pointer flex-shrink-0"
                         />
                         <span
-                            className="text-[12px] text-black"
+                            className=" text-[14px] font-medium text-black"
 
                         >
                             I agree with{' '}
@@ -207,7 +207,7 @@ export default function SignUpForm() {
 
                     {/* Footer Text */}
                     <p
-                        className="text-center text-[12px] text-black"
+                        className="text-center  text-[14px] font-medium text-black"
 
                     >
                         You already have an account?{' '}
