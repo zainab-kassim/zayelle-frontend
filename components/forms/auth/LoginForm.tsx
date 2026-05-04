@@ -69,7 +69,7 @@ export default function LoginForm() {
                     {/* Email */}
                     <div className="mb-16">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block text-[14px] font-medium text-black mb-2"
 
                         >
                             Email
@@ -86,7 +86,7 @@ export default function LoginForm() {
                     {/* Password */}
                     <div className="mb-24">
                         <label
-                            className="block text-[12px] text-black mb-2"
+                            className="block text-[14px] font-medium text-black mb-2"
 
                         >
                             Password
