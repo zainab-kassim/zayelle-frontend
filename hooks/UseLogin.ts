@@ -1,39 +1,30 @@
 import { useForm } from '@tanstack/react-form';
 import { toast } from 'sonner';
-import { signUpSchema } from '@/lib/schemas/authSchema';
-import { signUp } from '@/services/auth';
+import { loginSchema } from '@/lib/schemas/authSchema';
+import { login} from '@/services/auth';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-export const useSignUp = () => {
-      const router = useRouter();
+
+
+export const useLogIn = () => {
+    const router = useRouter()
     const form = useForm({
         validators: {
-            onSubmit: signUpSchema,
+            onSubmit: loginSchema,
         },
         defaultValues: {
-            firstName: '',
-            lastName: '',
             email: '',
-            phoneNumber: '',
             password: '',
-            confirmPassword: '',
-            agreeToPolicy: false,
         },
         onSubmit: async ({ value }) => {
-            // isLoading logic
-            // form.state.isSubmitting — already provided by TanStack Form during submission
 
             try {
-                const response = await signUp(
-                    value.firstName,
-                    value.lastName,
+                const response = await login(
                     value.email,
-                    value.phoneNumber,
                     value.password,
-                    value.confirmPassword
                 );
-                toast.success(`Welcome, ${response.user.firstname}!`);
+                toast.success(`Welcome back, ${response.user.firstname}!`);
 
                 router.push('/');
 

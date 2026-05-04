@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getRouter } from '@/lib/router';
+import { useRouter } from 'next/navigation';
 
  
 const axiosInstance = axios.create({
@@ -11,19 +11,23 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
- 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes('/auth/token') // ← add this
+    ) {
       originalRequest._retry = true;
- 
+
       try {
         await axiosInstance.post('/auth/token');
         return axiosInstance(originalRequest);
       } catch {
-        const router = getRouter();
-        router?.push('/auth/login');
+        const router = useRouter();
+        router.push('/auth/login');
       }
     }
- 
+
     return Promise.reject(error);
   }
 );

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useSignUp } from "@/hooks/UseSignup";
+import Loader from "@/components/ui/Loader";
 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -186,7 +187,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 pr-10 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
                                         />
                                         <button
                                             type="button"
@@ -221,7 +222,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 pr-10 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
                                         />
                                         <button
                                             type="button"
@@ -243,40 +244,45 @@ export default function SignUpForm() {
 
                     {/* Checkbox Row */}
                     <div className="mb-7">
-                            <form.Field name="agreeToPolicy">
-                                {(field) => (
-                                    <>
-                                        <div className="relative flex items-center gap-2">
-                                            <input
-                                                type="checkbox"
-                                                checked={field.state.value}
-                                                onChange={(e) => field.handleChange(e.target.checked)}
-                                                onBlur={field.handleBlur}
-                                                className="w-3.5 h-3.5 accent-[#4E8ED9] cursor-pointer flex-shrink-0"
-                                            />
-                                            <span className="text-[14px]  font-medium text-black">
-                                                I agree with{' '}
-                                                <a href="#" className="text-[#4E8ED9] underline">
-                                                    privacy policy
-                                                </a>
-                                            </span>
-                                        </div>
+                        <form.Field name="agreeToPolicy">
+                            {(field) => (
+                                <>
+                                    <div className="relative flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            checked={field.state.value}
+                                            onChange={(e) => field.handleChange(e.target.checked)}
+                                            onBlur={field.handleBlur}
+                                            className="w-3.5 h-3.5 accent-[#4E8ED9] cursor-pointer flex-shrink-0"
+                                        />
+                                        <span className="text-[14px]  font-medium text-black">
+                                            I agree with{' '}
+                                            <a href="#" className="text-[#4E8ED9] underline">
+                                                privacy policy
+                                            </a>
+                                        </span>
+                                    </div>
 
-                                        <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
-                                    </>
+                                    <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
+                                </>
 
-                                )}
-                            </form.Field>
+                            )}
+                        </form.Field>
                     </div>
 
-                    {/* CTA Button */}
-                    <button
-                        type="button"
-                        onClick={form.handleSubmit}
-                        className="w-full bg-black text-white rounded-[8px] py-4 mb-5 cursor-pointer text-[16px] font-bold"
-                    >
-                        Sign Up
-                    </button>
+                    {/* CTA Button with Loader Integration */}
+                    <form.Subscribe selector={(state) => [state.isSubmitting]}>
+                        {([isSubmitting]) => (
+                            <button
+                                type="button"
+                                onClick={form.handleSubmit}
+                                disabled={isSubmitting}
+                                className="w-full bg-black text-white rounded-[8px] py-4 mb-5 cursor-pointer text-[16px] font-bold flex items-center justify-center disabled:bg-gray-950 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting ? <Loader /> : "Sign Up"}
+                            </button>
+                        )}
+                    </form.Subscribe>
 
                     {/* Footer Text */}
                     <p className="text-center text-[14px] font-medium text-black">
