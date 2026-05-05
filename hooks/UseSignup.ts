@@ -34,6 +34,7 @@ export const useSignUp = () => {
                     value.confirmPassword
                 );
                 toast.success(`Welcome, ${response.user.firstname}!`);
+                localStorage.setItem('firstName', response.user.firstname);
 
                 router.push('/');
 

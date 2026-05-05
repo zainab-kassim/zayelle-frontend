@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cairo } from 'next/font/google';
 import { Toaster } from 'sonner';
+import Navbar from '@/components/shared/Navbar';
 import './globals.css';
 
 const cairo = Cairo({
@@ -27,6 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cairo.variable}>
+        <Navbar />
         {children}
         <Toaster />
       </body>

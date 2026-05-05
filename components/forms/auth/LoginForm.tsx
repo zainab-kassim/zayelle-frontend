@@ -13,6 +13,7 @@ export default function LoginForm() {
         return <p className="text-red-500 text-[11px] mt-1">{errors[0].message}</p>;
     };
 
+
     return (
         <main className="min-h-screen bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12">
             <div className="w-full md:max-w-[480px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
@@ -74,6 +75,7 @@ export default function LoginForm() {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
+                        setShowPassword(false);
                         form.handleSubmit();
                     }}
                 >
