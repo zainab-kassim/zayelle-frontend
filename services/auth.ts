@@ -12,7 +12,14 @@ export const login = async (email: string, password: string) => {
  
   return response.data;
 };
- 
+
+//logout service
+export const logout = async () => {
+  const response = await axiosInstance.post('/auth/logout');
+  return response.data;
+};
+
+
 //signup service
 export const signUp = async (
   firstName: string,
