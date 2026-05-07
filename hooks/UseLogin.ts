@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { toast } from 'sonner';
 import { loginSchema } from '@/lib/schemas/authSchema';
-import { login} from '@/services/auth';
+import { login } from '@/services/auth';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +25,7 @@ export const useLogIn = () => {
                     value.password,
                 );
                 toast.success(`Welcome back, ${response.user.firstname}!`);
-
+                localStorage.setItem('firstName', response.user.firstname);
                 router.push('/');
 
             } catch (error: any) {

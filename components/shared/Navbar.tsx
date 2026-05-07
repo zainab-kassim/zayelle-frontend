@@ -18,7 +18,7 @@ export default function Navbar() {
             <div className="fixed top-8 md:top-10 left-0 right-0 z-50 flex justify-center px-4">
                 <nav
                     className="w-full max-w-[1000px] rounded-full bg-white/40 px-7 md:px-14 py-2.5 md:py-3 flex items-center justify-between shadow-[-1px_2px_8px_0px_rgba(0,0,0,0.2)]"
-                // style={{ backdropFilter: 'blur(10px)' }}
+                style={{ backdropFilter: 'blur(10px)' }}
                 >
                     {/* Left — Brand */}
                     <Link href="/">
