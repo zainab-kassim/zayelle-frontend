@@ -1,14 +1,12 @@
-import React from 'react'
 import HeroSection from '@/components/shared/HeroSection';
-
-export default function page() {
+import FloralCollection from '@/components/shared/FlorealCollection';
+ 
+export default function Home() {
   return (
-    <div>
+    <>
       <HeroSection />
-      <div>
-        hello
-      </div>
-    </div>
-  )
+      <FloralCollection />
+    </>
+  );
 }
-
+ 
