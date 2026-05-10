@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'n3tcxaxisw.ufs.sh',
       },
+      {
+        protocol: 'https',
+        hostname:'oqk3pkp15w.ufs.sh',
+      }
     ],
   },
 };

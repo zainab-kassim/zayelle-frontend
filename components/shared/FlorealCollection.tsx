@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductCard from '@/components/ui/ProductCard';
 import ProductCardSkeleton from '@/components/ui/ProductCardSkeleton';
-import { getProducts } from '@/services/products';
+import { getProductByCollection } from '@/services/products';
 import { Product } from '@/types/product';
 
 
@@ -16,11 +16,8 @@ const [products, setProducts] = useState<Product[]>([])
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts();
-        const fetchedProducts = Array.isArray(response)
-          ? response
-          : (response as { data?: Product[] })?.data ?? [];
-
+        const response = await getProductByCollection();
+       const fetchedProducts = response
         if (fetchedProducts.length) {
           setProducts(fetchedProducts);
         }
@@ -48,7 +45,6 @@ const [products, setProducts] = useState<Product[]>([])
         <button
           onClick={() => router.push('/products')}
           className="text-[12px] md:text-[14px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
-          style={{ fontFamily: "'Cairo', sans-serif" }}
         >
           See All
         </button>
