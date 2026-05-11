@@ -29,14 +29,14 @@ export default function ProductCard({ id, image, name, price }: ProductCardProps
                 />
 
                 {/* Product image */}
-               <div className="relative w-full h-[300px] flex items-center justify-center">
-  <Image
-    src={image[0]}
-    alt={name}
-    fill
-    style={{ objectFit: 'contain', padding: '16px' }}
-  />
-</div>
+                <div className="relative w-full h-[300px]">
+                    <Image
+                        src={image[0]}
+                        alt={name}
+                        fill
+                        style={{ objectFit: 'contain' }}
+                    />
+                </div>
             </div>
 
             {/* Info area */}
