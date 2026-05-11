@@ -29,12 +29,12 @@ export default function ProductCard({ id, image, name, price }: ProductCardProps
                 />
 
                 {/* Product image */}
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full h-[270px]">
                     <Image
                         src={image[0]}
                         alt={name}
                         fill
-                        style={{ objectFit: 'contain' }}
+                        style={{ objectFit: 'contain', transform: 'scale(1.2)' }}
                     />
                 </div>
             </div>
