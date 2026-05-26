@@ -36,19 +36,13 @@ const [products, setProducts] = useState<Product[]>([])
   }, []);
 
   return (
-    <section className="w-full bg-white py-5">
+    <section className="w-full bg-white pb-5 pt-1 sm:pb-5 sm:pt-5">
 
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6 px-2">
-        <h2
-          className="text-[14px] md:text-[18px] font-bold uppercase text-[#2C2420]"
-          style={{ fontFamily: "'Cairo', sans-serif" }}
-        >
-          Floreal Collection
-        </h2>
+      <div className=" text-right mb-3 sm:mb-5 px-2">
         <button
           onClick={() => router.push('/products')}
-          className="text-[12px] md:text-[14px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
+          className="text-[14px] md:text-[16px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
         >
           See All
         </button>

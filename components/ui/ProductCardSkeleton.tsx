@@ -35,11 +35,6 @@ export default function ProductCardSkeleton() {
           style={{ backgroundColor: '#E0E0E0' }}
         />
  
-        {/* Skeleton button */}
-        <div
-          className="w-full mt-2 h-[32px] rounded-[6px]"
-          style={{ backgroundColor: '#E0E0E0' }}
-        />
       </div>
     </div>
   );

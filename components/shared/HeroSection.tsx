@@ -80,9 +80,7 @@ export default function HeroSection() {
                 </div>
 
                 {/* ── Dress carousel — fully isolated ───────────────────────── */}
-                <div
-                    className="relative z-10 w-full pt-5 lg:pt-8"
-                >
+                <div className="relative z-10 w-full pt-5 lg:pt-8">
                     <CarouselDress
                         activeIndex={activeIndex}
                         setActiveIndex={setActiveIndex}
