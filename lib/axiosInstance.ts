@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+
 
  
 const axiosInstance = axios.create({
@@ -23,8 +23,9 @@ axiosInstance.interceptors.response.use(
         await axiosInstance.post('/auth/token');
         return axiosInstance(originalRequest);
       } catch {
-        const router = useRouter();
-        router.push('/auth/login');
+        localStorage.removeItem('firstName');
+        
+        window.location.href = '/auth/login?session=expired';
       }
     }
 

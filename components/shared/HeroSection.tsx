@@ -1,88 +1,114 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import HeroDresses from '@/components/ui/Herodresses';
+import { useState } from "react";
+import Link from "next/link";
+import CarouselDress from "@/components/ui/CarouselDress";
+
 
 export default function HeroSection() {
-    const router = useRouter();
+    const [activeIndex, setActiveIndex] = useState(0);
 
     return (
         <section
-            className="w-full h-auto rounded-b-3xl md:rounded-b-[54px]"
-            style={{
-                backgroundImage: "url('https://6gx805zq79.ufs.sh/f/XraPWYuH0sBR07tupyaABQJRDh7WIoKYUVMnCHz5TfXG6Oxj')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-            }}
+            className="w-full flex flex-col items-center justify-start bg-white py-6 mt-20 sm:mt-24 "
+            aria-label="Floreal Collection hero"
         >
-            {/* Inner content wrapper */}
-            <div className="pt-24 md:pt-48 flex flex-col md:flex-row items-start  md:justify-between w-full min-h-screen md:px-12 lg:px-36">
+            {/* ── Hero card ──────────────────────────────────────────────── */}
+            <div
+                className="relative w-full pb-12  rounded-3xl overflow-hidden flex flex-col items-center  card-bg bg-[url('https://images.unsplash.com/photo-1617957899402-d9b054d31591?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D')] bg-cover bg-center"
+            >
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 80% 45% at 50% -5%, rgba(255,235,210,0.55) 0%, transparent 60%)",
+                    }}
+                />
 
-                {/* Left Column — Text */}
-                <div className="flex flex-col md:items-center px-6 md:px-2 pt-12 lg:pt-12  md:gap-14 md:flex-1">
-                    <div>
-                        {/* Eyebrow */}
-                        <p className="text-[10px] pb-2 md:pb-4 sm:text-[12px] md:text-[14px] lg:text-[16px] text-[#1A1A1A] tracking-widest uppercase">
-                            Summer Collection 2026
-                        </p>
+                {/* ── Header text block ─────────────────────────────────────── */}
+                <div className="relative z-10 w-full flex flex-col items-center pt-7 sm:pt-14 px-6 text-center">
 
-                        {/* Heading */}
-                        <h1
-                            className="text-[18px] hidden md:flex sm:text-[24px] md:text-[28px] lg:text-[38px] text-[#C2583A] w-full w-max-[500px] leading-tight uppercase"
-                            style={{ fontFamily: "'DynaPuff', cursive", fontWeight: 800 }}
+                    {/* NEW ARRIVALS row */}
+                    <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                        <span
+                            className="block h-px bg-[#1C1C1C] opacity-40"
+                            style={{ width: "clamp(28px, 6vw, 60px)" }}
+                        />
+                        <span
+                            className="text-[#1C1C1C] tracking-[0.28em] opacity-60 font-medium"
+                            style={{
+                                fontFamily: '"Expletus Sans", serif',
+                                fontSize: "clamp(8px, 1.4vw, 11px)",
+                                letterSpacing: "0.28em",
+                                textTransform: "uppercase",
+                            }}
                         >
-                            Step into Summer with the Floreal Collection
-                        </h1>
-
-                        <h1
-                            className="text-[19px] flex md:hidden text-[#C2583A] w-full w-max-[500px] leading-tight uppercase"
-                            style={{ fontFamily: "'DynaPuff', cursive", fontWeight: 800 }}
-                        >
-                            Summer is Here. Step into the Floreal Collection and Let Your Style Bloom.
-                        </h1>
+                            New Arrivals
+                        </span>
+                        <span
+                            className="block h-px bg-[#1C1C1C] opacity-40"
+                            style={{ width: "clamp(28px, 6vw, 60px)" }}
+                        />
                     </div>
 
-                    {/* CTA Button */}
-                    <button
-                        onClick={() => router.push('/products')}
-                        className="self-start mt-2 px-10 py-3 hidden md:flex rounded-full bg-[#C2583A] text-white text-[12px] sm:text-[14px] md:text-[16px] font-bold uppercase cursor-pointer"
-                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                    {/* FLOREAL COLLECTION — main heading */}
+                    <h1
+                        className="text-[#030303] font-bold leading-none tracking-widest mb-3 sm:mb-4"
+                        style={{
+                            fontFamily: '"Expletus Sans", serif',
+                            fontSize: "clamp(23px, 6.5vw, 42px)",
+                            letterSpacing: "0.12em",
+                            textTransform: "uppercase",
+                        }}
                     >
-                        Shop Now
-                    </button>
+                        Floreal Collection
+                    </h1>
+
+                    {/* Tagline */}
+                    <p
+                        className="text-[#1C1C1C] tracking-widest opacity-70 mb-0"
+                        style={{
+                            fontFamily: '"Expletus Sans", serif',
+                            fontSize: "clamp(9px, 1.5vw, 14px)",
+                            letterSpacing: "0.22em",
+                            textTransform: "uppercase",
+                            fontWeight: 400,
+                        }}
+                    >
+                        Designed for every version of you.
+                    </p>
                 </div>
 
-                {/* Right Column — HeroDresses (lg and above only) */}
-                <div className="hidden md:flex flex-1 lg:pt-12 items-center justify-center">
-                    <HeroDresses />
-                </div>
-
-                {/* Combined dress image (md and below only) */}
-                <div className="flex md:hidden w-full justify-center">
-                    <Image
-                        src="/dresses/dresses-combined.png"
-                        alt="Dresses"
-                        width={700}
-                        height={500}
-                        className="w-full max-w-[700px] h-auto"
-
-                        style={{ objectFit: 'contain', backgroundColor: 'transparent' }}
+                {/* ── Dress carousel — fully isolated ───────────────────────── */}
+                <div
+                    className="relative z-10 w-full pt-5 lg:pt-8"
+                >
+                    <CarouselDress
+                        activeIndex={activeIndex}
+                        setActiveIndex={setActiveIndex}
                     />
                 </div>
 
-                <div className='px-6'>
-                    <button
-                        onClick={() => router.push('/products')}
-                        className="mb-10 flex md:hidden  px-8  py-2 rounded-full bg-[#C2583A] text-white text-[12px] sm:text-[14px] font-bold uppercase cursor-pointer"
-                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                {/* ── Shop Now CTA ───────────────────────────────────────────── */}
+                <div
+                    className="relative z-10 flex justify-center"
+                    style={{ marginTop: "clamp(16px, 3vw, 328px)" }}
+                >
+                    <Link
+                        href="/shop"
+                        className="inline-flex items-center justify-center
+    font-semibold uppercase tracking-[0.2em] text-[#1a1a1a] no-underline
+    bg-transparent border border-black rounded-full
+    px-[clamp(22px,4vw,52px)] py-[clamp(6px,1.6vw,15px)]
+    text-[clamp(11px,1.5vw,18px)]
+    backdrop-blur-sm shadow-[0_2px_20px_rgba(0,0,0,0.06)]
+    transition-all duration-300
+    hover:bg-black hover:text-white 
+    hover:-translate-y-0.5"
                     >
                         Shop Now
-                    </button>
+                    </Link>
                 </div>
-
-
             </div>
         </section>
     );

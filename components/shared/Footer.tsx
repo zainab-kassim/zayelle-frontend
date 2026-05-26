@@ -14,7 +14,7 @@ export default function Footer() {
             <div className="w-full border-t border-[#C0C0C0]" />
 
             {/* ── Three Columns ── */}
-            <div className="flex flex-row items-center justify-between px-3 sm:px-4 md:px-10 py-4 gap-2">
+            <div className="flex flex-row items-center justify-between  px-4 md:px-12 lg:px-34 py-4 gap-2">
 
                 {/* Left — Brand */}
                 <Link href="/">
@@ -28,23 +28,7 @@ export default function Footer() {
                     </div>
                 </Link>
 
-                {/* Center — Nav Links */}
-                <div className="flex flex-row  items-center gap-2 md:gap-8">
-                    {[
-                        { label: 'Products', path: '/products' },
-                        { label: 'Shop', path: '/shop' },
-                        { label: 'Contact us', path: '/contact' },
-                    ].map(({ label, path }) => (
-                        <button
-                            key={label}
-                            onClick={() => router.push(path)}
-                            className="text-[10px] sm:text-[16px] text-[#2C2420]/75 cursor-pointer bg-transparent border-none"
-                            style={{ fontFamily: "'Cairo', sans-serif" }}
-                        >
-                            {label}
-                        </button>
-                    ))}
-                </div>
+               
 
                 {/* Right — Social Icons */}
                 <div className="flex flex-row items-center gap-1.5 flex-shrink-0">
