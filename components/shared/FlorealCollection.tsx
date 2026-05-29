@@ -36,7 +36,7 @@ const [products, setProducts] = useState<Product[]>([])
   }, []);
 
   return (
-    <section className="w-full bg-white pb-5 pt-1 sm:pb-5 sm:pt-5">
+    <section className="w-full bg-white  pt-1 sm:pb-5 sm:pt-5 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
 
       {/* Section Header */}
       <div className=" text-right mb-3 sm:mb-5 px-2">

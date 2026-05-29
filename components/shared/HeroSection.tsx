@@ -56,7 +56,7 @@ export default function HeroSection() {
                         className="text-[#030303] font-bold leading-none tracking-widest mb-3 sm:mb-4"
                         style={{
                             fontFamily: '"Expletus Sans", serif',
-                            fontSize: "clamp(23px, 6.5vw, 42px)",
+                            fontSize: "clamp(23px, 6.4vw, 42px)",
                             letterSpacing: "0.12em",
                             textTransform: "uppercase",
                         }}
