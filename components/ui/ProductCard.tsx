@@ -9,9 +9,10 @@ interface ProductCardProps {
     image: string[];
     name: string;
     price: string;
+    slug: string;
 }
 
-export default function ProductCard({ id, image, name, price }: ProductCardProps) {
+export default function ProductCard({ id,slug, image, name, price }: ProductCardProps) {
     const router = useRouter();
 const currency = useCurrencyStore((state) => state.currency);
 
@@ -19,7 +20,7 @@ const currency = useCurrencyStore((state) => state.currency);
         <div
             className="flex relative flex-col cursor-pointer rounded-md md:rounded-xl lg:rounded-2xl pb-4"
             style={{ background: '#F8F8F8' }}
-            onClick={() => router.push(`/products/${id}`)}
+            onClick={() => router.push(`/products/${slug}`)}
         >
              <div className='absolute right-1.5 md:right-3 top-1.5 md:top-2 bg-white p-1 md:p-1.5 lg:p-2 rounded-full'>
                 <Image className='justify-center w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5' src="https://img.icons8.com/?size=100&id=96645&format=png&color=000000" alt="plus" width={20} height={20} />

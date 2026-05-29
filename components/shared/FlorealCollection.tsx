@@ -63,6 +63,7 @@ const [products, setProducts] = useState<Product[]>([])
                   image={product.image}
                   name={product.name}
                   price={product.price}
+                  slug={product.slug}
                 />
               </div>
             ))}
@@ -93,6 +94,7 @@ const [products, setProducts] = useState<Product[]>([])
                   image={product.image}
                   name={product.name}
                   price={product.price}
+                  slug={product.slug}
                 />
               </div>
             ))}
