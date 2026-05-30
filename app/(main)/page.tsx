@@ -1,6 +1,7 @@
 import HeroSection from '@/components/shared/HeroSection';
 import FloralCollection from '@/components/shared/FlorealCollection';
 import Banner from '@/components/shared/Banner';
+import MessageReviews from '@/components/shared/MessageReviews';
 
 export default function Home() {
   return (
@@ -9,7 +10,9 @@ export default function Home() {
         <HeroSection />
         <FloralCollection />
         <Banner />
+    
       </div>
+          <MessageReviews />
     </>
   );
 }
