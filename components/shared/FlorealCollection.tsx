@@ -41,7 +41,7 @@ const [products, setProducts] = useState<Product[]>([])
       {/* Section Header */}
       <div className=" text-right mb-3 sm:mb-5 px-2">
         <button
-          onClick={() => router.push('/products')}
+          onClick={() => router.push('/products/floreal-collection')}
           className="text-[14px] md:text-[16px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
         >
           See All

@@ -98,7 +98,7 @@ function ReviewBubble({ review }: { review: Review }) {
                         style={{
                             boxShadow: isRight
                                 ? "0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.85)"
-                                : "0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.5)",
+                                : "0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.85)",
                         }}
                     >
                         {/* Name inside bubble */}
@@ -159,7 +159,7 @@ function SectionHeading() {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function ReviewMessagesSectionA() {
     return (
-        <section className="relative max-w-full  mx-auto overflow-hidden py-10 md:py-16" aria-label="Customer reviews">
+        <section className="relative max-w-full  mx-auto overflow-hidden py-10 md:py-16 lg:py-24" aria-label="Customer reviews">
             <div className="absolute inset-x-4 hidden md:flex md:mx-4 sm:inset-x-8 inset-y-8 -z-10 rounded-3xl shadow-lg" style={{
                 backdropFilter: 'blur(24px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)',

@@ -52,7 +52,7 @@ export default function Navbar() {
                             Products
                         </Link>
                         <Link
-                            href="#"
+                            href="/custom-order/book"
                             className="text-[13px] lg:text-[14px] text-black cursor-pointer transition-opacity duration-300 hover:opacity-60 whitespace-nowrap"
                             style={{ fontFamily: "'Cairo', sans-serif" }}
                         >
@@ -125,7 +125,7 @@ export default function Navbar() {
 
                                         {/* My Orders */}
                                         <Link
-                                            href="#"
+                                            href="/orders"
                                             className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
                                             style={{ fontFamily: "'Cairo', sans-serif" }}
                                         >

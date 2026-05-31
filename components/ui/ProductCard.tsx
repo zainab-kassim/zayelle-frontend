@@ -18,7 +18,7 @@ const currency = useCurrencyStore((state) => state.currency);
 
     return (
         <div
-            className="flex relative flex-col cursor-pointer rounded-md md:rounded-xl lg:rounded-2xl pb-4"
+            className="flex relative flex-col cursor-pointer rounded-lg md:rounded-xl lg:rounded-2xl pb-4"
             style={{ background: '#F8F8F8' }}
             onClick={() => router.push(`/products/${slug}`)}
         >

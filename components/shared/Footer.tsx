@@ -85,7 +85,7 @@ export default function Footer() {
                     </Link>
 
                     {/* Facebook */}
-                    <Link href="">
+                    <Link href="/facebook.com/byzayelle">
                         <div
                             className="w-6 h-6 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style={{ background: '#2076C6', border: '2px solid #26C1F4' }}
