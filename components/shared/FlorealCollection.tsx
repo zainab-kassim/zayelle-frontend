@@ -11,29 +11,28 @@ import { useCurrencyStore } from '@/store/currencyStore';
 
 export default function FloralCollection() {
   const router = useRouter();
-const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true);
-    const { setCurrency } = useCurrencyStore();
+  const { currency } = useCurrencyStore();
 
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await getProductByCollection();
-       const fetchedProducts = response.products; // Adjust based on actual API response structure
-        setCurrency(response.currency); // Adjust based on actual API response structure
+        const fetchedProducts = response.products;
         if (fetchedProducts.length) {
           setProducts(fetchedProducts);
         }
       } catch {
-        // API not ready — fallback to dummy data already set
+        // handle error
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [currency]); // currency changes → re-fetches → interceptor sends new header → backend returns new prices
 
   return (
     <section className="w-full bg-white  pt-1 sm:pb-5 sm:pt-5 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
@@ -52,21 +51,21 @@ const [products, setProducts] = useState<Product[]>([])
       <div className="hidden lg:flex flex-row gap-6">
         {isLoading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex-1">
-                <ProductCardSkeleton />
-              </div>
-            ))
+            <div key={i} className="flex-1">
+              <ProductCardSkeleton />
+            </div>
+          ))
           : products.map((product) => (
-              <div key={product.id} className="flex-1">
-                <ProductCard
-                  id={product.id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  slug={product.slug}
-                />
-              </div>
-            ))}
+            <div key={product.id} className="flex-1">
+              <ProductCard
+                id={product.id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                slug={product.slug}
+              />
+            </div>
+          ))}
       </div>
 
       {/* Mobile — horizontally scrollable */}
@@ -83,21 +82,21 @@ const [products, setProducts] = useState<Product[]>([])
         `}</style>
         {isLoading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-[58vw] max-w-[280px]">
-                <ProductCardSkeleton />
-              </div>
-            ))
+            <div key={i} className="flex-shrink-0 w-[58vw] max-w-[280px]">
+              <ProductCardSkeleton />
+            </div>
+          ))
           : products.map((product) => (
-              <div key={product.id} className="flex-shrink-0 w-[58vw] max-w-[280px]">
-                <ProductCard
-                  id={product.id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  slug={product.slug}
-                />
-              </div>
-            ))}
+            <div key={product.id} className="flex-shrink-0 w-[58vw] max-w-[280px]">
+              <ProductCard
+                id={product.id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                slug={product.slug}
+              />
+            </div>
+          ))}
       </div>
 
     </section>

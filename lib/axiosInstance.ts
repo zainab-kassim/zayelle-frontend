@@ -1,12 +1,20 @@
 import axios from 'axios';
+import { useCurrencyStore } from '@/store/currencyStore';
 
-
- 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Ensure this is set in your .env.local
-  withCredentials: true, // Include cookies in requests
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  withCredentials: true,
 });
- 
+
+// request interceptor - sends currency header automatically
+axiosInstance.interceptors.request.use((config) => {
+  const currency = useCurrencyStore.getState().currency;
+  if (currency) {
+    config.headers['x-currency'] = currency;
+  }
+  return config;
+});
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -15,7 +23,7 @@ axiosInstance.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url.includes('/auth/token') // ← add this
+      !originalRequest.url.includes('/auth/token')
     ) {
       originalRequest._retry = true;
 
@@ -24,7 +32,6 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch {
         localStorage.removeItem('firstName');
-        
         window.location.href = '/auth/login?session=expired';
       }
     }
@@ -32,5 +39,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
- 
+
 export default axiosInstance;

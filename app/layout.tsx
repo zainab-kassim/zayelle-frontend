@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cairo } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+import CurrencyInitializer from '@/components/shared/CurrencyInitializer';
 
 const cairo = Cairo({
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${cairo.variable}`}>
+        <CurrencyInitializer />
         <main>
           {children}
         </main>

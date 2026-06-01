@@ -5,13 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCurrencyStore } from '@/store/currencyStore';
+
+const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
 export default function Navbar() {
     const router = useRouter();
     const [firstName, setFirstName] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+
+    const currency = useCurrencyStore((state) => state.currency);
+    const setCurrency = useCurrencyStore((state) => state.setCurrency);
 
     useEffect(() => {
         setIsMounted(true);
@@ -21,9 +28,15 @@ export default function Navbar() {
 
     if (!isMounted) return null;
 
+    const handleCurrencySelect = (selected: string) => {
+        setCurrency(selected);
+        setIsCurrencyOpen(false);
+        setIsDropdownOpen(false);
+    };
+
     return (
         <>
-            <div className="fixed top-6 left-0 right-0 z-30 flex justify-center px-4 md:px-12 lg:px-34 xl:px-14 ">
+            <div className="fixed top-6 left-0 right-0 z-30 flex justify-center px-4 md:px-12 lg:px-34 xl:px-14">
                 <nav
                     className="w-full max-w-full rounded-full bg-white/20 px-6 md:px-10 lg:px-14 py-2 md:py-2.5 flex items-center justify-between"
                     style={{
@@ -62,7 +75,6 @@ export default function Navbar() {
 
                     {/* RIGHT — User & Actions */}
                     <div className="flex items-center gap-1 sm:gap-3 md:gap-5 ml-auto flex-shrink-0">
-                        {/* User Dropdown Trigger */}
                         <div className="relative">
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -88,7 +100,6 @@ export default function Navbar() {
                                 </motion.div>
                             </button>
 
-                            {/* Dropdown Menu */}
                             <AnimatePresence>
                                 {isDropdownOpen && (
                                     <motion.div
@@ -96,34 +107,66 @@ export default function Navbar() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -10 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute right-0 mt-2 w-[160px] sm:w-[180px] bg-white rounded-lg  shadow-lg overflow-hidden z-50"
+                                        className="absolute right-0 mt-2 w-[160px] sm:w-[180px] bg-white rounded-lg shadow-lg overflow-hidden z-50"
                                     >
                                         {/* Currency Selector */}
-                                        <button
-                                            className="w-full flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
-                                            style={{ fontFamily: "'Cairo', sans-serif" }}
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <Image
-                                                    src="https://img.icons8.com/?size=100&id=Y44czWs2GxGq&format=png&color=000000"
-                                                    alt="Canada"
-                                                    width={14}
-                                                    height={14}
-                                                />
-                                                <span>CAD</span>
-                                            </div>
-                                            <Image
-                                                src="https://img.icons8.com/?size=100&id=99991&format=png&color=000000"
-                                                alt="Chevron"
-                                                width={11}
-                                                height={11}
-                                            />
-                                        </button>
+                                        <div className="relative">
+                                            <button
+                                                onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
+                                                className="w-full flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
+                                                style={{ fontFamily: "'Cairo', sans-serif" }}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    <Image
+                                                        src="https://img.icons8.com/?size=100&id=Y44czWs2GxGq&format=png&color=000000"
+                                                        alt="Currency"
+                                                        width={14}
+                                                        height={14}
+                                                    />
+                                                    <span>{currency || '...'}</span>
+                                                </div>
+                                                <motion.div
+                                                    animate={{ rotate: isCurrencyOpen ? 180 : 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <Image
+                                                        src="https://img.icons8.com/?size=100&id=99991&format=png&color=000000"
+                                                        alt="Chevron"
+                                                        width={11}
+                                                        height={11}
+                                                    />
+                                                </motion.div>
+                                            </button>
 
-                                        {/* Divider */}
+                                            {/* Currency Sub-dropdown */}
+                                            <AnimatePresence>
+                                                {isCurrencyOpen && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: -5 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, y: -5 }}
+                                                        transition={{ duration: 0.15 }}
+                                                        className="bg-gray-50 border-t border-[#E0E0E0]"
+                                                    >
+                                                        {SUPPORTED_CURRENCIES.map((c) => (
+                                                            <button
+                                                                key={c}
+                                                                onClick={() => handleCurrencySelect(c)}
+                                                                className={`w-full text-left px-6 py-2 text-[11px] sm:text-[12px] transition-colors duration-200 hover:bg-gray-100 ${
+                                                                    currency === c ? 'font-bold text-black' : 'text-gray-600'
+                                                                }`}
+                                                                style={{ fontFamily: "'Cairo', sans-serif" }}
+                                                            >
+                                                                {c}
+                                                            </button>
+                                                        ))}
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+
                                         <div className="h-px bg-[#E0E0E0]" />
 
-                                        {/* My Orders */}
                                         <Link
                                             href="/orders"
                                             className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
@@ -139,14 +182,14 @@ export default function Navbar() {
                         {/* Shopping Bag */}
                         <Link
                             href="/cart"
-                            className="flex items-center justify-center  transition-all duration-300 hover:bg-black/5 flex-shrink-0"
+                            className="flex items-center justify-center transition-all duration-300 hover:bg-black/5 flex-shrink-0"
                         >
                             <Image
                                 src="https://img.icons8.com/?size=100&id=5ueBhwT0NbKz&format=png&color=000000"
                                 alt="Shopping Bag"
                                 width={16}
                                 height={16}
-                                className=" sm:w-[19px] sm:h-[19px] md:w-[22px] md:h-[22px] lg:w-[24px] lg:h-[24px]"
+                                className="sm:w-[19px] sm:h-[19px] md:w-[22px] md:h-[22px] lg:w-[24px] lg:h-[24px]"
                             />
                         </Link>
 
@@ -155,82 +198,69 @@ export default function Navbar() {
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="md:hidden flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:bg-black/5"
                         >
-                            <motion.div
-                                transition={{ duration: 0.3 }}
-                            >
-                                <Image
-                                    src="https://img.icons8.com/?size=100&id=TAcvUHWWyuTG&format=png&color=000000"
-                                    alt="Menu"
-                                    width={16}
-                                    height={16}
-                                />
-                            </motion.div>
+                            <Image
+                                src="https://img.icons8.com/?size=100&id=TAcvUHWWyuTG&format=png&color=000000"
+                                alt="Menu"
+                                width={16}
+                                height={16}
+                            />
                         </button>
                     </div>
                 </nav>
             </div>
-           {/* Mobile Sidebar Menu */}
-<AnimatePresence>
-  {isMobileMenuOpen && (
-    <>
-      {/* Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="fixed inset-0 bg-black/20 z-30 md:hidden"
-        onClick={() => setIsMobileMenuOpen(false)}
-      />
 
-      {/* Sidebar */}
-      <motion.div
-        initial={{ x: '100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '100%' }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 right-0 h-screen w-64 bg-white z-40 md:hidden shadow-lg"
-      >
-        {/* Close Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="absolute top-6 right-6 flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:bg-gray-50"
-        >
-          <Image
-            src="https://img.icons8.com/?size=100&id=lXczJ2GQ3hgb&format=png&color=000000"
-            alt="Close"
-            width={20}
-            height={20}
-          />
-        </button>
-
-        <div className="flex flex-col p-6 pt-20">
-          {/* Products */}
-          <Link
-            href="/products"
-            className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
-            style={{ fontFamily: "'Cairo', sans-serif" }}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Products
-          </Link>
-
-          {/* Book Custom Order */}
-          <Link
-            href="#"
-            className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-lg"
-            style={{ fontFamily: "'Cairo', sans-serif" }}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Book Custom Order
-          </Link>
-        </div>
-      </motion.div>
-    </>
-  )}
-</AnimatePresence>
-
-
+            {/* Mobile Sidebar — unchanged */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 bg-black/20 z-30 md:hidden"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="fixed top-0 right-0 h-screen w-64 bg-white z-40 md:hidden shadow-lg"
+                        >
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="absolute top-6 right-6 flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:bg-gray-50"
+                            >
+                                <Image
+                                    src="https://img.icons8.com/?size=100&id=lXczJ2GQ3hgb&format=png&color=000000"
+                                    alt="Close"
+                                    width={20}
+                                    height={20}
+                                />
+                            </button>
+                            <div className="flex flex-col p-6 pt-20">
+                                <Link
+                                    href="/products"
+                                    className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
+                                    style={{ fontFamily: "'Cairo', sans-serif" }}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Products
+                                </Link>
+                                <Link
+                                    href="#"
+                                    className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-lg"
+                                    style={{ fontFamily: "'Cairo', sans-serif" }}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Book Custom Order
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </>
     );
 }
