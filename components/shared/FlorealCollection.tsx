@@ -17,6 +17,7 @@ export default function FloralCollection() {
 
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProducts = async () => {
       try {
         const response = await getProductByCollection();
