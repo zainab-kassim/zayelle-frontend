@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { toast } from 'sonner';
 import { signUpSchema } from '@/lib/schemas/authSchema';
-import { signUp } from '@/services/auth';
+import { signUp } from '@/services/auth.service';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 

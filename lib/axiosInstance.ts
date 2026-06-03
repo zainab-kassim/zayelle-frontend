@@ -32,7 +32,8 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch {
         localStorage.removeItem('firstName');
-        window.location.href = '/auth/login?session=expired';
+        const currentPath = window.location.pathname;
+        window.location.href = `/auth/login?redirect=${currentPath}`;
       }
     }
 
