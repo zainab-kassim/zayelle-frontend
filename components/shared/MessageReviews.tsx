@@ -92,7 +92,7 @@ function ReviewBubble({ review }: { review: Review }) {
               backdrop-blur-md
               ${isRight
                                 ? "bg-white/65 border border-white/80 rounded-br-sm"
-                                : "bg-blue-500 border border-blue-600/90 rounded-bl-sm"
+                                : "bg-blue-500  rounded-bl-sm"
                             }
             `}
                         style={{
