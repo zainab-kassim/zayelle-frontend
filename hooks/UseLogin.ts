@@ -3,9 +3,11 @@ import { toast } from 'sonner';
 import { loginSchema } from '@/lib/schemas/authSchema';
 import { login } from '@/services/auth.service';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 
 export const useLogIn = () => {
+    const router = useRouter();
     const form = useForm({
         validators: {
             onSubmit: loginSchema,
@@ -22,6 +24,7 @@ export const useLogIn = () => {
                 );
                 toast.success(`Welcome back, ${response.user.firstname}!`);
                 localStorage.setItem('firstName', response.user.firstname);
+                router.push('/');
 
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
