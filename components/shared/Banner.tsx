@@ -16,7 +16,7 @@ import Link from "next/link";
  */
 export default function BestSellerBanner() {
     return (
-        <section className="w-full  py-4">
+        <section className="w-full  pt-4 pb-6">
             {/*
        * Card container
        * ─────────────────────────────────────────────────────────────

@@ -17,10 +17,10 @@ interface Review {
 const REVIEWS: Review[] = [
     { id: 1, name: "Amara O.", messageParts: ["The red floreal dress is absolutely stunning got so many compliments", <Image alt='flower' key="icon-1" width={18} height={18} src="https://img.icons8.com/?size=100&id=9NcUOxwcW2FQ&format=png&color=000000" className="inline-block align-middle mx-0.5" />,"!"], align: "left", delay: 0 },
     { id: 2, name: "Temi B.", messageParts: ["Ordered the pink one and it fits like a dream. Zayelle never misses", <Image alt='star' key="icon-2" width={18} height={18} src="https://img.icons8.com/?size=100&id=vjbhDe9kblMm&format=png&color=000000" className="inline-block align-middle mx-0.5" />], align: "right", delay: 0.15 },
-    { id: 3, name: "Chisom R.", messageParts: ["The quality is unreal for this price. Wore it to my birthday dinner"], align: "left", delay: 0.3 },
-    { id: 4, name: "Fatima K.", messageParts: ["I've bought 3 pieces now. The Luxe Weave is my forever favourite."], align: "right", delay: 0.45 },
-    { id: 5, name: "Sola M.", messageParts: ["Fast shipping, gorgeous packaging, beautiful dress. 10/10", <Image alt='heart' key="icon-5" width={18} height={18} src="https://img.icons8.com/?size=100&id=yvDn7fz9cUZy&format=png&color=000000" className="inline-block align-middle mx-0.5" />], align: "left", delay: 0.6 },
-    { id: 6, name: "Ngozi E.", messageParts: ["Wore the black dress to a gala and felt like royalty. Thank you Zayelle!"], align: "right", delay: 0.75 },
+    // { id: 3, name: "Chisom R.", messageParts: ["The quality is unreal for this price. Wore it to my birthday dinner"], align: "left", delay: 0.3 },
+     { id: 4, name: "Fatima K.", messageParts: ["I've bought 3 pieces now. The Luxe Weave is my forever favourite."], align: "left", delay: 0.45 },
+    { id: 5, name: "Sola M.", messageParts: ["Fast shipping, gorgeous packaging, beautiful dress. 10/10", <Image alt='heart' key="icon-5" width={18} height={18} src="https://img.icons8.com/?size=100&id=yvDn7fz9cUZy&format=png&color=000000" className="inline-block align-middle mx-0.5" />], align: "right", delay: 0.6 },
+    { id: 6, name: "Ngozi E.", messageParts: ["Wore the black dress to a gala and felt like royalty. Thank you Zayelle!"], align: "left", delay: 0.75 },
 ];
 
 // ─── Variants ─────────────────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ function ReviewBubble({ review }: { review: Review }) {
                 >
                     <div
                         className={`
-              relative px-4 py-3 rounded-2xl
+              relative p-4 md:px-6 md:py-5 rounded-2xl
               shadow-[0_4px_20px_rgba(0,0,0,0.07)]
               backdrop-blur-md
               ${isRight
@@ -103,14 +103,14 @@ function ReviewBubble({ review }: { review: Review }) {
                     >
                         {/* Name inside bubble */}
                         <p
-                            className={`text-[13px] font-bold tracking-widest uppercase mb-1 ${isRight ? "text-black" : "text-white"}`}
+                            className={`text-[13px] lg:text-[16px] font-bold tracking-widest uppercase mb-1 ${isRight ? "text-black" : "text-white"}`}
                             style={{ fontFamily: "Expletus Sans, serif" }}
                         >
                             {review.name}
                         </p>
                         {/* Message */}
                         <p
-                            className={`text-[11px] lg:text-sm font-normal tracking-wide ${isRight ? "text-black" : "text-white"}`}
+                            className={`text-[13px] md:text-[14px] lg:text-[16px] font-normal tracking-wide ${isRight ? "text-black" : "text-white"}`}
                         >
                             {review.messageParts.map((part, i) => (
                                 <span key={i}>{part}</span>
@@ -159,12 +159,12 @@ function SectionHeading() {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function ReviewMessagesSectionA() {
     return (
-        <section className="relative max-w-full  mx-auto overflow-hidden py-10 md:py-16 lg:py-24" aria-label="Customer reviews">
-            <div className="absolute inset-x-4 hidden md:flex md:mx-4 sm:inset-x-8 inset-y-8 -z-10 rounded-3xl shadow-lg" style={{
+        <section className="relative max-w-full  mx-auto overflow-hidden pt-3 pb-16 md:pb-24 " aria-label="Customer reviews">
+            {/* <div className="absolute inset-x-4 hidden md:flex md:mx-4 sm:inset-x-8 inset-y-8 -z-10 rounded-3xl shadow-lg" style={{
                 backdropFilter: 'blur(24px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)',
                 boxShadow: '-1px 3px 10px rgba(0, 0, 0, 0.12)',
-            }} />
+            }} /> */}
             <div className="relative z-10 max-w-full  px-6 md:px-20 lg:px-20 xl:px-24">
                 <SectionHeading />
                 <div className="flex flex-col gap-10 ">
