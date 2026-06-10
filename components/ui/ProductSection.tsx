@@ -1,7 +1,7 @@
 // components/ProductListing/ProductSection.tsx
 "use client";
 
-import ProductListCard from "@/components/ui/ProductListingCard";
+import ProductListingCard from "@/components/ui/ProductListingCard";
 import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 import { Product } from "@/types/product";
 
@@ -38,8 +38,8 @@ export default function ProductSection({
               </div>
             ))
           : products.map((product) => (
-              <div key={product.id} className="flex-shrink-0 w-[58vw] max-w-[260px]">
-                <ProductListCard
+              <div className="flex-shrink-0 w-[58vw] max-w-[260px]">
+                <ProductListingCard key={product.id}
                   id={product.id}
                   image={product.image}
                   name={product.name}

@@ -3,7 +3,7 @@
 import { useCurrencyStore } from '@/store/currencyStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import AddToCartButton from './AddtoCartButton';
+
 
 interface ProductCardProps {
     id: number;
@@ -13,12 +13,12 @@ interface ProductCardProps {
     slug: string;
 }
 
-export default function ProductCard({ id,slug, image, name, price }: ProductCardProps) {
+export default function ProductListingCard({ id,slug, image, name, price }: ProductCardProps) {
     const router = useRouter();
 const currency = useCurrencyStore((state) => state.currency);
 
     return (
-        <div onClick={() => router.push(`/products/${slug}`)}
+        <div key={id} onClick={() => router.push(`/products/${slug}`)}
             className="flex relative flex-col cursor-pointer rounded-lg md:rounded-xl lg:rounded-2xl pb-4"
             style={{ background: '#F8F8F8' }}
             
@@ -28,12 +28,12 @@ const currency = useCurrencyStore((state) => state.currency);
             <div className="relative pt-3 pb-1 z-0">
                
                 {/* Product image */}
-                <div className="relative w-full h-[170px] md:h-[270px]">
+                <div className="relative mx-auto w-[70%] h-[170px] md:h-[270px]">
                     <Image
                         src={image[0]}
                         alt={name}
                         fill
-                        style={{ objectFit: 'contain', transform: 'scale(1.28)' }}
+                        style={{ objectFit: 'contain', transform: 'scale(1.08)' }}
                     />
                 </div>
             </div>

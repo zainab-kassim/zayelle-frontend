@@ -1,7 +1,7 @@
 // components/ProductListing/DesktopProductGrid.tsx
 "use client";
 
-import ProductListCard from "@/components/ui/ProductListingCard";
+import ProductListingCard from "@/components/ui/ProductListingCard";
 import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 import { Product } from "@/types/product";
 
@@ -21,7 +21,7 @@ export default function DesktopProductGrid({
             <ProductCardSkeleton key={i} />
           ))
         : products.map((product) => (
-            <ProductListCard
+            <ProductListingCard
               key={product.id}
               id={product.id}
               image={product.image}
