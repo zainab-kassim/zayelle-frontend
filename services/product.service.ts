@@ -1,9 +1,14 @@
 import axiosInstance from '@/lib/axiosInstance';
 import { Product } from '@/types/product';
 
-export const getProductByCollection = async (): Promise<{ products: Product[]; currency: string }> => {
-  const response = await axiosInstance.get('/products/collection/floreal-collection');
-  console.log('Fetched products:', response.data); // Debug log
-  return { products: response.data.products, currency: response.data.currency };
+export const getProductByCollection = async (collection: string): Promise<{ products: Product[]}> => {
+  const response = await axiosInstance.get(`/products/collection/${collection}`);
+  return { products: response.data.products};
 };
+
+export const getProducts = async (): Promise<{ products: Product[]}> => {
+  const response = await axiosInstance.get('/products');
+  console.log('Fetched all products:', response.data.convertedProducts); // Debug log
+  return { products: response.data.convertedProducts};
+}
  

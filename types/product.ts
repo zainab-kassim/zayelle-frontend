@@ -4,4 +4,7 @@ export interface Product {
   name: string;
   price: string;
   slug: string;
+  collections: {
+    slug: string;
+  };
 }

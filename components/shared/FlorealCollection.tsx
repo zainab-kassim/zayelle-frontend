@@ -20,7 +20,7 @@ export default function FloralCollection() {
     setIsLoading(true);
     const fetchProducts = async () => {
       try {
-        const response = await getProductByCollection();
+        const response = await getProductByCollection('floreal-collection');
         const fetchedProducts = response.products;
         if (fetchedProducts.length) {
           setProducts(fetchedProducts);
