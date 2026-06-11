@@ -10,7 +10,7 @@ export default function HeroSection() {
 
     return (
         <section
-            className="w-full flex flex-col items-center justify-start bg-white py-6 mt-20 sm:mt-24 "
+            className="w-full flex flex-col items-center justify-start bg-white py-6 mt-4 "
             aria-label="Floreal Collection hero"
         >
             {/* ── Hero card ──────────────────────────────────────────────── */}

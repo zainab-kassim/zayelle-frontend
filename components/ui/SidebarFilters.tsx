@@ -26,7 +26,7 @@ export default function SidebarFilters({
             <button
               onClick={() => onFilterChange(filter)}
               className={`
-                text-left text-[16px] tracking-[0.12em] uppercase py-6 transition-all  duration-200
+                text-left text-[14px] tracking-[0.12em] uppercase py-6 transition-all  duration-200
                 ${isActive
                   ? "font-bold text-[#1a1a1a]"
                   : "font-normal text-[#747474] hover:text-[#1a1a1a]"

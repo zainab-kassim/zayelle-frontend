@@ -20,7 +20,7 @@ export default function ProductSection({
     <div className="flex flex-col gap-4">
       {/* Section heading — always visible */}
       <h2
-        className="text-[13px] font-bold tracking-[0.18em] uppercase text-[#1a1a1a] border-b border-[#ebebeb] pb-3"
+        className="text-[12px] sm:text-[14px] font-bold tracking-[0.10em] uppercase text-[#1a1a1a] border-b border-[#ebebeb] pb-3"
         style={{ fontFamily: '"Expletus Sans", serif' }}
       >
         {title}

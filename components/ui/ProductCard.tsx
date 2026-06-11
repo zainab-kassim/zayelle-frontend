@@ -32,7 +32,7 @@ const currency = useCurrencyStore((state) => state.currency);
         
             {/* Image area */}
             
-            <div className="relative pb-3 pt-6 z-0">
+            <div onClick={() => router.push(`/products/${slug}`)} className="relative pb-3 pt-6 z-0">
                
                 {/* Product image */}
                 <div className="relative w-full h-[170px] md:h-[300px]">
