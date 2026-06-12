@@ -5,6 +5,7 @@ import ProductListingCard from "@/components/ui/ProductListingCard";
 import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
 import { Product } from "@/types/product";
 
+
 interface DesktopProductGridProps {
   products: Product[];
   isLoading: boolean;
@@ -23,7 +24,6 @@ export default function DesktopProductGrid({
         : products.map((product) => (
             <ProductListingCard
               key={product.id}
-              id={product.id}
               image={product.image}
               name={product.name}
               price={product.price}

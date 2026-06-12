@@ -40,7 +40,7 @@ export default function ProductSection({
           : products.map((product) => (
               <div className="flex-shrink-0 w-[58vw] max-w-[260px]">
                 <ProductListingCard key={product.id}
-                  id={product.id}
+                
                   image={product.image}
                   name={product.name}
                   price={product.price}

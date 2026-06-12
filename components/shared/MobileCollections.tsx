@@ -29,7 +29,6 @@ export default function MobileCollections() {
         setIsLoading(false);
       }
     };
-
     fetchAndGroup();
   }, [currency]);
 
@@ -40,12 +39,12 @@ export default function MobileCollections() {
         products={florealProducts}
         isLoading={isLoading}
       />
-      <ProductSection
+      <ProductSection 
         title="Zayelle Luxe Weave"
         products={emberProducts}
         isLoading={isLoading}
       />
-      <ProductSection
+      <ProductSection 
         title="New Arrivals"
         products={newArrivalProducts}
         isLoading={isLoading}

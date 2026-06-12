@@ -89,7 +89,7 @@ export default function BestSellerBanner() {
 
                         {/* CTA */}
                         <Link
-                            href="/products/ember-collection"
+                              href="/products?collection=ember-collection"
                             className="
                 self-start mt-[clamp(2px,0.8vw,10px)]
                 inline-flex items-center justify-center

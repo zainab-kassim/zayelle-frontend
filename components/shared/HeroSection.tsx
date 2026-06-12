@@ -93,7 +93,7 @@ export default function HeroSection() {
                     style={{ marginTop: "clamp(16px, 3vw, 328px)" }}
                 >
                     <Link
-                        href="/products/floreal-collection"
+                       href="/products?collection=floreal-collection"
                         className="inline-flex items-center justify-center
     font-semibold uppercase tracking-[0.2em] text-[#1a1a1a] no-underline
     bg-transparent border border-black rounded-full

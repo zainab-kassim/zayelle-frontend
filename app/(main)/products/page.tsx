@@ -9,6 +9,8 @@ import { Product } from "@/types/product";
 import SidebarFilters from "@/components/ui/SidebarFilters";
 import DesktopProductGrid from "@/components/ui/DesktopProductGrid";
 import MobileCollections from "@/components/shared/MobileCollections";
+import { useSearchParams } from "next/navigation";
+import { fi } from "zod/v4/locales";
 
 const COLLECTION_MAP: Record<string, string> = {
   "FLOREAL COLLECTION": "floreal-collection",
@@ -18,7 +20,7 @@ const COLLECTION_MAP: Record<string, string> = {
 
 export default function ProductListing() {
   const { currency } = useCurrencyStore();
-
+const searchParams = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [products,     setProducts]     = useState<Product[]>([]);
   const [isLoading,    setIsLoading]    = useState(false);
@@ -50,15 +52,22 @@ export default function ProductListing() {
     }
   };
 
-  // ── On mount + currency change ─────────────────────────────────
-  useEffect(() => {
-    if (activeFilter === "ALL") {
-      fetchAllProducts();
-    } else {
-      const slug = COLLECTION_MAP[activeFilter];
-      if (slug) fetchByCollection(slug);
+ useEffect(() => {
+  const collection = searchParams.get("collection");
+
+  if (collection) {
+    const filterKey = Object.keys(COLLECTION_MAP).find(
+      key => COLLECTION_MAP[key] === collection
+    );
+    if (filterKey) {
+      setActiveFilter(filterKey);
+      fetchByCollection(collection); // use collection slug directly
     }
-  }, [currency]);
+  } else {
+    setActiveFilter("ALL");
+    fetchAllProducts();
+  }
+}, [currency]);
 
   // ── Filter change ──────────────────────────────────────────────
   const handleFilterChange = (filter: string) => {

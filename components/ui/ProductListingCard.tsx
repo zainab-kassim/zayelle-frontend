@@ -2,23 +2,22 @@
 
 import { useCurrencyStore } from '@/store/currencyStore';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter} from 'next/navigation';
 
 
 interface ProductCardProps {
-    id: number;
     image: string[];
     name: string;
     price: string;
     slug: string;
 }
 
-export default function ProductListingCard({ id,slug, image, name, price }: ProductCardProps) {
+export default function ProductListingCard({slug, image, name, price }: ProductCardProps) {
     const router = useRouter();
 const currency = useCurrencyStore((state) => state.currency);
 
     return (
-        <div key={id} onClick={() => router.push(`/products/${slug}`)}
+        <div key={slug} onClick={() => router.push(`/products/${slug}`)}
             className="flex relative flex-col cursor-pointer rounded-lg md:rounded-xl lg:rounded-2xl pb-4"
             style={{ background: '#F8F8F8' }}
             

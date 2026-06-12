@@ -8,7 +8,6 @@ export const getProductByCollection = async (collection: string): Promise<{ prod
 
 export const getProducts = async (): Promise<{ products: Product[]}> => {
   const response = await axiosInstance.get('/products');
-  console.log('Fetched all products:', response.data.convertedProducts); // Debug log
   return { products: response.data.convertedProducts};
 }
  
