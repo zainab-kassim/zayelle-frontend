@@ -1,4 +1,3 @@
-// components/ProductListing/ProductListing.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -10,7 +9,8 @@ import SidebarFilters from "@/components/ui/SidebarFilters";
 import DesktopProductGrid from "@/components/ui/DesktopProductGrid";
 import MobileCollections from "@/components/shared/MobileCollections";
 import { useSearchParams } from "next/navigation";
-import { fi } from "zod/v4/locales";
+import { Suspense } from "react";
+
 
 const COLLECTION_MAP: Record<string, string> = {
   "FLOREAL COLLECTION": "floreal-collection",
@@ -18,7 +18,7 @@ const COLLECTION_MAP: Record<string, string> = {
   "NEW ARRIVALS":       "new-arrivals",
 };
 
-export default function ProductListing() {
+function ProductsContent() {
   const { currency } = useCurrencyStore();
 const searchParams = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -67,7 +67,7 @@ const searchParams = useSearchParams();
     setActiveFilter("ALL");
     fetchAllProducts();
   }
-}, [currency]);
+}, [currency,searchParams]);
 
   // ── Filter change ──────────────────────────────────────────────
   const handleFilterChange = (filter: string) => {
@@ -106,5 +106,13 @@ const searchParams = useSearchParams();
       <MobileCollections />
 
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ProductsContent />
+    </Suspense>
   );
 }
