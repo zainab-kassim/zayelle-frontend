@@ -4,6 +4,8 @@ export interface Product {
   name: string;
   price: string;
   slug: string;
+  size:string[];
+  description:string;
   collections: {
     slug: string;
   };
