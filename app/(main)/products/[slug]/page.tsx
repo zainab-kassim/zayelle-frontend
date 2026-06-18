@@ -8,6 +8,7 @@ import { addToCart } from "@/services/cart.service";
 import { Product } from "@/types/product";
 import ProductImageViewer from "@/components/shared/product/ProductImageViewer";
 import ProductInfo from "@/components/shared/product/ProductInfo";
+import { useCurrencyStore } from "@/store/currencyStore";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -15,6 +16,7 @@ interface PageProps {
 
 export default function ProductSlugPage({ params }: PageProps) {
   const { slug } = use(params);
+  const { currency } = useCurrencyStore();
 
   const [product,        setProduct]        = useState<Product | null>(null);
   const [isLoading,      setIsLoading]      = useState(true);
@@ -39,7 +41,7 @@ export default function ProductSlugPage({ params }: PageProps) {
       }
     };
     fetchProduct();
-  }, [slug]);
+  }, [slug,currency]);
 
   // ── Add to cart ────────────────────────────────────────────────
   const handleAddToCart = async () => {

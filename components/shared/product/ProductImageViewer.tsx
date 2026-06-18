@@ -60,7 +60,7 @@ export default function ProductImageViewer({ images, name }: ProductImageViewerP
 
       {/* ── Desktop image container ──────────────────────────────── */}
       <div
-        className="hidden md:flex relative max-w-2xl rounded-2xl md:h-[480px] xl:h-[590px] overflow-hidden items-center justify-center"
+        className="hidden md:flex relative px-8 py-10 max-w-2xl rounded-2xl md:h-[480px] xl:h-[590px] overflow-hidden items-center justify-center"
         style={{ background: "#EEEEEE"}}
       >
         <AnimatePresence mode="wait">
