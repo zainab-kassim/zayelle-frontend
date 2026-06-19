@@ -7,6 +7,6 @@ export interface Product {
   size:string[];
   description:string;
   collections: {
-    slug: string;
+    name: string;
   };
 }

@@ -33,12 +33,12 @@ export default function ProductInfo({
         className="text-[11px] font-semibold tracking-[0.25em] uppercase text-[#5a5a5a]"
         style={{ fontFamily: '"Expletus Sans", serif' }}
       >
-        {product.collections?.slug?.replace(/-/g, " ").toUpperCase()} • 2026
+        {product.collections?.name?.toUpperCase()} • 2026
       </p>
 
       {/* Price */}
       <p
-        className="md:text-[25px] lg:text-[38px] text-2xl font-bold text-[#1a1a1a] leading-none"
+        className="md:text-[25px] lg:text-[38px] text-3xl font-bold text-[#1a1a1a] leading-none"
         style={{ fontFamily: '"Expletus Sans", serif' }}
       >
         ${product.price}
@@ -46,10 +46,11 @@ export default function ProductInfo({
 
       {/* Description */}
       <p
-        className="text-[13px] leading-relaxed text-[#4a4a4a] max-w-md"
-        style={{ fontFamily: '"Expletus Sans", serif' }}
+        className="text-[15px] leading-relaxed text-[#4a4a4a] max-w-md"
       >
         {product.description}
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque molestiae incidunt ab excepturi.
+         Ad ipsa aliquam soluta consequ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga 
       </p>
 
       {/* Size selector */}
@@ -72,7 +73,7 @@ export default function ProductInfo({
         disabled={isAddingToCart || !selectedSize}
         className="
           w-full py-4 bg-[#1a1a1a] text-white
-          text-[12px] font-semibold tracking-[0.28em] uppercase
+          text-[12px] font-semibold tracking-[0.28em] mb-8 mt-6 md:mb-0 md:mt-0 xl:mt-10 uppercase
           rounded-md transition-all duration-300
           hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed
         "
