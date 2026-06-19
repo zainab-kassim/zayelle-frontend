@@ -8,5 +8,6 @@ export interface Product {
   description:string;
   collections: {
     name: string;
+    slug:string;
   };
 }

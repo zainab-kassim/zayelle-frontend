@@ -13,8 +13,6 @@ export const getProducts = async (): Promise<{ products: Product[]}> => {
  
  
 export const getProductBySlug = async (slug: string): Promise<Product> => {
-  const response = await axiosInstance.get(`/products/${slug}`);
-  console.log(response.data.product[0])
-  
+  const response = await axiosInstance.get(`/products/${slug}`); 
   return response.data.product[0];
 };
