@@ -9,6 +9,7 @@ import { Product } from "@/types/product";
 import ProductImageViewer from "@/components/shared/product/ProductImageViewer";
 import ProductInfo from "@/components/shared/product/ProductInfo";
 import { useCurrencyStore } from "@/store/currencyStore";
+import ProductDetailSkeleton from "@/components/shared/product/ProductsdetailsSection";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -65,9 +66,7 @@ export default function ProductSlugPage({ params }: PageProps) {
   // ── Loading ────────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#1a1a1a] border-t-transparent animate-spin" />
-      </div>
+      <ProductDetailSkeleton/>
     );
   }
 
