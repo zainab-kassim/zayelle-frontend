@@ -9,6 +9,13 @@ import { useCurrencyStore } from '@/store/currencyStore';
 
 const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
+const CURRENCY_ICONS: Record<string, string> = {
+    USD: "https://img.icons8.com/?size=100&id=15701&format=png&color=000000",
+    GBP: "https://img.icons8.com/?size=100&id=15639&format=png&color=000000",
+    CAD: "https://img.icons8.com/?size=100&id=Y44czWs2GxGq&format=png&color=000000",
+    NGN: "https://img.icons8.com/?size=100&id=15664&format=png&color=000000",
+};
+
 export default function Navbar() {
     const router = useRouter();
     const [firstName, setFirstName] = useState('');
@@ -118,13 +125,14 @@ export default function Navbar() {
                                             >
                                                 <div className="flex items-center gap-2">
                                                     <Image
-                                                        src="https://img.icons8.com/?size=100&id=Y44czWs2GxGq&format=png&color=000000"
+                                                        src={CURRENCY_ICONS[currency] || CURRENCY_ICONS['USD']}
                                                         alt="Currency"
                                                         width={14}
                                                         height={14}
                                                     />
                                                     <span>{currency || '...'}</span>
                                                 </div>
+
                                                 <motion.div
                                                     animate={{ rotate: isCurrencyOpen ? 180 : 0 }}
                                                     transition={{ duration: 0.2 }}
@@ -148,15 +156,21 @@ export default function Navbar() {
                                                         transition={{ duration: 0.15 }}
                                                         className="bg-gray-50 border-t border-[#E0E0E0]"
                                                     >
+                                                        
                                                         {SUPPORTED_CURRENCIES.map((c) => (
                                                             <button
                                                                 key={c}
                                                                 onClick={() => handleCurrencySelect(c)}
-                                                                className={`w-full text-left px-6 py-2 text-[11px] sm:text-[12px] transition-colors duration-200 hover:bg-gray-100 ${
-                                                                    currency === c ? 'font-bold text-black' : 'text-gray-600'
-                                                                }`}
+                                                                className={`w-full text-left px-6 py-2 text-[11px] sm:text-[12px] transition-colors duration-200 hover:bg-gray-100 flex items-center gap-2 ${currency === c ? 'font-bold text-black' : 'text-gray-600'
+                                                                    }`}
                                                                 style={{ fontFamily: "'Cairo', sans-serif" }}
                                                             >
+                                                                <Image
+                                                                    src={CURRENCY_ICONS[c]}
+                                                                    alt={c}
+                                                                    width={14}
+                                                                    height={14}
+                                                                />
                                                                 {c}
                                                             </button>
                                                         ))}
