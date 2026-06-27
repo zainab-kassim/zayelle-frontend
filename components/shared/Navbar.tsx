@@ -10,10 +10,10 @@ import { useCurrencyStore } from '@/store/currencyStore';
 const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
 const CURRENCY_ICONS: Record<string, string> = {
-    USD: "https://img.icons8.com/?size=100&id=15701&format=png&color=000000",
-    GBP: "https://img.icons8.com/?size=100&id=15639&format=png&color=000000",
+    USD: "https://img.icons8.com/?size=100&id=Halaubi1vvya&format=png&color=000000",
+    GBP: "https://img.icons8.com/?size=100&id=xapj7ZzAUZKI&format=png&color=000000",
     CAD: "https://img.icons8.com/?size=100&id=Y44czWs2GxGq&format=png&color=000000",
-    NGN: "https://img.icons8.com/?size=100&id=15664&format=png&color=000000",
+    NGN: "https://img.icons8.com/?size=100&id=Qbb2whnonplQ&format=png&color=000000",
 };
 
 export default function Navbar() {
