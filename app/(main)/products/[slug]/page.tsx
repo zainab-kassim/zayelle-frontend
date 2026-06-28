@@ -11,6 +11,7 @@ import ProductInfo from "@/components/shared/product/ProductInfo";
 import { useCurrencyStore } from "@/store/currencyStore";
 import ProductDetailSkeleton from "@/components/shared/product/ProductsdetailsSection";
 
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -19,11 +20,11 @@ export default function ProductSlugPage({ params }: PageProps) {
   const { slug } = use(params);
   const { currency } = useCurrencyStore();
 
-  const [product,        setProduct]        = useState<Product | null>(null);
-  const [isLoading,      setIsLoading]      = useState(true);
-  const [isError,        setIsError]        = useState(false);
-  const [selectedSize,   setSelectedSize]   = useState("");
-  const [quantity,       setQuantity]       = useState(1);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   // ── Fetch product ──────────────────────────────────────────────
@@ -42,7 +43,7 @@ export default function ProductSlugPage({ params }: PageProps) {
       }
     };
     fetchProduct();
-  }, [slug,currency]);
+  }, [slug, currency]);
 
   // ── Add to cart ────────────────────────────────────────────────
   const handleAddToCart = async () => {
@@ -66,7 +67,7 @@ export default function ProductSlugPage({ params }: PageProps) {
   // ── Loading ────────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <ProductDetailSkeleton/>
+      <ProductDetailSkeleton />
     );
   }
 
@@ -85,18 +86,17 @@ export default function ProductSlugPage({ params }: PageProps) {
   }
 
   return (
-    <main className="w-full min-h-screen px-4 sm:px-6 lg:px-12 py-8 bg-white">
+    <div className="w-full   px-4 md:px-12 lg:px-34 xl:px-16 py-8 bg-white">
 
       {/* ── Desktop: 2-column layout ─────────────────────────────── */}
-      <div className="hidden md:flex flex-row gap-10 lg:gap-10 items-start">
-
+      <div className="hidden lg:flex flex-row gap-10 items-start">
         {/* Left — image viewer (55%) */}
-        <div className="w-[50%] flex-shrink-0">
+        <div className="w-[50%] flex-shrink-auto ">
           <ProductImageViewer images={product.image} name={product.name} />
         </div>
 
         {/* Right — product info (45%) */}
-        <div className="flex-1 pt-2">
+        <div className="flex-1 flex flex-col">
           <ProductInfo
             product={product}
             selectedSize={selectedSize}
@@ -112,7 +112,7 @@ export default function ProductSlugPage({ params }: PageProps) {
       </div>
 
       {/* ── Mobile: single column ────────────────────────────────── */}
-      <div className="flex md:hidden flex-col gap-6">
+      <div className="flex lg:hidden flex-col gap-6 mb-12">
         <ProductImageViewer images={product.image} name={product.name} />
         <ProductInfo
           product={product}
@@ -126,6 +126,6 @@ export default function ProductSlugPage({ params }: PageProps) {
         />
       </div>
 
-    </main>
+    </div>
   );
 }

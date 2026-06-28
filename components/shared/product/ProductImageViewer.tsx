@@ -3,7 +3,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, aspectRatio } from "framer-motion";
 
 interface ProductImageViewerProps {
   images: string[];
@@ -60,8 +60,8 @@ export default function ProductImageViewer({ images, name }: ProductImageViewerP
 
       {/* ── Desktop image container ──────────────────────────────── */}
       <div
-        className="hidden md:flex relative px-8 py-10 max-w-2xl rounded-2xl md:h-[480px] xl:h-[590px] overflow-hidden items-center justify-center"
-        style={{ background: "#EEEEEE"}}
+        className="hidden lg:flex relative px-8 py-10 max-w-2xl rounded-2xl md:h-[500px]  xl:h-[570px] overflow-hidden items-center justify-center"
+        style={{ background: "#EEEEEE",aspectRatio :'3/4'}}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -90,7 +90,7 @@ export default function ProductImageViewer({ images, name }: ProductImageViewerP
 
       {/* ── Mobile swipeable container ───────────────────────────── */}
       <div
-        className="md:hidden relative w-full overflow-hidden rounded-2xl"
+        className="lg:hidden relative w-full overflow-hidden rounded-2xl"
         style={{ background: "#EEEEEE", aspectRatio: "3/3.6" }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}

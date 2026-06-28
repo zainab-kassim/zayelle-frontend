@@ -3,7 +3,7 @@ export default function ProductDetailSkeleton() {
     <div className="w-full min-h-screen px-4 sm:px-6 lg:px-12 py-8 bg-white animate-pulse">
 
       {/* ── Desktop: 2-column ──────────────────────────────────────── */}
-      <div className="hidden md:flex flex-row gap-10 lg:gap-16 items-start">
+      <div className="hidden lg:flex flex-row gap-10 lg:gap-16 items-start">
 
         {/* Left — image viewer */}
         <div className="w-[55%] flex-shrink-0">
@@ -53,7 +53,7 @@ export default function ProductDetailSkeleton() {
       </div>
 
       {/* ── Mobile: single column ─────────────────────────────────── */}
-      <div className="flex md:hidden flex-col gap-6">
+      <div className="flex lg:hidden flex-col gap-6">
 
         {/* Image */}
         <div
