@@ -40,7 +40,6 @@ export default function BookPage() {
     
     toast.success("consultation booked!");
     setConfirmed(true);
-    router.push('/')
   }
 
   if (confirmed && selectedDate && selectedTime) {
