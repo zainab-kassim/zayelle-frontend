@@ -8,11 +8,11 @@ import { AddToCartPayload } from "@/types/cart";
 import TinySpinner from "@/components/ui/TinySpinner";
 import { AxiosError } from "axios";
 
-interface AddToCartButtonProps {
+interface AddToCartButtonPlusIconProps {
     productid: number; // The product ID
 }
 
-export default function AddToCartButton({ productid }: AddToCartButtonProps) {
+export default function AddToCartButtonPlusIcon({ productid }: AddToCartButtonPlusIconProps) {
     const payload: AddToCartPayload = {
         productid,
         quantity: 1,

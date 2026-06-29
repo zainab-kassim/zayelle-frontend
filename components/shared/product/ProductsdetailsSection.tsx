@@ -1,16 +1,13 @@
 export default function ProductDetailSkeleton() {
   return (
-    <div className="w-full min-h-screen px-4 sm:px-6 lg:px-12 py-8 bg-white animate-pulse">
+    <div className="w-full px-4 md:px-12 lg:px-34 xl:px-16 py-8 animate-pulse">
 
       {/* ── Desktop: 2-column ──────────────────────────────────────── */}
       <div className="hidden lg:flex flex-row gap-10 lg:gap-16 items-start">
 
         {/* Left — image viewer */}
-        <div className="w-[55%] flex-shrink-0">
-          <div
-            className="w-full rounded-2xl bg-[#EEEEEE]"
-            style={{ aspectRatio: "3/3.6" }}
-          />
+        <div className="w-[55%] flex-shrink-0 bg-[#EEEEEE] rounded-2xl h-[480px]">
+     
         </div>
 
         {/* Right — product info */}
