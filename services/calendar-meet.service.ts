@@ -5,11 +5,11 @@ export const bookMeeting = async (
     selectedTime: string,
     UserEmail: string
 ) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_MAKE_WEBHOOK_URL!, {
+    const res = await fetch(process.env.MAKE_WEBHOOK_URL!, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'x-make-apikey': process.env.NEXT_PUBLIC_MAKE_API_KEY!,
+            'x-make-apikey': process.env.MAKE_API_KEY!,
         },
         body: JSON.stringify({
             Username,
