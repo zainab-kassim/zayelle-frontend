@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { bookMeeting } from "@/services/calendar-meet.service";
+import { ConflictToast } from "@/components/ui/ConflictToast";
 
 const TIMES = [
   "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -35,16 +37,36 @@ export default function BookPage() {
     setSelectedTime(null);
   }
 
-  function handleConfirm() {
-    // 🔌 replace with your booking API call
-    
-    toast.success("consultation booked!");
-    setConfirmed(true);
+  async function handleConfirm() {
+    // Check if user is logged in
+    const Username = localStorage.getItem('firstName');
+    const UserEmail = localStorage.getItem('email');
+    if (!Username && !UserEmail) {
+      toast.error("Please log in to book a consultation.");
+      router.push('/auth/signup?redirect=/book');
+      return;
+    }
+
+    if (!selectedDate || !selectedTime) {
+      toast.error("Please select a date and time.");
+      return;
+    }
+
+    try {
+      const result = await bookMeeting(Username!, selectedDate, selectedTime, UserEmail!);
+      if (result.status === 'conflict') {
+        toast.custom(() => <ConflictToast />);
+      } else {
+        setConfirmed(true);
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    }
   }
 
   if (confirmed && selectedDate && selectedTime) {
     return (
-      <div className="w-full min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="w-full min-h-screen  bg-white flex items-center justify-center px-4">
         <div className="text-center flex flex-col items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-500 text-2xl">✓</div>
           <h2 className="text-xl font-semibold text-[#1a1a1a]" style={{ fontFamily: '"Expletus Sans", serif' }}>
@@ -58,6 +80,7 @@ export default function BookPage() {
       </div>
     );
   }
+
 
   return (
     <div className="w-full min-h-screen flex items-start justify-center px-4 py-10">
@@ -156,8 +179,8 @@ export default function BookPage() {
                     key={t}
                     onClick={() => setSelectedTime(t)}
                     className={`w-full px-4 py-2.5 rounded-lg text-sm text-left border transition-all ${selectedTime === t
-                        ? "bg-[#1a1a1a] text-white  "
-                        : "bg-white text-[#1a1a1a] border-[#e0e0e0] hover:border-[#bbb] "
+                      ? "bg-[#1a1a1a] text-white  "
+                      : "bg-white text-[#1a1a1a] border-[#e0e0e0] hover:border-[#bbb] "
                       }`}
                   >
                     {t}

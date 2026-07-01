@@ -35,6 +35,7 @@ export const useSignUp = () => {
                 );
                 toast.success(`Welcome, ${response.user.firstname}!`);
                 localStorage.setItem('firstName', response.user.firstname);
+                localStorage.setItem('email', response.user.email);
 
                 router.push('/');
 

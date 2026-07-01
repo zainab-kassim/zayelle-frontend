@@ -24,6 +24,7 @@ export const useLogIn = () => {
                 );
                 toast.success(`Welcome back, ${response.user.firstname}!`);
                 localStorage.setItem('firstName', response.user.firstname);
+                localStorage.setItem('email', response.user.email);
                 router.push('/');
 
             } catch (error: any) {
