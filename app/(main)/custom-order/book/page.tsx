@@ -59,7 +59,8 @@ export default function BookPage() {
       } else {
         setConfirmed(true);
       }
-    } catch {
+    } catch(error) {
+      console.log(error);
       toast.error("Something went wrong. Please try again.");
     }
   }
