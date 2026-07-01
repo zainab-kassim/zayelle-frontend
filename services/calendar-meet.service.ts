@@ -8,8 +8,8 @@ export const bookMeeting = async (
 ) => {
     const response = await axiosInstance.post('/booking', {
         Username,
-        date: selectedDate.toISOString().split('T')[0],
-        time: selectedTime,
+        Date: selectedDate.toISOString().split('T')[0],
+        Time: selectedTime,
         UserEmail,
     });
  
