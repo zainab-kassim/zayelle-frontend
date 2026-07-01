@@ -8,8 +8,7 @@ export const bookMeeting = async (
     const res = await fetch(process.env.MAKE_WEBHOOK_URL!, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'x-make-apikey': process.env.MAKE_API_KEY!,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             Username,
