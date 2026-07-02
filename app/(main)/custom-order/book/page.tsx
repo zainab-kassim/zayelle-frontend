@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { bookMeeting } from "@/services/calendar-meet.service";
 import { ConflictToast } from "@/components/ui/ConflictToast";
 
-const TIMES = [
+const ALL_TIMES = [
   "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
   "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM",
 ];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
 
 export default function BookPage() {
   const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -29,6 +31,8 @@ export default function BookPage() {
     setViewMonth(m); setViewYear(y);
   }
 
+
+
   const firstDow = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
@@ -36,6 +40,26 @@ export default function BookPage() {
     setSelectedDate(new Date(viewYear, viewMonth, d));
     setSelectedTime(null);
   }
+
+  const getAvailableTimes = () => {
+    const now = new Date();
+    const isToday = selectedDate?.toDateString() === now.toDateString();
+
+    if (!isToday) return ALL_TIMES; // future dates show all times
+
+    return ALL_TIMES.filter(t => {
+      const [time, period] = t.split(' ');
+      const [hours, minutes] = time.split(':').map(Number);
+      let hour24 = hours;
+      if (period === 'PM' && hours !== 12) hour24 += 12;
+      if (period === 'AM' && hours === 12) hour24 = 0;
+
+      const slotTime = new Date();
+      slotTime.setHours(hour24, minutes, 0, 0);
+
+      return slotTime > now; // only show future times
+    });
+  };
 
   async function handleConfirm() {
     // Check if user is logged in
@@ -59,7 +83,7 @@ export default function BookPage() {
       } else {
         setConfirmed(true);
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       toast.error("Something went wrong. Please try again.");
     }
@@ -174,22 +198,26 @@ export default function BookPage() {
             </p>
 
             <div className="flex flex-col gap-2 flex-1">
-              {selectedDate ? (
-                TIMES.map(t => (
+              {selectedDate?(
+                  getAvailableTimes().length > 0 ? (
+                getAvailableTimes().map(t => (
                   <button
                     key={t}
                     onClick={() => setSelectedTime(t)}
                     className={`w-full px-4 py-2.5 rounded-lg text-sm text-left border transition-all ${selectedTime === t
-                      ? "bg-[#1a1a1a] text-white  "
-                      : "bg-white text-[#1a1a1a] border-[#e0e0e0] hover:border-[#bbb] "
+                        ? "bg-[#1a1a1a] text-white"
+                        : "bg-white text-[#1a1a1a] border-[#e0e0e0] hover:border-[#bbb]"
                       }`}
                   >
                     {t}
                   </button>
                 ))
               ) : (
-                <p className="text-[13px] text-[#bbb]">Select a date to see available times.</p>
-              )}
+                <p className="text-[13px] text-[#bbb]">No available times for today. Please select another date.</p>
+              )
+) : (
+              <p className="text-[13px] text-[#bbb]">Select a date to see available times.</p>
+)}
             </div>
 
             <button

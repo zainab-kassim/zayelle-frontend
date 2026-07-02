@@ -88,7 +88,7 @@ export default function Navbar() {
                                 className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-black/5"
                             >
                                 <span
-                                    className="text-[11px] sm:text-[12px] md:text-[16px] text-black whitespace-nowrap"
+                                    className="text-[11px] sm:text-[12px] md:text-[16px] text-black whitespace-nowrap text-ellipsis"
                                     style={{ fontFamily: "'Cairo', sans-serif" }}
                                 >
                                     hey, {firstName || 'there'}
