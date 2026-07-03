@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCurrencyStore } from '@/store/currencyStore';
+import { Logout } from '@/services/auth.service';
+import { toast } from 'sonner';
 
 const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
@@ -40,6 +42,21 @@ export default function Navbar() {
         setIsCurrencyOpen(false);
         setIsDropdownOpen(false);
     };
+
+    async function handleLogout() {
+        try {
+            await Logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            localStorage.removeItem('firstName');
+            localStorage.removeItem('email');
+            setFirstName('');
+            setIsDropdownOpen(false);
+            toast.success('Logged out successfully');
+            router.push('/auth/login');
+        }
+    }
 
     return (
         <>
@@ -88,7 +105,7 @@ export default function Navbar() {
                                 className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-black/5"
                             >
                                 <span
-                                    className="text-[11px] sm:text-[12px] md:text-[16px] text-black whitespace-nowrap text-ellipsis"
+                                    className="text-[11px] sm:text-[12px] md:text-[16px] max-w-28 text-black whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
                                     style={{ fontFamily: "'Cairo', sans-serif" }}
                                 >
                                     hey, {firstName || 'there'}
@@ -156,7 +173,7 @@ export default function Navbar() {
                                                         transition={{ duration: 0.15 }}
                                                         className="bg-gray-50 border-t border-[#E0E0E0]"
                                                     >
-                                                        
+
                                                         {SUPPORTED_CURRENCIES.map((c) => (
                                                             <button
                                                                 key={c}
@@ -178,6 +195,23 @@ export default function Navbar() {
                                                 )}
                                             </AnimatePresence>
                                         </div>
+                                        <div className="h-px bg-[#E0E0E0]" />
+
+                                        {firstName ? (
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50 text-left"
+                                            >
+                                                Logout
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                href="/auth/signup"
+                                                className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
+                                            >
+                                                Sign Up
+                                            </Link>
+                                        )}
 
                                         <div className="h-px bg-[#E0E0E0]" />
 
@@ -254,6 +288,24 @@ export default function Navbar() {
                                 />
                             </button>
                             <div className="flex flex-col p-6 pt-20">
+                                {firstName ? (
+                                    <button
+                                        onClick={handleLogout}
+                                        className="px-4 py-4 text-[14px] text-left text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
+                                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                                    >
+                                        Logout
+                                    </button>
+                                ) : (
+                                    <Link
+                                        href="/auth/signup"
+                                        className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
+                                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Sign Up
+                                    </Link>
+                                )}
                                 <Link
                                     href="/products"
                                     className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"

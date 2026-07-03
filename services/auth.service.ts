@@ -14,7 +14,7 @@ export const login = async (email: string, password: string) => {
 };
 
 //logout service
-export const logout = async () => {
+export const Logout = async () => {
   const response = await axiosInstance.post('/auth/logout');
   return response.data;
 };

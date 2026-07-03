@@ -294,7 +294,7 @@ export default function SignUpForm() {
                         {/* Footer Text */}
                         <p className="text-center text-[14px] font-medium text-black">
                             You already have an account?{' '}
-                            <a href="/login" className="text-[#4E8ED9]">
+                            <a href="/auth/login" className="text-[#4E8ED9]">
                                 Login
                             </a>
                         </p>

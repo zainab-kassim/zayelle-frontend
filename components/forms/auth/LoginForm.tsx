@@ -166,7 +166,7 @@ export default function LoginForm() {
 
                         >
                             Don't have an account?{' '}
-                            <a href="/signup" className="text-[#4E8ED9]">
+                            <a href="/auth/signup" className="text-[#4E8ED9]">
                                 Sign Up
                             </a>
                         </p>
