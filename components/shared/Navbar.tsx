@@ -54,7 +54,7 @@ export default function Navbar() {
             setFirstName('');
             setIsDropdownOpen(false);
             toast.success('Logged out successfully');
-            router.push('/auth/login');
+            router.push('/');
         }
     }
 
