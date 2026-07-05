@@ -2,6 +2,7 @@
 import LoginForm from "@/components/forms/auth/LoginForm";
 import {Suspense, useEffect } from "react";
 import { toast } from "sonner";
+import PinkLoader from "@/components/ui/PinkLoader";
 
 export default function page() {
   useEffect(() => {
@@ -12,7 +13,7 @@ export default function page() {
   }, []);
 
   return (
-   <Suspense fallback={<div>Loading...</div>}>
+   <Suspense fallback={<PinkLoader />}>
       <LoginForm />
     </Suspense>
 
