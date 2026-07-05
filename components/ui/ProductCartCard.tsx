@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import CartQuantitySelector from "./CartQuantitySelector";
+import { useCurrencyStore } from "@/store/currencyStore";
 
 interface ProductCartCardProps {
     CartItem: CartItem;
@@ -17,6 +18,7 @@ export default function ProductCartCard({
     onQuantityDecrease,
     onDelete,
 }: ProductCartCardProps) {
+   const currency = useCurrencyStore((state) => state.currency);
     const totalItemPrice = CartItem.unitprice * CartItem.quantity;
     return (
         <div className="flex flex-row items-center gap-4 py-5 border-b border-[#f0f0f0]">
@@ -65,7 +67,7 @@ export default function ProductCartCard({
                     className=" text-[13px] md:text-[16px] font-semibold text-[#1a1a1a] mt-1"
                     style={{ fontFamily: '"Expletus Sans", serif' }}
                 >
-                    ${totalItemPrice}
+                    {currency === 'NGN' ? '₦' : '$'}{totalItemPrice.toFixed(2)}
                 </p>
 
                 {/* Quantity selector */}

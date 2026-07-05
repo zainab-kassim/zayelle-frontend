@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductCard from '@/components/ui/ProductCard';
-import ProductCardSkeleton from '@/components/ui/ProductCardSkeleton';
+import ProductCardSkeleton from '@/components/ui/CardSkeleton';
 import { getProductByCollection } from '@/services/product.service';
 import { Product } from '@/types/product';
 import { useCurrencyStore } from '@/store/currencyStore';

@@ -1,11 +1,14 @@
 "use client";
 
+import { useCurrencyStore } from "@/store/currencyStore";
+
 interface OrderSummaryProps {
   subtotal: number;
   onCheckout: () => void;
 }
 
 export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps) {
+   const currency = useCurrencyStore((state) => state.currency);
   return (
     <div
       className="rounded-xl p-6 flex flex-col gap-4"
@@ -32,7 +35,7 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
         <span
           className="text-[16px] font-semibold text-[#1a1a1a]"
         >
-          ${subtotal}
+          {currency === 'NGN' ? '₦' : '$'}{subtotal}
         </span>
       </div>
 

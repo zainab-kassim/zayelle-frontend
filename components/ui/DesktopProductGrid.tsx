@@ -2,7 +2,7 @@
 "use client";
 
 import ProductListingCard from "@/components/ui/ProductListingCard";
-import ProductCardSkeleton from "@/components/ui/ProductCardSkeleton";
+import ProductCardSkeleton from "@/components/ui/CardSkeleton";
 import { Product } from "@/types/product";
 
 
