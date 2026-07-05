@@ -3,11 +3,13 @@ import { toast } from 'sonner';
 import { loginSchema } from '@/lib/schemas/authSchema';
 import { login } from '@/services/auth.service';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 export const useLogIn = () => {
     const router = useRouter();
+        const searchParams = useSearchParams();
+    const redirectTo = searchParams.get('redirect') || '/';
     const form = useForm({
         validators: {
             onSubmit: loginSchema,
@@ -22,10 +24,10 @@ export const useLogIn = () => {
                     value.email,
                     value.password,
                 );
-                toast.success(`Welcome back, ${response.user.firstname}!`);
+                 toast.success(`Welcome back, ${response.user.firstname}!`);
                 localStorage.setItem('firstName', response.user.firstname);
                 localStorage.setItem('email', response.user.email);
-                router.push('/');
+                router.push(decodeURIComponent(redirectTo));
 
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
