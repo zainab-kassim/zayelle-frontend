@@ -1,6 +1,6 @@
 'use client';
 import LoginForm from "@/components/forms/auth/LoginForm";
-import {useEffect } from "react";
+import {Suspense, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function page() {
@@ -12,6 +12,9 @@ export default function page() {
   }, []);
 
   return (
-    <LoginForm />
+   <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
+
   )
 }
