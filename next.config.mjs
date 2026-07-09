@@ -6,24 +6,31 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'img.icons8.com',
       },
-        {
+      {
         protocol: 'https',
         hostname: 'n3tcxaxisw.ufs.sh',
       },
       {
         protocol: 'https',
-        hostname:'oqk3pkp15w.ufs.sh',
+        hostname: 'oqk3pkp15w.ufs.sh',
       },
       {
         protocol: 'https',
-        hostname:'images.unsplash.com',
+        hostname: 'images.unsplash.com',
       },
       {
         protocol: 'https',
-        hostname:'6gx805zq79.ufs.sh'
-      }
-      
+        hostname: '6gx805zq79.ufs.sh',
+      },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.BACKEND_API_URL}/api/:path*`,
+      },
+    ];
   },
 };
 
