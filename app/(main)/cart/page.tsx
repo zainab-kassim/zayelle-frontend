@@ -85,7 +85,7 @@ export default function CartPage() {
       <div className="flex flex-col lg:flex-row gap-8 items-start">
 
         {/* Left — cart items */}
-        <div className="flex-1 w-full overflow-y-auto max-h-[calc(100vh-70px)]"
+        <div className="flex-1 w-full lg:overflow-y-auto lg:max-h-[calc(100vh-70px)]"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           <CartItems
             CartItems={cartItems}
