@@ -12,3 +12,10 @@ export const getCartItems = async () => {
   console.log('Get cart items response:', response.data); // Debug log
   return response.data.cartitems;
 }
+
+
+export const deleteCartItem = async (id: number) => {
+  const response = await axiosInstance.delete(`/cart/deletecartitem/${id}`);
+  console.log('Delete cart item response:', response.data); // Debug log
+  return response.data.message;
+}

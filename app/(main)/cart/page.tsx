@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
+import { deleteCartItem } from "@/services/cart.service";
+import { toast } from "sonner";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -62,9 +64,16 @@ export default function CartPage() {
     );
   };
 
-  const handleDelete = (id: number) => {
-    //fff
-  };
+
+  const handleDeleteItem = async (id: number) => {
+  try {
+    await deleteCartItem(id);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  } catch (err) {
+    toast.error("Failed to remove item");
+  }
+};
+  
 
   const handleClearCart = () => {
     //fff
@@ -90,7 +99,7 @@ export default function CartPage() {
           <CartItems
             CartItems={cartItems}
             onUpdateQuantity={handleUpdateQuantity}
-            onDelete={handleDelete}
+             onDelete={handleDeleteItem}
           />
         </div>
 

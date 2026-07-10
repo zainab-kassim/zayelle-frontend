@@ -9,6 +9,7 @@ interface CartItemsProps {
   onDelete: (id: number) => void;
 }
 
+
 export default function CartItems({
   CartItems,
   onUpdateQuantity,
@@ -40,6 +41,7 @@ export default function CartItems({
             onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))
           }
           onDelete={onDelete}
+
         />
       ))}
     </div>

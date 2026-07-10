@@ -35,7 +35,7 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
         <span
           className="text-[16px] font-semibold text-[#1a1a1a]"
         >
-          {currency === 'NGN' ? '₦' : '$'}{subtotal}
+          {currency === 'NGN' ? '₦' : '$'}{subtotal.toFixed(2)}
         </span>
       </div>
 
