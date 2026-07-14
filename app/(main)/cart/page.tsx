@@ -75,10 +75,6 @@ export default function CartPage() {
 };
   
 
-  const handleClearCart = () => {
-    //fff
-  };
-
   const handleCheckout = () => {
     router.push("/checkout");
   };
