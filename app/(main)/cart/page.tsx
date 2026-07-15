@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
-import { deleteCartItem } from "@/services/cart.service";
+import { deleteCartItem, updateCartQuantity } from "@/services/cart.service";
 import { toast } from "sonner";
 
 export default function CartPage() {
@@ -35,26 +35,26 @@ export default function CartPage() {
   }, [currency]);
 
 
-    // ── Loading ────────────────────────────────────────────────────
-    if (isLoading) {
-      return (
-        <CartPageSkeleton />
-      );
-    }
-  
-    // ── Error ──────────────────────────────────────────────────────
-    if (isError ) {
-      return (
-        <div className="w-full min-h-screen flex items-center justify-center">
-          <p
-            className="text-[14px] text-[#5a5a5a] tracking-widest uppercase"
-            style={{ fontFamily: '"Expletus Sans", serif' }}
-          >
-            Cart not found.
-          </p>
-        </div>
-      );
-    }
+  // ── Loading ────────────────────────────────────────────────────
+  if (isLoading) {
+    return (
+      <CartPageSkeleton />
+    );
+  }
+
+  // ── Error ──────────────────────────────────────────────────────
+  if (isError) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center">
+        <p
+          className="text-[14px] text-[#5a5a5a] tracking-widest uppercase"
+          style={{ fontFamily: '"Expletus Sans", serif' }}
+        >
+          Cart not found.
+        </p>
+      </div>
+    );
+  }
 
   const handleUpdateQuantity = (id: number, quantity: number) => {
     setCartItems((prev) =>
@@ -66,17 +66,24 @@ export default function CartPage() {
 
 
   const handleDeleteItem = async (id: number) => {
-  try {
-    await deleteCartItem(id);
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  } catch (err) {
-    toast.error("Failed to remove item");
-  }
-};
-  
+    try {
+      await deleteCartItem(id);
+      setCartItems((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      toast.error("Failed to remove item");
+    }
+  };
 
-  const handleCheckout = () => {
-    router.push("/checkout");
+
+  const handleCheckout = async () => {
+    try {
+      await Promise.all(
+        cartItems.map((item) => updateCartQuantity(item.id, item.quantity))
+      );
+      router.push("/checkout");
+    } catch (err) {
+      toast.error("Failed to update order");
+    }
   };
 
   const subtotal = cartItems.reduce(
@@ -95,7 +102,7 @@ export default function CartPage() {
           <CartItems
             CartItems={cartItems}
             onUpdateQuantity={handleUpdateQuantity}
-             onDelete={handleDeleteItem}
+            onDelete={handleDeleteItem}
           />
         </div>
 
