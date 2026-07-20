@@ -10,7 +10,7 @@ interface CheckoutProgressProps {
 const STEPS = [
   { number: 1, label: "Address" },
   { number: 2, label: "Review" },
-  { number: 3, label: "Confirmation" },
+  { number: 3, label: "Confirm" },
 ];
 
 export default function CheckoutProgress({ currentStep }: CheckoutProgressProps) {
@@ -32,16 +32,15 @@ export default function CheckoutProgress({ currentStep }: CheckoutProgressProps)
                   color: isActive || isCompleted ? "#fff" : "#aaa",
                 }}
                 transition={{ duration: 0.3 }}
-                className="w-9 h-9 rounded-full border-2 flex items-center justify-center text-[13px] font-semibold"
+                className="w-9 h-9 rounded-full border flex items-center justify-center text-[13px] font-semibold"
               >
                 {step.number}
               </motion.div>
               {/* Label */}
               <span
                 className={`text-[12px] tracking-wide whitespace-nowrap ${
-                  isActive ? "font-bold text-[#1a1a1a]" : "text-[#aaa] font-normal"
+                  isActive ? "font-semibold text-[#1a1a1a]" : "text-[#aaa] font-normal"
                 }`}
-                style={{ fontFamily: '"Expletus Sans", serif' }}
               >
                 {step.label}
               </span>
