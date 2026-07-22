@@ -1,5 +1,6 @@
 // store/checkoutStore.ts
 import { create } from 'zustand';
+import { CartItem } from '@/types/cart';
 
 export interface Address {
   firstName: string;
@@ -19,14 +20,14 @@ interface CheckoutState {
   shippingAddress: Address | null;
   savedAddress: Address | null;
   isUsingSavedAddress: boolean;
+  cartItems: CartItem[];
 
   setStep: (step: 1 | 2 | 3) => void;
   setShippingAddress: (address: Address) => void;
   setSavedAddress: (address: Address | null) => void;
   setIsUsingSavedAddress: (value: boolean) => void;
+  setCartItems: (items: CartItem[]) => void;
 }
-
-
 
 function loadSavedAddress(): Address | null {
   if (typeof window === 'undefined') return null;
@@ -43,23 +44,21 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
   shippingAddress: null,
   savedAddress: loadSavedAddress(),
   isUsingSavedAddress: false,
+  cartItems: [],
 
   setStep: (step) => set({ currentStep: step }),
 
   setShippingAddress: (address) => {
-    set({ 
+    set({
       shippingAddress: address,
-      savedAddress: address
+      savedAddress: address,
     });
-    // persist as new saved address
     try {
       localStorage.setItem('zayelle_saved_address', JSON.stringify(address));
-    } catch  {
-
-    
-    }
+    } catch {}
   },
 
   setSavedAddress: (address) => set({ savedAddress: address }),
   setIsUsingSavedAddress: (value) => set({ isUsingSavedAddress: value }),
+  setCartItems: (items) => set({ cartItems: items }),
 }));

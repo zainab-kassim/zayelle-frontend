@@ -8,6 +8,9 @@ import { useCheckoutStore, Address } from "@/store/checkoutStore";
 import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import SavedAddressCard from "@/components/shared/checkout/SavedAddressCard";
+import ReviewOrder from "@/components/shared/ReviewOrder";
+import {toast} from 'sonner';
+import { createOrder } from "@/services/order.service";
 
 const EMPTY_ADDRESS: Address = {
   firstName: "", lastName: "", phone: "", email: "",
@@ -17,11 +20,19 @@ const EMPTY_ADDRESS: Address = {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { currentStep, savedAddress, setStep, setShippingAddress } = useCheckoutStore();
-
+const { currentStep, savedAddress, shippingAddress, cartItems, setStep, setShippingAddress } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [saveAddress, setSaveAddress] = useState(false);
   const [usingSaved, setUsingSaved] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false)
+
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.unitprice * item.quantity,
+    0
+  );
+
+  const shippingFee = subtotal > 100 ? 0 : 10; // Example: free shipping over $100
+  const total = subtotal + shippingFee;
 
   const footerRef = useRef<HTMLDivElement>(null);
 
@@ -29,6 +40,27 @@ export default function CheckoutPage() {
     setUsingSaved(false); // deselect saved if user starts typing
     setFormValues(prev => ({ ...prev, [field]: value }));
   };
+
+  const handleConfirmOrder = async () => {
+  setIsConfirming(true);
+  try {
+    await createOrder({
+      cart_id: cartItems[0].cart_id,
+      street_address: shippingAddress!.street,
+      apt_no: shippingAddress!.apt,
+      phone_number: shippingAddress!.phone,
+      city: shippingAddress!.city,
+      state: shippingAddress!.province,
+      postal_code: shippingAddress!.postalCode,
+      country: shippingAddress!.country,
+    });
+    setStep(3);
+  } catch {
+    toast.error("Failed to place order. Please try again.");
+  } finally {
+    setIsConfirming(false);
+  }
+};
 
   const handleUseAddress = () => {
     const newValue = !usingSaved;
@@ -41,9 +73,17 @@ export default function CheckoutPage() {
   };
 
   const handleContinue = () => {
-    const address = usingSaved ? savedAddress! : formValues as Address;
-    setShippingAddress(address);
-    setStep(2);
+     if (!usingSaved) {
+    const { phone, email, street, city, province, country, postalCode } = formValues;
+    if (!phone || !email || !street || !city || !province || !country || !postalCode) {
+      toast.error("Please fill in all required fields before continuing.");
+      return;
+    }
+  }
+
+  const address = usingSaved ? savedAddress! : formValues as Address;
+  setShippingAddress(address);
+  setStep(2);
   };
 
   return (
@@ -92,14 +132,14 @@ export default function CheckoutPage() {
 
                 {/* Right — saved address (30%) */}
                 {savedAddress && (
-                <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-6 sm:p-8
+                  <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-6 sm:p-8
                   bg-white border-b lg:border-b-0 lg:border-t-0 border-[#e8e8e8]">
-                  <SavedAddressCard
-                    address={savedAddress}
-                    isSelected={usingSaved}
-                    onUseAddress={handleUseAddress}
-                  />
-                </div>
+                    <SavedAddressCard
+                      address={savedAddress}
+                      isSelected={usingSaved}
+                      onUseAddress={handleUseAddress}
+                    />
+                  </div>
                 )}
 
               </div>
@@ -138,32 +178,15 @@ export default function CheckoutPage() {
         )}
 
         {currentStep === 2 && (
-          <motion.div key="step-2"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
-            className="border border-[#e8e8e8] rounded-2xl p-10 text-center"
-          >
-            <p className="text-[18px] font-semibold text-[#1a1a1a]"
-              style={{ fontFamily: '"Expletus Sans", serif' }}>
-              Review
-            </p>
-            <p className="text-[13px] text-[#8a8a8a] mt-2"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
-              Order review coming soon.
-            </p>
-            <div className="flex justify-between mt-8">
-              <button onClick={() => setStep(1)}
-                className="text-[13px] text-[#5a5a5a] hover:text-[#1a1a1a] transition-colors"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
-                ‹ Back
-              </button>
-              <button onClick={() => setStep(3)}
-                className="px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
-                  tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
-                Continue ›
-              </button>
-            </div>
+          <motion.div key="step-2">
+            <ReviewOrder
+              items={cartItems}         // pass from your cart state
+              address={shippingAddress!}             // pass from your checkout state
+              subtotal={subtotal}
+              shippingFee={shippingFee}
+              total={total}
+              onConfirmOrder={handleConfirmOrder}
+            />
           </motion.div>
         )}
 

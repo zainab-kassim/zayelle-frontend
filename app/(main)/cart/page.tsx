@@ -5,14 +5,14 @@ import CartItems from "@/components/ui/CartItems";
 import { getCartItems } from "@/services/cart.service";
 import OrderSummary from "@/components/ui/OrderSummary";
 import { useRouter } from "next/navigation";
-import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
 import { deleteCartItem, updateCartQuantity } from "@/services/cart.service";
 import { toast } from "sonner";
+import { useCheckoutStore } from "@/store/checkoutStore";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { cartItems, setCartItems } = useCheckoutStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -57,8 +57,7 @@ export default function CartPage() {
   }
 
   const handleUpdateQuantity = (id: number, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
+    setCartItems(cartItems.map((item) =>
         item.id === id ? { ...item, quantity } : item
       )
     );
@@ -68,7 +67,7 @@ export default function CartPage() {
   const handleDeleteItem = async (id: number) => {
     try {
       await deleteCartItem(id);
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      setCartItems(cartItems.filter((item) => item.id !== id));
     } catch (err) {
       toast.error("Failed to remove item");
     }
