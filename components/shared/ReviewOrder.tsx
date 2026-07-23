@@ -4,6 +4,8 @@
 import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import { Address } from "@/store/checkoutStore";
+import { useCurrencyStore } from "@/store/currencyStore";
+
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface ReviewOrderProps {
@@ -12,6 +14,7 @@ interface ReviewOrderProps {
   subtotal: number;
   shippingFee: number;
   total: number;
+  isConfirming: boolean;
   onConfirmOrder: () => void;
   isLoading?: boolean;
 }
@@ -28,7 +31,7 @@ function ReviewItem({ item }: { item: CartItem }) {
       >
         {product.image![0] && (
           <Image
-            src={product.image! [0]}
+            src={product.image![0]}
             alt={product.name}
             width={90}
             height={100}
@@ -70,6 +73,7 @@ export default function ReviewOrder({
   shippingFee,
   total,
   onConfirmOrder,
+  isConfirming,
   isLoading = false,
 }: ReviewOrderProps) {
 
@@ -79,6 +83,7 @@ export default function ReviewOrder({
     address.country,
     address.postalCode,
   ].filter(Boolean);
+   const currency = useCurrencyStore((state) => state.currency);
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -177,7 +182,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                ${subtotal.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}{subtotal.toFixed(2)}
               </p>
             </div>
 
@@ -189,7 +194,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                ${shippingFee.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}{shippingFee.toFixed(2)}
               </p>
             </div>
 
@@ -201,14 +206,14 @@ export default function ReviewOrder({
               </p>
               <p className="text-[15px] font-bold text-[#1a1a1a]"
                 style={{ fontFamily: '"Expletus Sans", serif' }}>
-                ${total.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}{total.toFixed(2)}
               </p>
             </div>
 
             {/* Confirm button */}
             <button
               onClick={onConfirmOrder}
-              disabled={isLoading}
+              disabled={isLoading || !items || isConfirming || items.length === 0}
               className="w-full py-3.5 bg-[#1a1a1a] text-white text-[12px]
                 font-semibold tracking-[0.22em] uppercase rounded-md
                 hover:bg-[#333] transition-all duration-300

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrencyStore } from "@/store/currencyStore";
+import { useCheckoutStore } from "@/store/checkoutStore";
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -9,6 +10,8 @@ interface OrderSummaryProps {
 
 export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps) {
    const currency = useCurrencyStore((state) => state.currency);
+   const cartItems = useCheckoutStore((state) => state.cartItems);
+
   return (
     <div
       className="rounded-xl p-6 flex flex-col gap-4"
@@ -48,14 +51,12 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
       </p>
 
       {/* Checkout button */}
-      <button
+      <button disabled={!cartItems || cartItems.length === 0}
         onClick={onCheckout}
-        className="
-          w-full py-3.5 bg-[#1a1a1a] text-white
+        className='w-full py-3.5 disabled:bg-[#cccccc] bg-[#1a1a1a] text-white
           text-[11px] font-semibold tracking-[0.22em] uppercase
           rounded-md transition-all duration-300
-          hover:bg-[#333]
-        "
+          hover:bg-[#333]'
         style={{ fontFamily: "Cairo, sans-serif" }}
       >
         Confirm Order

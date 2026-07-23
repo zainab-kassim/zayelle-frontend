@@ -1,7 +1,7 @@
 // app/checkout/page.tsx
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore, Address } from "@/store/checkoutStore";
@@ -11,6 +11,8 @@ import SavedAddressCard from "@/components/shared/checkout/SavedAddressCard";
 import ReviewOrder from "@/components/shared/ReviewOrder";
 import {toast} from 'sonner';
 import { createOrder } from "@/services/order.service";
+import {useCurrencyStore} from "@/store/currencyStore";
+import { getCartItems } from "@/services/cart.service";
 
 const EMPTY_ADDRESS: Address = {
   firstName: "", lastName: "", phone: "", email: "",
@@ -20,21 +22,35 @@ const EMPTY_ADDRESS: Address = {
 
 export default function CheckoutPage() {
   const router = useRouter();
-const { currentStep, savedAddress, shippingAddress, cartItems, setStep, setShippingAddress } = useCheckoutStore();
+const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [saveAddress, setSaveAddress] = useState(false);
   const [usingSaved, setUsingSaved] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false)
+  const currency = useCurrencyStore();
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.unitprice * item.quantity,
     0
   );
 
+
   const shippingFee = subtotal > 100 ? 0 : 10; // Example: free shipping over $100
   const total = subtotal + shippingFee;
 
   const footerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const cartItems = await getCartItems();
+        setCartItems(cartItems);
+      } catch(error) {
+        
+      }
+    }
+    fetchCartItems();
+  }, [currency]);
 
   const handleFieldChange = (field: keyof Address, value: string) => {
     setUsingSaved(false); // deselect saved if user starts typing
@@ -61,6 +77,8 @@ const { currentStep, savedAddress, shippingAddress, cartItems, setStep, setShipp
     setIsConfirming(false);
   }
 };
+
+
 
   const handleUseAddress = () => {
     const newValue = !usingSaved;
@@ -161,12 +179,12 @@ const { currentStep, savedAddress, shippingAddress, cartItems, setStep, setShipp
                 </button>
 
                 {/* Continue to Review — full width + centered on mobile */}
-                <button
+                <button disabled={ !cartItems || cartItems.length === 0}
                   onClick={handleContinue}
-                  className="w-full lg:w-auto flex items-center justify-center gap-2
+                  className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
                     px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
                     tracking-[0.2em] uppercase rounded-lg hover:bg-[#333]
-                    transition-all duration-300"
+                    transition-all duration-300'
                   style={{ fontFamily: "Cairo, sans-serif" }}
                 >
                   Continue to Review
@@ -186,6 +204,7 @@ const { currentStep, savedAddress, shippingAddress, cartItems, setStep, setShipp
               shippingFee={shippingFee}
               total={total}
               onConfirmOrder={handleConfirmOrder}
+              isConfirming={isConfirming}
             />
           </motion.div>
         )}
