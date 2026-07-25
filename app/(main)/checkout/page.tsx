@@ -187,7 +187,7 @@ const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setS
                     transition-all duration-300'
                   style={{ fontFamily: "Cairo, sans-serif" }}
                 >
-                  Continue to Review
+                 Confirm order
                 </button>
               </div>
 
