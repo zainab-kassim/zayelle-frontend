@@ -9,9 +9,9 @@ import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import SavedAddressCard from "@/components/shared/checkout/SavedAddressCard";
 import ReviewOrder from "@/components/shared/ReviewOrder";
-import {toast} from 'sonner';
+import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
-import {useCurrencyStore} from "@/store/currencyStore";
+import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
 
 const EMPTY_ADDRESS: Address = {
@@ -22,7 +22,7 @@ const EMPTY_ADDRESS: Address = {
 
 export default function CheckoutPage() {
   const router = useRouter();
-const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
+  const { currentStep, savedAddress, shippingAddress, setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [saveAddress, setSaveAddress] = useState(false);
   const [usingSaved, setUsingSaved] = useState(false);
@@ -45,8 +45,8 @@ const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setS
       try {
         const cartItems = await getCartItems();
         setCartItems(cartItems);
-      } catch(error) {
-        
+      } catch (error) {
+
       }
     }
     fetchCartItems();
@@ -58,25 +58,26 @@ const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setS
   };
 
   const handleConfirmOrder = async () => {
-  setIsConfirming(true);
-  try {
-    await createOrder({
-      cart_id: cartItems[0].cart_id,
-      street_address: shippingAddress!.street,
-      apt_no: shippingAddress!.apt,
-      phone_number: shippingAddress!.phone,
-      city: shippingAddress!.city,
-      state: shippingAddress!.province,
-      postal_code: shippingAddress!.postalCode,
-      country: shippingAddress!.country,
-    });
-    setStep(3);
-  } catch {
-    toast.error("Failed to place order. Please try again.");
-  } finally {
-    setIsConfirming(false);
-  }
-};
+    setIsConfirming(true);
+    try {
+      await createOrder({
+        cart_id: cartItems[0].id,
+        street_address: shippingAddress!.street,
+        apt_no: shippingAddress!.apt,
+        phone_number: shippingAddress!.phone,
+        city: shippingAddress!.city,
+        state: shippingAddress!.province,
+        postal_code: shippingAddress!.postalCode,
+        country: shippingAddress!.country,
+      });
+      toast.success("Order created successfully");
+      setStep(2);
+    } catch(eror) {
+      toast.error("Failed to place order. Please try again.");
+    } finally {
+      setIsConfirming(false);
+    }
+  };
 
 
 
@@ -91,17 +92,17 @@ const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setS
   };
 
   const handleContinue = () => {
-     if (!usingSaved) {
-    const { phone, email, street, city, province, country, postalCode } = formValues;
-    if (!phone || !email || !street || !city || !province || !country || !postalCode) {
-      toast.error("Please fill in all required fields before continuing.");
-      return;
+    if (!usingSaved) {
+      const { phone, email, street, city, province, country, postalCode } = formValues;
+      if (!phone || !email || !street || !city || !province || !country || !postalCode) {
+        toast.error("Please fill in all required fields before continuing.");
+        return;
+      }
     }
-  }
 
-  const address = usingSaved ? savedAddress! : formValues as Address;
-  setShippingAddress(address);
-  setStep(2);
+    const address = usingSaved ? savedAddress! : formValues as Address;
+    setShippingAddress(address);
+    setStep(2);
   };
 
   return (
@@ -179,15 +180,15 @@ const { currentStep, savedAddress, shippingAddress,setCartItems, cartItems, setS
                 </button>
 
                 {/* Continue to Review — full width + centered on mobile */}
-                <button disabled={ !cartItems || cartItems.length === 0}
-                  onClick={handleContinue}
+                <button disabled={!cartItems || cartItems.length === 0}
+                  onClick={handleConfirmOrder}
                   className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
                     px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
                     tracking-[0.2em] uppercase rounded-lg hover:bg-[#333]
                     transition-all duration-300'
                   style={{ fontFamily: "Cairo, sans-serif" }}
                 >
-                 Confirm order
+                  Confirm order
                 </button>
               </div>
 
