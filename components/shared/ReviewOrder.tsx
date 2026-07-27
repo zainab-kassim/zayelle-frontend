@@ -3,19 +3,33 @@
 
 import Image from "next/image";
 import { CartItem } from "@/types/cart";
-import { Address } from "@/store/checkoutStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 
 
+
 // ─── Types ────────────────────────────────────────────────────────────────────
+interface OrderDetails{
+  id:number;
+  street_address: string;
+  totalLocal:number;
+  apt_no: string;
+  city: string;
+  state: string;
+  country: string;
+  postal_code: string;
+  phone_number: string;
+  user_id: {
+    id: number;
+    email: string;
+    firstname: string;
+  };
+}
+
 interface ReviewOrderProps {
   items: CartItem[];
-  address: Address;
-  subtotal: number;
-  shippingFee: number;
-  total: number;
-  isConfirming: boolean;
-  onConfirmOrder: () => void;
+  OrderDetails: OrderDetails;
+  isPaying: boolean;
+  onPayment: () => void;
   isLoading?: boolean;
 }
 
@@ -68,20 +82,17 @@ function ReviewItem({ item }: { item: CartItem }) {
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function ReviewOrder({
   items,
-  address,
-  subtotal,
-  shippingFee,
-  total,
-  onConfirmOrder,
-  isConfirming,
+  OrderDetails,
+  onPayment,
+  isPaying,
   isLoading = false,
 }: ReviewOrderProps) {
 
   const formattedAddress = [
-    [address.street, address.apt].filter(Boolean).join(", "),
-    [address.city, address.province].filter(Boolean).join(", "),
-    address.country,
-    address.postalCode,
+    [OrderDetails.street_address, OrderDetails.apt_no].filter(Boolean).join(", "),
+    [OrderDetails.city, OrderDetails.state].filter(Boolean).join(", "),
+    OrderDetails.country,
+    OrderDetails.postal_code,
   ].filter(Boolean);
    const currency = useCurrencyStore((state) => state.currency);
 
@@ -148,13 +159,13 @@ export default function ReviewOrder({
                 className="text-[12px] text-[#5a5a5a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}
               >
-                {address.phone}
+                {OrderDetails.phone_number}
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}
               >
-                {address.email}
+                {OrderDetails.user_id.email}
               </p>
             </div>
           </div>
@@ -182,7 +193,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {currency === 'NGN' ? '₦' : '$'}{subtotal.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}{OrderDetails.totalLocal.toFixed(2)}
               </p>
             </div>
 
@@ -194,7 +205,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {currency === 'NGN' ? '₦' : '$'}{shippingFee.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}500
               </p>
             </div>
 
@@ -206,21 +217,21 @@ export default function ReviewOrder({
               </p>
               <p className="text-[15px] font-bold text-[#1a1a1a]"
                 style={{ fontFamily: '"Expletus Sans", serif' }}>
-                {currency === 'NGN' ? '₦' : '$'}{total.toFixed(2)}
+                {currency === 'NGN' ? '₦' : '$'}{OrderDetails.totalLocal.toFixed(2)}
               </p>
             </div>
 
             {/* Confirm button */}
             <button
-              onClick={onConfirmOrder}
-              disabled={isLoading || !items || isConfirming || items.length === 0}
+              onClick={onPayment}
+              disabled={isLoading || !items || isPaying || items.length === 0}
               className="w-full py-3.5 bg-[#1a1a1a] text-white text-[12px]
                 font-semibold tracking-[0.22em] uppercase rounded-md
                 hover:bg-[#333] transition-all duration-300
                 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ fontFamily: "Cairo, sans-serif" }}
             >
-              {isLoading ? "Placing Order..." : "Confirm Order"}
+              {isLoading ? "Payment Processing..." : "Proceed to Payment"}
             </button>
           </div>
         </div>

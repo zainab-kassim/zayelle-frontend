@@ -8,8 +8,6 @@ import { toast } from 'sonner';
 interface AddressFormProps {
   values: Partial<Address>;
   onChange: (field: keyof Address, value: string) => void;
-  saveAddress: boolean;
-  onSaveAddressChange: (value: boolean) => void;
 }
 
 function Field({
@@ -69,7 +67,7 @@ const REGIONS: Record<string, string[]> = {
 };
 
 export default function AddressForm({
-  values, onChange, saveAddress, onSaveAddressChange,
+  values, onChange
 }: AddressFormProps) {
   // ── Country dropdown ───────────────────────────────────────
   const [countryOpen, setCountryOpen] = useState(false);
@@ -319,17 +317,6 @@ export default function AddressForm({
             )}
           </div>
         </div>
-
-        {/* Save checkbox */}
-        <label className="flex items-center gap-2.5 cursor-pointer mt-1">
-          <input type="checkbox" checked={saveAddress}
-            onChange={(e) => onSaveAddressChange(e.target.checked)}
-            className="w-4 h-4 rounded border border-[#d0d0d0] accent-[#1a1a1a]" />
-          <span className="text-[12px] text-[#5a5a5a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}>
-            Save this address for faster checkout next time
-          </span>
-        </label>
       </div>
     </div>
   );

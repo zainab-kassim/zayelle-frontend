@@ -9,7 +9,7 @@ interface CheckoutProgressProps {
 
 const STEPS = [
   { number: 1, label: "Address" },
-  { number: 2, label: "Review" },
+  { number: 2, label: "Payment" },
   { number: 3, label: "Confirm" },
 ];
 

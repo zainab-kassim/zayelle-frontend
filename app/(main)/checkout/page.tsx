@@ -20,13 +20,36 @@ const EMPTY_ADDRESS: Address = {
   province: "", country: "",
 };
 
+interface OrderResponse {
+  message: string;
+  order: {
+    id: number;
+    cart_id: number;
+    total_price: number;
+    totalLocal: number;
+    status: string;
+    phone_number: string;
+    street_address: string;
+    apt_no: string;
+    city: string;
+    state: string;
+    country: string;
+    postal_code: string;
+    user_id: {
+      id: number;
+      email: string;
+      firstname: string;
+    };
+  };
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
-  const { currentStep, savedAddress, shippingAddress, setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
+  const { currentStep, savedAddress, setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
-  const [saveAddress, setSaveAddress] = useState(false);
   const [usingSaved, setUsingSaved] = useState(false);
-  const [isConfirming, setIsConfirming] = useState(false)
+  const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
+  const [ispaying, setIspaying] = useState(false)
   const currency = useCurrencyStore();
 
   const subtotal = cartItems.reduce(
@@ -57,29 +80,48 @@ export default function CheckoutPage() {
     setFormValues(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleContinue = (): Address | null => {
+    if (!usingSaved) {
+      const { phone, email, street, city, province, country, postalCode } = formValues;
+      if (!phone || !email || !street || !city || !province || !country || !postalCode) {
+        toast.error("Please fill in all required fields before continuing.");
+        return null;
+      }
+    }
+    const address = usingSaved ? savedAddress! : (formValues as Address);
+    setShippingAddress(address);
+    return address;
+  };
+
   const handleConfirmOrder = async () => {
-    setIsConfirming(true);
+    const address = handleContinue();
+    if (!address) return; // validation failed, toast already shown, don't proceed
+    setIspaying(true);
     try {
-      await createOrder({
-        cart_id: cartItems[0].id,
-        street_address: shippingAddress!.street,
-        apt_no: shippingAddress!.apt,
-        phone_number: shippingAddress!.phone,
-        city: shippingAddress!.city,
-        state: shippingAddress!.province,
-        postal_code: shippingAddress!.postalCode,
-        country: shippingAddress!.country,
+      const response = await createOrder({
+        cart_id: cartItems[0].cart_id,
+        street_address: address.street,
+        apt_no: address.apt,
+        phone_number: address.phone,
+        city: address.city,
+        state: address.province,
+        postal_code: address.postalCode,
+        country: address.country,
       });
+      setOrderResponse(response);
+
       toast.success("Order created successfully");
       setStep(2);
-    } catch(eror) {
+    } catch (error) {
       toast.error("Failed to place order. Please try again.");
     } finally {
-      setIsConfirming(false);
+      setIspaying(false);
     }
   };
 
-
+  const handlePayment = () => {
+    toast.success('successlful')
+  }
 
   const handleUseAddress = () => {
     const newValue = !usingSaved;
@@ -91,19 +133,6 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleContinue = () => {
-    if (!usingSaved) {
-      const { phone, email, street, city, province, country, postalCode } = formValues;
-      if (!phone || !email || !street || !city || !province || !country || !postalCode) {
-        toast.error("Please fill in all required fields before continuing.");
-        return;
-      }
-    }
-
-    const address = usingSaved ? savedAddress! : formValues as Address;
-    setShippingAddress(address);
-    setStep(2);
-  };
 
   return (
     <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
@@ -144,8 +173,6 @@ export default function CheckoutPage() {
                   <AddressForm
                     values={formValues}
                     onChange={handleFieldChange}
-                    saveAddress={saveAddress}
-                    onSaveAddressChange={setSaveAddress}
                   />
                 </div>
 
@@ -199,13 +226,10 @@ export default function CheckoutPage() {
         {currentStep === 2 && (
           <motion.div key="step-2">
             <ReviewOrder
-              items={cartItems}         // pass from your cart state
-              address={shippingAddress!}             // pass from your checkout state
-              subtotal={subtotal}
-              shippingFee={shippingFee}
-              total={total}
-              onConfirmOrder={handleConfirmOrder}
-              isConfirming={isConfirming}
+              items={cartItems}
+              OrderDetails={orderResponse!.order}
+              isPaying={ispaying}
+              onPayment={handlePayment}
             />
           </motion.div>
         )}
