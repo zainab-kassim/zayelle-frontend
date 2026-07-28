@@ -73,7 +73,7 @@ export default function CheckoutPage() {
       }
     }
     fetchCartItems();
-  }, [currency]);
+  }, []);
 
   const handleFieldChange = (field: keyof Address, value: string) => {
     setUsingSaved(false); // deselect saved if user starts typing

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCurrencyStore } from '@/store/currencyStore';
 import { Logout } from '@/services/auth.service';
 import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
 
 const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
@@ -20,6 +21,7 @@ const CURRENCY_ICONS: Record<string, string> = {
 
 export default function Navbar() {
     const router = useRouter();
+    const pathname = usePathname();
     const [firstName, setFirstName] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -137,6 +139,7 @@ export default function Navbar() {
                                         <div className="relative">
                                             <button
                                                 onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
+                                                 disabled={pathname === '/checkout'}
                                                 className="w-full flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
                                                 style={{ fontFamily: "'Cairo', sans-serif" }}
                                             >
@@ -157,6 +160,7 @@ export default function Navbar() {
                                                     <Image
                                                         src="https://img.icons8.com/?size=100&id=99991&format=png&color=000000"
                                                         alt="Chevron"
+                                                        className={`${pathname === '/checkout' && 'hidden'}`}
                                                         width={11}
                                                         height={11}
                                                     />
