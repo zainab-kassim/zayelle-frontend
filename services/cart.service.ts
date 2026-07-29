@@ -19,6 +19,6 @@ export const deleteCartItem = async (id: number) => {
 }
 
 export const updateCartQuantity = async (id: number, quantity: number) => {
-  const response = await axiosInstance.put('/cart//updatequantity', { cartitemid: id, quantity });
+  const response = await axiosInstance.put('/cart/updatequantity', { cartitemid: id, quantity });
   return response.data.message;
 }

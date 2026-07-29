@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, use, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore, Address } from "@/store/checkoutStore";
 import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
+import { InitializePayment , VerifyPayment} from "@/services/payment.service";
 
 const EMPTY_ADDRESS: Address = {
   firstName: "", lastName: "", phone: "", email: "",
@@ -62,6 +63,33 @@ export default function CheckoutPage() {
   const total = subtotal + shippingFee;
 
   const footerRef = useRef<HTMLDivElement>(null);
+
+
+
+const searchParams = useSearchParams();
+
+useEffect(() => {
+  const reference = searchParams.get("reference"); // confirm exact param name with your backend
+  if (!reference) return;
+
+  const confirmPayment = async () => {
+    try {
+      const result = await VerifyPayment(reference); // calls your backend
+      if (result.status === "success") {
+        setStep(3);
+      } else {
+        toast.error(`${result.message}`);
+      }
+    } catch (error) {
+      toast.error("Something went wrong confirming your payment.");
+    } finally {
+      // clean the reference out of the URL so a refresh doesn't re-trigger this
+      router.replace("/checkout");
+    }
+  };
+
+  confirmPayment();
+}, [searchParams]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -119,9 +147,17 @@ export default function CheckoutPage() {
     }
   };
 
-  const handlePayment = () => {
-    toast.success('successlful')
-  }
+  const handlePayment = async () => {
+    if (!orderResponse) return (
+      toast.error('Order not found, Please try agai')
+    )
+    try {
+      const response = await InitializePayment(orderResponse.order.id);
+      window.location.href = response.auth_url;
+    } catch (error) {
+      toast.error("Failed to initialize payment. Please try again.");
+    }
+  };
 
   const handleUseAddress = () => {
     const newValue = !usingSaved;

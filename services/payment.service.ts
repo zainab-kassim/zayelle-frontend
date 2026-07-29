@@ -1,0 +1,18 @@
+import axiosInstance from "@/lib/axiosInstance";
+
+
+export const InitializePayment = async (order_id: number) => {
+  const response = await axiosInstance.post("/payment/paystack/initialize", {
+    order_id,
+  });
+
+  return response.data;
+};
+
+export const VerifyPayment = async (reference: string) => {
+  const response = await axiosInstance.post(
+    `/payment/paystack/verify/${reference}`
+  );
+
+  return response.data;
+};
