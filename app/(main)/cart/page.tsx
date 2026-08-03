@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { useCheckoutStore } from "@/store/checkoutStore";
 
 export default function CartPage() {
-  const { cartItems, setCartItems } = useCheckoutStore();
+  const { cartItems, setCartItems, resetCheckout } = useCheckoutStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -79,6 +79,7 @@ export default function CartPage() {
       await Promise.all(
         cartItems.map((item) => updateCartQuantity(item.id, item.quantity))
       );
+      resetCheckout();
       router.push("/checkout");
     } catch (err) {
       toast.error("Failed to update order");

@@ -21,35 +21,20 @@ const EMPTY_ADDRESS: Address = {
   province: "", country: "",
 };
 
-interface OrderResponse {
-  message: string;
-  order: {
-    id: number;
-    cart_id: number;
-    total_price: number;
-    totalLocal: number;
-    status: string;
-    phone_number: string;
-    street_address: string;
-    apt_no: string;
-    city: string;
-    state: string;
-    country: string;
-    postal_code: string;
-    user_id: {
-      id: number;
-      email: string;
-      firstname: string;
-    };
-  };
-}
-
 export default function CheckoutContent() {
   const router = useRouter();
-  const { currentStep, savedAddress, setCartItems, cartItems, setStep, setShippingAddress } = useCheckoutStore();
+  const {
+    currentStep,
+    orderResponse,
+    savedAddress,
+    setCartItems,
+    cartItems,
+    setShippingAddress,
+    advanceToReview,
+    confirmPaymentSuccess,
+  } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [usingSaved, setUsingSaved] = useState(false);
-  const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(null);
   const [ispaying, setIspaying] = useState(false)
   const currency = useCurrencyStore();
 
@@ -77,7 +62,7 @@ useEffect(() => {
     try {
       const result = await VerifyPayment(reference); // calls your backend
       if (result.status === "success") {
-        setStep(3);
+        confirmPaymentSuccess();
       } else {
         toast.error(`${result.message}`);
       }
@@ -137,10 +122,9 @@ useEffect(() => {
         postal_code: address.postalCode,
         country: address.country,
       });
-      setOrderResponse(response);
+      advanceToReview(response);
 
       toast.success("Order created successfully");
-      setStep(2);
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
     } finally {
