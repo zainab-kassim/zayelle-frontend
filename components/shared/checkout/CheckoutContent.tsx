@@ -36,6 +36,7 @@ export default function CheckoutContent() {
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [usingSaved, setUsingSaved] = useState(false);
   const [ispaying, setIspaying] = useState(false)
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const currency = useCurrencyStore();
 
   const subtotal = cartItems.reduce(
@@ -54,20 +55,24 @@ export default function CheckoutContent() {
 const searchParams = useSearchParams();
 
 useEffect(() => {
-  const reference = searchParams.get("reference"); // confirm exact param name with your backend
-  console.log("Reference:", reference);
+  const reference = searchParams.get("reference") ?? searchParams.get("trxref");
   if (!reference) return;
 
   const confirmPayment = async () => {
     try {
-      const result = await VerifyPayment(reference); // calls your backend
+      const result = await VerifyPayment(reference);
       if (result.status === "success") {
+        setConfirmationMessage(result.message || "Your payment was successful.");
         confirmPaymentSuccess();
+      } else if (result.status === "pending") {
+        toast(result.message || "Your payment is still processing.");
       } else {
-        toast.error(`${result.message}`);
+        toast.error(result.message || "Payment could not be confirmed.");
       }
-    } catch (error) {
-      toast.error("Something went wrong confirming your payment.");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong confirming your payment."
+      );
     } finally {
       // clean the reference out of the URL so a refresh doesn't re-trigger this
       router.replace("/checkout");
@@ -270,8 +275,14 @@ useEffect(() => {
             </p>
             <p className="text-[13px] text-[#8a8a8a] mt-2"
               style={{ fontFamily: "Cairo, sans-serif" }}>
-              Order confirmation coming soon.
+              {confirmationMessage || "Your order has been confirmed."}
             </p>
+            {orderResponse?.order?.id && (
+              <p className="text-[12px] text-[#8a8a8a] mt-1"
+                style={{ fontFamily: "Cairo, sans-serif" }}>
+                Order #{orderResponse.order.id}
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
