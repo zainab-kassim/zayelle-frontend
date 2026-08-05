@@ -14,6 +14,7 @@ import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
 import { InitializePayment , VerifyPayment} from "@/services/payment.service";
+import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
   firstName: "", lastName: "", phone: "", email: "",
@@ -53,6 +54,9 @@ export default function CheckoutContent() {
 
 
 const searchParams = useSearchParams();
+const [isVerifyingPayment, setIsVerifyingPayment] = useState(
+  Boolean(searchParams.get("reference") ?? searchParams.get("trxref"))
+);
 
 useEffect(() => {
   const reference = searchParams.get("reference") ?? searchParams.get("trxref");
@@ -74,6 +78,7 @@ useEffect(() => {
         error?.response?.data?.message || "Something went wrong confirming your payment."
       );
     } finally {
+      setIsVerifyingPayment(false);
       // clean the reference out of the URL so a refresh doesn't re-trigger this
       router.replace("/checkout");
     }
@@ -168,6 +173,21 @@ useEffect(() => {
 
       {/* Step content */}
       <AnimatePresence mode="wait">
+        {isVerifyingPayment ? (
+          <motion.div key="verifying"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="border border-[#e8e8e8] rounded-2xl p-16 text-center flex flex-col items-center gap-4"
+          >
+            <div className="w-14 h-14 rounded-full bg-[#1a1a1a] flex items-center justify-center">
+              <Loader />
+            </div>
+            <p className="text-[13px] text-[#5a5a5a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+              Confirming your payment…
+            </p>
+          </motion.div>
+        ) : (
+        <>
         {currentStep === 1 && (
           <motion.div
             key="step-1"
@@ -284,6 +304,8 @@ useEffect(() => {
               </p>
             )}
           </motion.div>
+        )}
+        </>
         )}
       </AnimatePresence>
 
