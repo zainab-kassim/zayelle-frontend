@@ -2,6 +2,7 @@
 
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useCheckoutStore } from "@/store/checkoutStore";
+import { getCurrencySymbol } from "@/lib/currency";
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -38,7 +39,7 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
         <span
           className="text-[16px] font-semibold text-[#1a1a1a]"
         >
-          {currency === 'NGN' ? '₦' : '$'}{subtotal.toFixed(2)}
+          {getCurrencySymbol(currency)}{subtotal.toFixed(2)}
         </span>
       </div>
 

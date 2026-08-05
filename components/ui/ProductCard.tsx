@@ -1,6 +1,7 @@
 'use client';
 
 import { useCurrencyStore } from '@/store/currencyStore';
+import { getCurrencySymbol } from '@/lib/currency';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import AddToCartButtonPlusIcon from './AddtoCartButtonPlusIcon';
@@ -55,7 +56,7 @@ const currency = useCurrencyStore((state) => state.currency);
                 <div
                     className=" text-[12px] md:text-[18px] lg:text-[20px] font-bold text-black"
                 >
-                    {currency === 'NGN' ? '₦' : '$'}{price}
+                    {getCurrencySymbol(currency)}{price}
                 </div>
 
                 {/* Name */}

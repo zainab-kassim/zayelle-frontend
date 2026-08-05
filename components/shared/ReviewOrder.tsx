@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
+import { getCurrencySymbol } from "@/lib/currency";
 
 
 
@@ -193,7 +194,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {currency === 'NGN' ? '₦' : '$'}{OrderDetails.totalLocal.toFixed(2)}
+                {getCurrencySymbol(currency)}{OrderDetails.totalLocal.toFixed(2)}
               </p>
             </div>
 
@@ -205,7 +206,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {currency === 'NGN' ? '₦' : '$'}500
+                {getCurrencySymbol(currency)}500
               </p>
             </div>
 
@@ -217,7 +218,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[15px] font-bold text-[#1a1a1a]"
                 style={{ fontFamily: '"Expletus Sans", serif' }}>
-                {currency === 'NGN' ? '₦' : '$'}{OrderDetails.totalLocal.toFixed(2)}
+                {getCurrencySymbol(currency)}{OrderDetails.totalLocal.toFixed(2)}
               </p>
             </div>
 

@@ -4,6 +4,7 @@ import SizeSelector from "../../ui/SizeSelector";
 import QuantitySelector from "../../ui/QuantitySelector";
 import { Product } from "@/types/product";
 import { useCurrencyStore } from "@/store/currencyStore";
+import { getCurrencySymbol } from "@/lib/currency";
 
 interface ProductInfoProps {
   product: Product;
@@ -36,7 +37,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
         style={{ fontFamily: '"Expletus Sans", serif' }}
       >
 
-        {currency === 'NGN' ? '₦' : '$'}{product.price}
+        {getCurrencySymbol(currency)}{product.price}
       </p>
 
       {/* Description */}

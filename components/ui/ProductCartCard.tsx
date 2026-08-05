@@ -4,6 +4,7 @@ import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import CartQuantitySelector from "./CartQuantitySelector";
 import { useCurrencyStore } from "@/store/currencyStore";
+import { getCurrencySymbol } from "@/lib/currency";
 
 interface ProductCartCardProps {
     CartItem: CartItem;
@@ -67,7 +68,7 @@ export default function ProductCartCard({
                     className=" text-[13px] md:text-[16px] font-semibold text-[#1a1a1a] mt-1"
                     style={{ fontFamily: '"Expletus Sans", serif' }}
                 >
-                    {currency === 'NGN' ? '₦' : '$'}{totalItemPrice.toFixed(2)}
+                    {getCurrencySymbol(currency)}{totalItemPrice.toFixed(2)}
                 </p>
 
                 {/* Quantity selector */}
