@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
-import { getCurrencySymbol } from "@/lib/currency";
+import { formatPrice } from "@/lib/currency";
 
 
 
@@ -194,7 +194,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {getCurrencySymbol(currency)}{OrderDetails.totalLocal.toFixed(2)}
+                {formatPrice(OrderDetails.totalLocal, currency)}
               </p>
             </div>
 
@@ -206,7 +206,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}>
-                {getCurrencySymbol(currency)}500
+                {formatPrice(500, currency)}
               </p>
             </div>
 
@@ -218,7 +218,7 @@ export default function ReviewOrder({
               </p>
               <p className="text-[15px] font-bold text-[#1a1a1a]"
                 style={{ fontFamily: '"Expletus Sans", serif' }}>
-                {getCurrencySymbol(currency)}{OrderDetails.totalLocal.toFixed(2)}
+                {formatPrice(OrderDetails.totalLocal, currency)}
               </p>
             </div>
 
