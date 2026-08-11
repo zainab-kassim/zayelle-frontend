@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter,useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore, Address } from "@/store/checkoutStore";
 import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
-import { InitializePayment , VerifyPayment} from "@/services/payment.service";
+import { InitializePayment, VerifyPayment } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
@@ -32,13 +32,18 @@ export default function CheckoutContent() {
     cartItems,
     setShippingAddress,
     advanceToReview,
-    confirmPaymentSuccess,
+    paymentStatus,
+    paymentMessage,
+    paymentReference,
+    setPaymentReference,
+    setPaymentOutcome,
+    resetCheckout,
   } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [usingSaved, setUsingSaved] = useState(false);
   const [ispaying, setIspaying] = useState(false)
-  const [confirmationMessage, setConfirmationMessage] = useState("");
-  const currency = useCurrencyStore();
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.unitprice * item.quantity,
@@ -46,46 +51,58 @@ export default function CheckoutContent() {
   );
 
 
-  const shippingFee = subtotal > 100 ? 0 : 10; // Example: free shipping over $100
-  const total = subtotal + shippingFee;
-
   const footerRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(
+    Boolean(searchParams.get("reference") ?? searchParams.get("trxref"))
+  );
 
-
-
-const searchParams = useSearchParams();
-const [isVerifyingPayment, setIsVerifyingPayment] = useState(
-  Boolean(searchParams.get("reference") ?? searchParams.get("trxref"))
-);
-
-useEffect(() => {
-  const reference = searchParams.get("reference") ?? searchParams.get("trxref");
-  if (!reference) return;
-
-  const confirmPayment = async () => {
+  // step 3 is the single point of truth for a payment result — every outcome routes there
+  const verifyPaymentReference = async (reference: string) => {
     try {
       const result = await VerifyPayment(reference);
       if (result.status === "success") {
-        setConfirmationMessage(result.message || "Your payment was successful.");
-        confirmPaymentSuccess();
+        setPaymentOutcome("success", result.message || "Your payment was successful.");
       } else if (result.status === "pending") {
-        toast(result.message || "Your payment is still processing.");
+        setPaymentOutcome("pending", result.message || "Your payment is still processing.");
       } else {
-        toast.error(result.message || "Payment could not be confirmed.");
+        setPaymentOutcome("failed", result.message || "Payment could not be confirmed.");
       }
     } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Something went wrong confirming your payment."
+      // our own check failed, not necessarily the payment — let the user re-check rather than declaring it failed
+      setPaymentOutcome(
+        "pending",
+        error?.response?.data?.message || "We couldn't confirm your payment status. Please check again."
       );
-    } finally {
-      setIsVerifyingPayment(false);
-      // clean the reference out of the URL so a refresh doesn't re-trigger this
-      router.replace("/checkout");
     }
   };
 
-  confirmPayment();
-}, [searchParams]);
+  useEffect(() => {
+    const reference = searchParams.get("reference") ?? searchParams.get("trxref");
+    if (!reference) return;
+
+    setPaymentReference(reference);
+
+    verifyPaymentReference(reference).finally(() => {
+      setIsVerifyingPayment(false);
+      // clean the reference out of the URL so a refresh doesn't re-trigger this
+      router.replace("/checkout");
+    });
+  }, [searchParams]);
+
+  const handleCheckStatus = async () => {
+    if (!paymentReference) return;
+    setIsCheckingStatus(true);
+    try {
+      await verifyPaymentReference(paymentReference);
+    } finally {
+      setIsCheckingStatus(false);
+    }
+  };
+
+  const handleStartNewCheckout = () => {
+    resetCheckout();
+  };
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -187,125 +204,169 @@ useEffect(() => {
             </p>
           </motion.div>
         ) : (
-        <>
-        {currentStep === 1 && (
-          <motion.div
-            key="step-1"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          >
-            <div className={`border-[#e8e8e8] ${!savedAddress && 'max-w-4xl mx-auto'} border-[0.5px] rounded-2xl overflow-hidden`}>
+          <>
+            {currentStep === 1 && (
+              <motion.div
+                key="step-1"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <div className={`border-[#e8e8e8] ${!savedAddress && 'max-w-4xl mx-auto'} border-[0.5px] rounded-2xl overflow-hidden`}>
 
-              {/*
+                  {/*
                * flex-col-reverse → saved address on top on mobile
                * lg:flex-row      → side by side on desktop
                */}
-              <div className="flex flex-col-reverse lg:flex-row">
+                  <div className="flex flex-col-reverse lg:flex-row">
 
-                {/* Left — form (70%) */}
-                <div className={` ${!savedAddress ? 'w-full' : ' flex-1'} p-6 sm:p-8 lg:border-r  border-[#e8e8e8]`}>
-                  <div className="flex flex-row  items-center gap-3 mb-6">
-                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mt-0.5">
-                      <circle cx="11" cy="7" r="4" stroke="#1a1a1a" strokeWidth="1.5" />
-                      <path d="M3 19C3 15.134 6.134 12 10 12H12C15.866 12 19 15.134 19 19"
-                        stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                    <h2 className="text-[16px] font-semibold text-[#1a1a1a]">
-                      Shipping & Contact Information
-                    </h2>
-                  </div>
+                    {/* Left — form (70%) */}
+                    <div className={` ${!savedAddress ? 'w-full' : ' flex-1'} p-6 sm:p-8 lg:border-r  border-[#e8e8e8]`}>
+                      <div className="flex flex-row  items-center gap-3 mb-6">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mt-0.5">
+                          <circle cx="11" cy="7" r="4" stroke="#1a1a1a" strokeWidth="1.5" />
+                          <path d="M3 19C3 15.134 6.134 12 10 12H12C15.866 12 19 15.134 19 19"
+                            stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                        <h2 className="text-[16px] font-semibold text-[#1a1a1a]">
+                          Shipping & Contact Information
+                        </h2>
+                      </div>
 
-                  <AddressForm
-                    values={formValues}
-                    onChange={handleFieldChange}
-                  />
-                </div>
+                      <AddressForm
+                        values={formValues}
+                        onChange={handleFieldChange}
+                      />
+                    </div>
 
-                {/* Right — saved address (30%) */}
-                {savedAddress && (
-                  <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-6 sm:p-8
+                    {/* Right — saved address (30%) */}
+                    {savedAddress && (
+                      <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-6 sm:p-8
                   bg-white border-b lg:border-b-0 lg:border-t-0 border-[#e8e8e8]">
-                    <SavedAddressCard
-                      address={savedAddress}
-                      isSelected={usingSaved}
-                      onUseAddress={handleUseAddress}
-                    />
+                        <SavedAddressCard
+                          address={savedAddress}
+                          isSelected={usingSaved}
+                          onUseAddress={handleUseAddress}
+                        />
+                      </div>
+                    )}
+
                   </div>
-                )}
 
-              </div>
-
-              {/* Footer nav */}
-              <div
-                ref={footerRef}
-                className="flex items-center justify-between lg:justify-between
+                  {/* Footer nav */}
+                  <div
+                    ref={footerRef}
+                    className="flex items-center justify-between lg:justify-between
                   flex-col lg:flex-row gap-4 px-6 sm:px-8 py-5 border-t border-[#e8e8e8]"
-              >
-                {/* Back to Cart — hidden on mobile/tablet */}
-                <button
-                  onClick={() => router.push("/cart")}
-                  className="hidden lg:flex items-center gap-2 text-[13px] text-[#5a5a5a]
+                  >
+                    {/* Back to Cart — hidden on mobile/tablet */}
+                    <button
+                      onClick={() => router.push("/cart")}
+                      className="hidden lg:flex items-center gap-2 text-[13px] text-[#5a5a5a]
                     hover:text-[#1a1a1a] transition-colors duration-200"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
-                >
-                  Back to Cart
-                </button>
+                      style={{ fontFamily: "Cairo, sans-serif" }}
+                    >
+                      Back to Cart
+                    </button>
 
-                {/* Continue to Review — full width + centered on mobile */}
-                <button disabled={!cartItems || cartItems.length === 0}
-                  onClick={handleConfirmOrder}
-                  className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
+                    {/* Continue to Review — full width + centered on mobile */}
+                    <button disabled={!cartItems || cartItems.length === 0}
+                      onClick={handleConfirmOrder}
+                      className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
                     px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
                     tracking-[0.2em] uppercase rounded-lg hover:bg-[#333]
                     transition-all duration-300'
-                  style={{ fontFamily: "Cairo, sans-serif" }}
-                >
-                  Confirm order
-                </button>
-              </div>
+                      style={{ fontFamily: "Cairo, sans-serif" }}
+                    >
+                      Confirm order
+                    </button>
+                  </div>
 
-            </div>
-          </motion.div>
-        )}
-
-        {currentStep === 2 && orderResponse &&(
-          <motion.div key="step-2">
-            <ReviewOrder
-              items={cartItems}
-              OrderDetails={orderResponse!.order}
-              isPaying={ispaying}
-              onPayment={handlePayment}
-            />
-          </motion.div>
-        )}
-
-        {currentStep === 3 && (
-          <motion.div key="step-3"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
-            className="border border-[#e8e8e8] rounded-2xl p-10 text-center"
-          >
-            <div className="w-14 h-14 rounded-full bg-green-100 flex items-center
-              justify-center text-green-500 text-2xl mx-auto mb-4">✓</div>
-            <p className="text-[18px] font-semibold text-[#1a1a1a]"
-              style={{ fontFamily: '"Expletus Sans", serif' }}>
-              Confirmation
-            </p>
-            <p className="text-[13px] text-[#8a8a8a] mt-2"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
-              {confirmationMessage || "Your order has been confirmed."}
-            </p>
-            {orderResponse?.order?.id && (
-              <p className="text-[12px] text-[#8a8a8a] mt-1"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
-                Order #{orderResponse.order.id}
-              </p>
+                </div>
+              </motion.div>
             )}
-          </motion.div>
-        )}
-        </>
+
+            {currentStep === 2 && orderResponse && (
+              <motion.div key="step-2">
+                <ReviewOrder
+                  items={cartItems}
+                  OrderDetails={orderResponse!.order}
+                  isPaying={ispaying}
+                  onPayment={handlePayment}
+                />
+              </motion.div>
+            )}
+
+            {currentStep === 3 && (
+              <motion.div key="step-3"
+                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
+                className="border border-[#e8e8e8] rounded-2xl p-10 text-center"
+              >
+                {paymentStatus === "failed" ? (
+                  <div className="w-14 h-14 rounded-full bg-red-100 flex items-center
+                justify-center text-red-500 text-2xl mx-auto mb-4">✕</div>
+                ) : (
+                  <div className={`w-14 h-14 rounded-full flex items-center
+                justify-center text-2xl mx-auto mb-4 ${paymentStatus === "success" ? "bg-green-100 text-green-500" : "bg-yellow-100 text-yellow-600"
+                    }`}>
+                    {paymentStatus === "success" ? "✓" : "⏳"}
+                  </div>
+                )}
+
+                <p className="text-[18px] font-semibold text-[#1a1a1a]"
+                  style={{ fontFamily: '"Expletus Sans", serif' }}>
+                  {paymentStatus === "success" && "Confirmation"}
+                  {paymentStatus === "pending" && "Payment Processing"}
+                  {paymentStatus === "failed" && "Payment Unsuccessful"}
+                </p>
+                <p className="text-[13px] text-[#8a8a8a] mt-2"
+                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  {paymentMessage || "Your order has been confirmed."}
+                </p>
+                {paymentStatus === "success" && orderResponse?.order?.id && (
+                  <p className="text-[12px] text-[#8a8a8a] mt-1"
+                    style={{ fontFamily: "Cairo, sans-serif" }}>
+                    Order #{orderResponse.order.id}
+                  </p>
+                )}
+
+                {paymentStatus === "pending" && (
+                  isCheckingStatus ? (
+                    <div className="flex flex-col items-center gap-3 mt-6">
+                      <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center">
+                        <Loader />
+                      </div>
+                      <p className="text-[12px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+                        Checking status…
+                      </p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleCheckStatus}
+                      className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
+                    tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
+                      style={{ fontFamily: "Cairo, sans-serif" }}
+                    >
+                      Check Status
+                    </button>
+                  )
+                )}
+
+                {paymentStatus === "failed" && (
+                  <button
+                    onClick={handleStartNewCheckout}
+                    className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
+                  tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
+                    style={{ fontFamily: "Cairo, sans-serif" }}
+                  >
+                    Start New Checkout
+                  </button>
+                )}
+              </motion.div>
+            )}
+          </>
         )}
       </AnimatePresence>
 

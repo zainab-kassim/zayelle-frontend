@@ -39,6 +39,8 @@ export interface OrderResponse {
   };
 }
 
+export type PaymentStatus = 'success' | 'pending' | 'failed';
+
 interface CheckoutState {
   currentStep: 1 | 2 | 3;
   orderResponse: OrderResponse | null;
@@ -46,13 +48,17 @@ interface CheckoutState {
   savedAddress: Address | null;
   isUsingSavedAddress: boolean;
   cartItems: CartItem[];
+  paymentStatus: PaymentStatus | null;
+  paymentMessage: string;
+  paymentReference: string | null;
 
   setShippingAddress: (address: Address) => void;
   setSavedAddress: (address: Address | null) => void;
   setIsUsingSavedAddress: (value: boolean) => void;
   setCartItems: (items: CartItem[]) => void;
   advanceToReview: (order: OrderResponse) => void;
-  confirmPaymentSuccess: () => void;
+  setPaymentReference: (reference: string) => void;
+  setPaymentOutcome: (status: PaymentStatus, message: string) => void;
   resetCheckout: () => void;
 }
 
@@ -75,6 +81,9 @@ export const useCheckoutStore = create<CheckoutState>()(
       savedAddress: loadSavedAddress(),
       isUsingSavedAddress: false,
       cartItems: [],
+      paymentStatus: null,
+      paymentMessage: '',
+      paymentReference: null,
 
       setShippingAddress: (address) => {
         set({
@@ -91,9 +100,27 @@ export const useCheckoutStore = create<CheckoutState>()(
       setCartItems: (items) => set({ cartItems: items }),
 
       // step and its data move together in one write — they can never desync
-      advanceToReview: (order) => set({ currentStep: 2, orderResponse: order }),
-      confirmPaymentSuccess: () => set({ currentStep: 3 }),
-      resetCheckout: () => set({ currentStep: 1, orderResponse: null }),
+      advanceToReview: (order) => set({
+        currentStep: 2,
+        orderResponse: order,
+        paymentStatus: null,
+        paymentMessage: '',
+        paymentReference: null,
+      }),
+      setPaymentReference: (reference) => set({ paymentReference: reference }),
+      // step 3 is the single point of truth for a payment outcome — always moves there together with the result
+      setPaymentOutcome: (status, message) => set({
+        currentStep: 3,
+        paymentStatus: status,
+        paymentMessage: message,
+      }),
+      resetCheckout: () => set({
+        currentStep: 1,
+        orderResponse: null,
+        paymentStatus: null,
+        paymentMessage: '',
+        paymentReference: null,
+      }),
     }),
     {
       name: 'zayelle_checkout_state',
@@ -101,6 +128,9 @@ export const useCheckoutStore = create<CheckoutState>()(
       partialize: (state) => ({
         currentStep: state.currentStep,
         orderResponse: state.orderResponse,
+        paymentStatus: state.paymentStatus,
+        paymentMessage: state.paymentMessage,
+        paymentReference: state.paymentReference,
       }),
     }
   )
