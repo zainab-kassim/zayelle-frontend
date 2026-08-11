@@ -60,7 +60,7 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
           hover:bg-[#333]'
         style={{ fontFamily: "Cairo, sans-serif" }}
       >
-        Confirm Order
+        Checkout
       </button>
     </div>
   );

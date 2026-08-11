@@ -43,6 +43,7 @@ export default function CheckoutContent() {
   const [usingSaved, setUsingSaved] = useState(false);
   const [ispaying, setIspaying] = useState(false)
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const { currency } = useCurrencyStore();
 
 
   const subtotal = cartItems.reduce(
@@ -159,7 +160,7 @@ export default function CheckoutContent() {
     }
   };
 
-  const handlePayment = async () => {
+  const handlePaystackPayment = async () => {
     if (!orderResponse) return (
       toast.error('Order not found, Please try agai')
     )
@@ -170,6 +171,17 @@ export default function CheckoutContent() {
       console.log(error)
       toast.error("Failed to initialize payment. Please try again.");
     }
+  };
+
+  const handleStripePayment = async () => {
+
+  };
+
+  const handlePayment = async () => {
+    if (currency === "NGN") {
+      return handlePaystackPayment();
+    }
+    return handleStripePayment();
   };
 
   const handleUseAddress = () => {
