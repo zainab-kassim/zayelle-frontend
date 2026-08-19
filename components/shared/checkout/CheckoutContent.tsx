@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
-import { InitializePayment, VerifyPayment } from "@/services/payment.service";
+import { InitializePaystackPayment, VerifyPaystackPayment } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
@@ -59,9 +59,11 @@ export default function CheckoutContent() {
   );
 
   // step 3 is the single point of truth for a payment result — every outcome routes there
-  const verifyPaymentReference = async (reference: string) => {
+  // this handles Paystack's redirect callback (?reference=/?trxref=) specifically — Stripe's
+  // verification flow (paymentIntent_id based) isn't wired up here yet
+  const verifyPaystackPaymentReference = async (reference: string) => {
     try {
-      const result = await VerifyPayment(reference);
+      const result = await VerifyPaystackPayment(reference);
       if (result.status === "success") {
         setPaymentOutcome("success", result.message || "Your payment was successful.");
       } else if (result.status === "pending") {
@@ -84,7 +86,7 @@ export default function CheckoutContent() {
 
     setPaymentReference(reference);
 
-    verifyPaymentReference(reference).finally(() => {
+    verifyPaystackPaymentReference(reference).finally(() => {
       setIsVerifyingPayment(false);
       // clean the reference out of the URL so a refresh doesn't re-trigger this
       router.replace("/checkout");
@@ -95,7 +97,7 @@ export default function CheckoutContent() {
     if (!paymentReference) return;
     setIsCheckingStatus(true);
     try {
-      await verifyPaymentReference(paymentReference);
+      await verifyPaystackPaymentReference(paymentReference);
     } finally {
       setIsCheckingStatus(false);
     }
@@ -165,7 +167,7 @@ export default function CheckoutContent() {
       toast.error('Order not found, Please try agai')
     )
     try {
-      const response = await InitializePayment(orderResponse.order.id);
+      const response = await InitializePaystackPayment(orderResponse.order.id);
       window.location.href = response.auth_url;
     } catch (error) {
       console.log(error)
