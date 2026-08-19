@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
-import { InitializePaystackPayment, VerifyPaystackPayment } from "@/services/payment.service";
+import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
@@ -35,6 +35,7 @@ export default function CheckoutContent() {
     paymentStatus,
     paymentMessage,
     paymentReference,
+    paymentProvider,
     setPaymentReference,
     setPaymentOutcome,
     resetCheckout,
@@ -55,12 +56,11 @@ export default function CheckoutContent() {
   const footerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(
-    Boolean(searchParams.get("reference") ?? searchParams.get("trxref"))
+    Boolean(searchParams.get("reference") ?? searchParams.get("trxref") ?? searchParams.get("session_id"))
   );
 
   // step 3 is the single point of truth for a payment result — every outcome routes there
-  // this handles Paystack's redirect callback (?reference=/?trxref=) specifically — Stripe's
-  // verification flow (paymentIntent_id based) isn't wired up here yet
+  // this handles Paystack's redirect callback (?reference=/?trxref=)
   const verifyPaystackPaymentReference = async (reference: string) => {
     try {
       const result = await VerifyPaystackPayment(reference);
@@ -80,24 +80,57 @@ export default function CheckoutContent() {
     }
   };
 
+  // this handles Stripe Checkout's redirect callback (?session_id=)
+  const verifyStripePaymentReference = async (session_id: string) => {
+    try {
+      const result = await VerifyStripePayment(session_id);
+      if (result.status === "success") {
+        setPaymentOutcome("success", result.message || "Your payment was successful.");
+      } else if (result.status === "pending") {
+        setPaymentOutcome("pending", result.message || "Your payment is still processing.");
+      } else {
+        setPaymentOutcome("failed", result.message || "Payment could not be confirmed.");
+      }
+    } catch (error: any) {
+      setPaymentOutcome(
+        "pending",
+        error?.response?.data?.message || "We couldn't confirm your payment status. Please check again."
+      );
+    }
+  };
+
   useEffect(() => {
     const reference = searchParams.get("reference") ?? searchParams.get("trxref");
-    if (!reference) return;
+    const session_id = searchParams.get("session_id");
 
-    setPaymentReference(reference);
+    if (reference) {
+      setPaymentReference(reference, "paystack");
+      verifyPaystackPaymentReference(reference).finally(() => {
+        setIsVerifyingPayment(false);
+        // clean the reference out of the URL so a refresh doesn't re-trigger this
+        router.replace("/checkout");
+      });
+      return;
+    }
 
-    verifyPaystackPaymentReference(reference).finally(() => {
-      setIsVerifyingPayment(false);
-      // clean the reference out of the URL so a refresh doesn't re-trigger this
-      router.replace("/checkout");
-    });
+    if (session_id) {
+      setPaymentReference(session_id, "stripe");
+      verifyStripePaymentReference(session_id).finally(() => {
+        setIsVerifyingPayment(false);
+        router.replace("/checkout");
+      });
+    }
   }, [searchParams]);
 
   const handleCheckStatus = async () => {
     if (!paymentReference) return;
     setIsCheckingStatus(true);
     try {
-      await verifyPaystackPaymentReference(paymentReference);
+      if (paymentProvider === "stripe") {
+        await verifyStripePaymentReference(paymentReference);
+      } else {
+        await verifyPaystackPaymentReference(paymentReference);
+      }
     } finally {
       setIsCheckingStatus(false);
     }
@@ -168,6 +201,11 @@ export default function CheckoutContent() {
     )
     try {
       const response = await InitializePaystackPayment(orderResponse.order.id);
+      // already paid (e.g. redirect-back was missed earlier) — nothing to redirect to
+      if (response.status === "success") {
+        setPaymentOutcome("success", response.message || "Your payment was successful.");
+        return;
+      }
       window.location.href = response.auth_url;
     } catch (error) {
       console.log(error)
@@ -176,7 +214,21 @@ export default function CheckoutContent() {
   };
 
   const handleStripePayment = async () => {
-
+    if (!orderResponse) return (
+      toast.error('Order not found, Please try agai')
+    )
+    try {
+      const response = await InitializeStripePayment(orderResponse.order.id);
+      // already paid (e.g. redirect-back was missed earlier) — nothing to redirect to
+      if (response.status === "success") {
+        setPaymentOutcome("success", response.message || "Your payment was successful.");
+        return;
+      }
+      window.location.href = response.url;
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to initialize payment. Please try again.");
+    }
   };
 
   const handlePayment = async () => {

@@ -40,6 +40,7 @@ export interface OrderResponse {
 }
 
 export type PaymentStatus = 'success' | 'pending' | 'failed';
+export type PaymentProvider = 'paystack' | 'stripe';
 
 interface CheckoutState {
   currentStep: 1 | 2 | 3;
@@ -51,13 +52,14 @@ interface CheckoutState {
   paymentStatus: PaymentStatus | null;
   paymentMessage: string;
   paymentReference: string | null;
+  paymentProvider: PaymentProvider | null;
 
   setShippingAddress: (address: Address) => void;
   setSavedAddress: (address: Address | null) => void;
   setIsUsingSavedAddress: (value: boolean) => void;
   setCartItems: (items: CartItem[]) => void;
   advanceToReview: (order: OrderResponse) => void;
-  setPaymentReference: (reference: string) => void;
+  setPaymentReference: (reference: string, provider: PaymentProvider) => void;
   setPaymentOutcome: (status: PaymentStatus, message: string) => void;
   resetCheckout: () => void;
 }
@@ -84,6 +86,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       paymentStatus: null,
       paymentMessage: '',
       paymentReference: null,
+      paymentProvider: null,
 
       setShippingAddress: (address) => {
         set({
@@ -106,8 +109,9 @@ export const useCheckoutStore = create<CheckoutState>()(
         paymentStatus: null,
         paymentMessage: '',
         paymentReference: null,
+        paymentProvider: null,
       }),
-      setPaymentReference: (reference) => set({ paymentReference: reference }),
+      setPaymentReference: (reference, provider) => set({ paymentReference: reference, paymentProvider: provider }),
       // step 3 is the single point of truth for a payment outcome — always moves there together with the result
       setPaymentOutcome: (status, message) => set({
         currentStep: 3,
@@ -120,6 +124,7 @@ export const useCheckoutStore = create<CheckoutState>()(
         paymentStatus: null,
         paymentMessage: '',
         paymentReference: null,
+        paymentProvider: null,
       }),
     }),
     {
@@ -131,6 +136,7 @@ export const useCheckoutStore = create<CheckoutState>()(
         paymentStatus: state.paymentStatus,
         paymentMessage: state.paymentMessage,
         paymentReference: state.paymentReference,
+        paymentProvider: state.paymentProvider,
       }),
     }
   )
