@@ -207,9 +207,9 @@ export default function CheckoutContent() {
         return;
       }
       window.location.href = response.auth_url;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
-      toast.error("Failed to initialize payment. Please try again.");
+      toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };
 
@@ -225,9 +225,9 @@ export default function CheckoutContent() {
         return;
       }
       window.location.href = response.url;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
-      toast.error("Failed to initialize payment. Please try again.");
+      toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };
 
