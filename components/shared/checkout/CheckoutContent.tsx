@@ -279,7 +279,7 @@ export default function CheckoutContent() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               >
-                <div className={`border-[#e8e8e8] ${!savedAddress && 'max-w-4xl mx-auto'} border-[0.5px] rounded-2xl overflow-hidden`}>
+                <div className={`border-[#e8e8e8] ${!savedAddress && 'max-w-4xl mx-auto'} border-[0.5px] rounded-2xl`}>
 
                   {/*
                * flex-col-reverse → saved address on top on mobile
