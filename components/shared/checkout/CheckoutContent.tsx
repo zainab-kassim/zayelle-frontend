@@ -241,7 +241,7 @@ export default function CheckoutContent() {
   const handleUseAddress = () => {
     const newValue = !usingSaved;
     setUsingSaved(newValue);
-    if (newValue && window.innerWidth < 1024) {
+    if (newValue) {
       setTimeout(() => {
         footerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
