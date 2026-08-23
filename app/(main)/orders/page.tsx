@@ -32,7 +32,7 @@ export default function Orders() {
         </div>
 
         <div
-          className="flex-1 w-full flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-90px)]"
+          className="flex-1 w-full flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-90px)] no-scrollbar"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {orders.length === 0 && !isLoading ? (

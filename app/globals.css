@@ -6,6 +6,13 @@
   font-family: var(--font-cairo), sans-serif;
 }
 
+/* Firefox/IE are handled via the scrollbarWidth/msOverflowStyle inline
+   styles where this is used — webkit browsers only respect this pseudo-
+   element, which can't be targeted from inline styles */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 
 .loader {
   width: 15px;

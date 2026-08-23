@@ -14,7 +14,10 @@ export default function OrderStatusFilter({
   counts,
 }: OrderStatusFilterProps) {
   return (
-    <div className="flex flex-row lg:flex-col gap-3 w-full min-w-0 pr-4 lg:pr-0 lg:w-[220px] lg:flex-shrink-0 overflow-x-auto lg:overflow-visible">
+    <div
+      className="flex flex-row lg:flex-col gap-3 w-full min-w-0 pr-4 lg:pr-0 lg:w-[220px] lg:flex-shrink-0 overflow-x-auto lg:overflow-visible no-scrollbar"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
       {ORDER_FILTER_TABS.map((tab) => {
         const isActive = tab.key === active;
         return (
