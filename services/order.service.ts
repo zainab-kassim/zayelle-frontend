@@ -52,12 +52,35 @@ export interface OrderHistoryOrder {
   order_items: OrderHistoryItem[];
 }
 
+export interface OrderHistoryCounts {
+  success: number;
+  pending: number;
+  cancelled: number;
+}
+
+export interface OrderHistoryPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 export interface OrderHistoryResponse {
   message: string;
   orders: OrderHistoryOrder[];
+  counts: OrderHistoryCounts;
+  pagination: OrderHistoryPagination;
 }
 
-export const getOrderHistory = async (): Promise<OrderHistoryResponse> => {
-  const response = await axiosInstance.get('/order/orderhistory');
+export interface GetOrderHistoryParams {
+  status?: 'success' | 'pending' | 'cancelled';
+  page?: number;
+  limit?: number;
+}
+
+export const getOrderHistory = async (
+  params: GetOrderHistoryParams = {},
+): Promise<OrderHistoryResponse> => {
+  const response = await axiosInstance.get('/order/orderhistory', { params });
   return response.data;
 };

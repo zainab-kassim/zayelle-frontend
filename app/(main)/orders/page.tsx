@@ -1,47 +1,56 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useOrderStore } from "@/store/orderStore";
 import OrderHistoryCard from "@/components/shared/orders/OrderHistoryCard";
 import OrderStatusFilter from "@/components/shared/orders/OrderStatusFilter";
-import { getOrderFilterStatus, OrderFilterStatus } from "@/lib/orderStatus";
 
 export default function Orders() {
   const orders = useOrderStore((state) => state.orders);
+  const counts = useOrderStore((state) => state.counts);
+  const activeFilter = useOrderStore((state) => state.activeFilter);
+  const setActiveFilter = useOrderStore((state) => state.setActiveFilter);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
-  const [activeFilter, setActiveFilter] = useState<OrderFilterStatus>("success");
+  const fetchNextPage = useOrderStore((state) => state.fetchNextPage);
+  const page = useOrderStore((state) => state.page);
+  const totalPages = useOrderStore((state) => state.totalPages);
+  const isLoading = useOrderStore((state) => state.isLoading);
 
   useEffect(() => {
     fetchOrders();
-  }, [orders.length]);
-
-  const counts = useMemo(() => {
-    return orders.reduce(
-      (acc, order) => {
-        acc[getOrderFilterStatus(order.status)] += 1;
-        return acc;
-      },
-      { success: 0, pending: 0, cancelled: 0 } as Record<OrderFilterStatus, number>
-    );
-  }, [orders]);
-
-  const filteredOrders = useMemo(
-    () => orders.filter((order) => getOrderFilterStatus(order.status) === activeFilter),
-    [orders, activeFilter]
-  );
+  }, []);
 
   return (
+    // same scroll pattern as the cart page: min-h-screen (page flows normally),
+    // items-start (children aren't stretched to match each other), and just
+    // max-h + overflow-y-auto on the scrollable column itself
     <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
         <OrderStatusFilter active={activeFilter} onChange={setActiveFilter} counts={counts} />
 
-        <div className="flex-1 flex flex-col gap-5">
-          {filteredOrders.length === 0 ? (
+        <div className="hidden lg:block self-stretch w-px bg-[#e8e8e8]" />
+
+        <div
+          className="flex-1 w-full flex flex-col gap-5 lg:overflow-y-auto lg:max-h-[calc(100vh-70px)]"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {orders.length === 0 && !isLoading ? (
             <p className="text-[13px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
               No orders found.
             </p>
           ) : (
-            filteredOrders.map((order) => <OrderHistoryCard key={order.id} order={order} />)
+            orders.map((order) => <OrderHistoryCard key={order.id} order={order} />)
+          )}
+
+          {page < totalPages && (
+            <button
+              onClick={() => fetchNextPage()}
+              disabled={isLoading}
+              className="self-center mt-2 px-8 py-3 border border-[#e8e8e8] text-[#1a1a1a] text-[11px] font-semibold tracking-[0.18em] uppercase rounded-md hover:border-[#1a1a1a] transition-all duration-300 disabled:opacity-50"
+              style={{ fontFamily: "Cairo, sans-serif" }}
+            >
+              {isLoading ? "Loading…" : "Load More"}
+            </button>
           )}
         </div>
       </div>

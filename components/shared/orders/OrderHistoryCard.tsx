@@ -64,7 +64,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
   const itemCount = order.order_items.length;
 
   return (
-    <div className="rounded-2xl border border-[#e8e8e8] bg-white overflow-hidden">
+    <div className="rounded-2xl border border-[#e8e8e8] bg-white">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2 px-5 py-4 border-b border-[#f0f0f0]">
         <div className="flex items-center gap-2">
@@ -143,14 +143,14 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
             key={item.id}
             className="flex items-center gap-4 py-3 border-b border-[#f0f0f0] last:border-0"
           >
-            <div className="flex-shrink-0 w-[64px] h-[70px] rounded-lg overflow-hidden bg-[#F8F8F8] flex items-center justify-center">
+            <div className="flex-shrink-0 w-[90px] h-[100px] sm:w-[110px] sm:h-[120px] rounded-xl overflow-hidden bg-[#F8F8F8] flex items-center justify-center">
               {item.product_id.image?.[0] && (
                 <Image
                   src={item.product_id.image[0]}
                   alt={item.product_id.name}
-                  width={64}
-                  height={70}
-                  className="object-contain w-[85%] h-[85%]"
+                  width={110}
+                  height={120}
+                  className="object-contain w-[80%] h-[80%]"
                 />
               )}
             </div>
