@@ -87,7 +87,12 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${badge.bg} ${badge.text}`}
             style={{ fontFamily: "Cairo, sans-serif" }}
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${badge.dot}`} />
+            <span className="relative flex w-1.5 h-1.5">
+              <span
+                className={`animate-ping absolute inline-flex w-full h-full rounded-full opacity-75 ${badge.dot}`}
+              />
+              <span className={`relative inline-flex w-1.5 h-1.5 rounded-full ${badge.dot}`} />
+            </span>
             {badge.label}
           </span>
         </div>

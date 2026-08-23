@@ -26,12 +26,13 @@ export default function Orders() {
     // max-h + overflow-y-auto on the scrollable column itself
     <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
       <div className="flex flex-col lg:flex-row gap-6 items-start">
-        <OrderStatusFilter active={activeFilter} onChange={setActiveFilter} counts={counts} />
-
-        <div className="hidden lg:block self-stretch w-px bg-[#e8e8e8]" />
+        <div className="flex items-stretch gap-6 w-full lg:w-auto">
+          <OrderStatusFilter active={activeFilter} onChange={setActiveFilter} counts={counts} />
+          <div className="hidden lg:block w-px bg-[#e8e8e8] lg:h-[calc(100vh-70px)]" />
+        </div>
 
         <div
-          className="flex-1 w-full flex flex-col gap-5 lg:overflow-y-auto lg:max-h-[calc(100vh-70px)]"
+          className="flex-1 w-full flex flex-col gap-5 overflow-y-auto max-h-[calc(100vh-90px)]"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {orders.length === 0 && !isLoading ? (
