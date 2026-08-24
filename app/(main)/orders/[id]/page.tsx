@@ -21,7 +21,7 @@ export default function OrderDetailsPage() {
       })
       .catch((err) => {
         console.error("Failed to fetch order details:", err);
-        setError("Failed to load order details.");
+        setError("Order not found.");
       });
   }, [id]);
 
