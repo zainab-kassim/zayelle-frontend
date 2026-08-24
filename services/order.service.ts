@@ -84,3 +84,14 @@ export const getOrderHistory = async (
   const response = await axiosInstance.get('/order/orderhistory', { params });
   return response.data;
 };
+
+export interface OrderDetailsResponse {
+  order: OrderHistoryOrder;
+}
+
+export const getOrderDetails = async (
+  order_id: number | string,
+): Promise<OrderDetailsResponse> => {
+  const response = await axiosInstance.get(`/order/${order_id}`);
+  return response.data;
+};

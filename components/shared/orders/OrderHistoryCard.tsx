@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { OrderHistoryOrder } from "@/services/order.service";
 import { formatPrice } from "@/lib/currency";
 import { getOrderFilterStatus, ORDER_STATUS_BADGE } from "@/lib/orderStatus";
@@ -53,6 +54,7 @@ interface OrderHistoryCardProps {
 }
 
 export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
+  const router = useRouter();
   // item prices and totalLocal are converted using the rate stored on the
   // order itself (locked in at checkout), so format them in the order's own
   // currency — not whatever currency the user has selected right now
@@ -192,6 +194,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
           </span>
         </p>
         <button
+          onClick={() => router.push(`/orders/${order.id}`)}
           className="px-5 py-2.5 bg-[#1a1a1a] text-white text-[11px] font-semibold tracking-[0.18em] uppercase rounded-md hover:bg-[#333] transition-all duration-300"
           style={{ fontFamily: "Cairo, sans-serif" }}
         >
