@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -27,6 +27,7 @@ export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const currency = useCurrencyStore((state) => state.currency);
     const setCurrency = useCurrencyStore((state) => state.setCurrency);
@@ -36,6 +37,20 @@ export default function Navbar() {
         const stored = localStorage.getItem('firstName');
         if (stored) setFirstName(stored);
     }, []);
+
+    useEffect(() => {
+        if (!isDropdownOpen) return;
+
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+                setIsCurrencyOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isDropdownOpen]);
 
     if (!isMounted) return null;
 
@@ -101,7 +116,7 @@ export default function Navbar() {
 
                     {/* RIGHT — User & Actions */}
                     <div className="flex items-center gap-1 sm:gap-3 md:gap-5 ml-auto flex-shrink-0">
-                        <div className="relative">
+                        <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-black/5"
