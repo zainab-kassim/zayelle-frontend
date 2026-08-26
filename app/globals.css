@@ -14,6 +14,43 @@
 }
 
 
+.stretch-bar-loader {
+  --stretch-color-1: #1a1a1a;
+  --stretch-color-2: #8a8a8a;
+  display: block;
+  transform-origin: center;
+  background: var(--stretch-color-1);
+  animation: stretchBar 1.2s ease-in-out infinite;
+}
+
+@keyframes stretchBar {
+  0%,
+  100% {
+    transform: scaleX(0.1);
+    background: var(--stretch-color-2);
+  }
+  50% {
+    transform: scaleX(1);
+    background: var(--stretch-color-1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stretch-bar-loader {
+    animation: stretchBarReduced 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes stretchBarReduced {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .loader {
   width: 15px;
   aspect-ratio: 1;
@@ -25,19 +62,4 @@
     33% {box-shadow: 20px 0 #fff, -20px 0 #ffffff33;background: #ffffff33}
     66% {box-shadow: 20px 0 #ffffff33,-20px 0 #fff; background: #ffffff33}
     100%{box-shadow: 20px 0 #ffffff33,-20px 0 #fff; background: #fff }
-}
-
-@keyframes jump7456 {
-  15% { border-bottom-right-radius: 3px; }
-  25% { transform: translateY(9px) rotate(22.5deg); }
-  50% {
-    transform: translateY(18px) scale(1, 0.9) rotate(45deg);
-    border-bottom-right-radius: 40px;
-  }
-  75% { transform: translateY(9px) rotate(67.5deg); }
-  100% { transform: translateY(0) rotate(90deg); }
-}
-@keyframes shadow324 {
-  0%, 100% { transform: scale(1, 1); }
-  50% { transform: scale(1.2, 1); }
 }

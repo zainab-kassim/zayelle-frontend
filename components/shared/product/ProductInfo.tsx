@@ -5,6 +5,7 @@ import QuantitySelector from "../../ui/QuantitySelector";
 import { Product } from "@/types/product";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
+import Loader from "@/components/ui/Loader";
 
 interface ProductInfoProps {
   product: Product;
@@ -71,11 +72,12 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
           w-full py-4 bg-[#1a1a1a] text-white
           text-[12px] lg:text-[14px] font-semibold tracking-[0.28em]  mt-6 md:mb-0 md:mt-0 xl:mt-10 uppercase
           rounded-md transition-all duration-300
+          flex items-center justify-center
           hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed
-        "
+"
         style={{ fontFamily: "Cairo, sans-serif" }}
       >
-        {isAddingToCart ? "Adding..." : "Add to Cart"}
+        {isAddingToCart ? <Loader /> : "Add to Cart"}
       </button>
     </div>
   );

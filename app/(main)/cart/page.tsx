@@ -16,6 +16,7 @@ export default function CartPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const currency = useCurrencyStore()
 
   useEffect(() => {
@@ -75,6 +76,8 @@ export default function CartPage() {
 
 
   const handleCheckout = async () => {
+    if (isCheckingOut) return; // block duplicate submits
+    setIsCheckingOut(true);
     try {
       await Promise.all(
         cartItems.map((item) => updateCartQuantity(item.id, item.quantity))
@@ -83,6 +86,8 @@ export default function CartPage() {
       router.push("/checkout");
     } catch (err) {
       toast.error("Failed to update order");
+    } finally {
+      setIsCheckingOut(false);
     }
   };
 
@@ -111,6 +116,7 @@ export default function CartPage() {
           <OrderSummary
             subtotal={subtotal}
             onCheckout={handleCheckout}
+            isCheckingOut={isCheckingOut}
           />
         </div>
 

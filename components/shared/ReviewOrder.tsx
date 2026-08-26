@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
+import Loader from "@/components/ui/Loader";
 
 
 
@@ -228,11 +229,12 @@ export default function ReviewOrder({
               disabled={isLoading || !items || isPaying || items.length === 0}
               className="w-full py-3.5 bg-[#1a1a1a] text-white text-[12px]
                 font-semibold tracking-[0.22em] uppercase rounded-md
+                flex items-center justify-center
                 hover:bg-[#333] transition-all duration-300
                 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ fontFamily: "Cairo, sans-serif" }}
             >
-              {isLoading ? "Payment Processing..." : "Proceed to Payment"}
+              {isLoading ? <Loader /> : "Proceed to Payment"}
             </button>
           </div>
         </div>

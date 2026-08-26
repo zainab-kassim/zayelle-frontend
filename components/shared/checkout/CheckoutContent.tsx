@@ -43,6 +43,7 @@ export default function CheckoutContent() {
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
   const [usingSaved, setUsingSaved] = useState(false);
   const [ispaying, setIspaying] = useState(false)
+  const [isInitializingPayment, setIsInitializingPayment] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   const { currency } = useCurrencyStore();
 
@@ -171,6 +172,7 @@ export default function CheckoutContent() {
   };
 
   const handleConfirmOrder = async () => {
+    if (ispaying) return; // block duplicate submits
     const address = handleContinue();
     if (!address) return; // validation failed, toast already shown, don't proceed
     setIspaying(true);
@@ -232,10 +234,17 @@ export default function CheckoutContent() {
   };
 
   const handlePayment = async () => {
-    if (currency === "NGN") {
-      return handlePaystackPayment();
+    if (isInitializingPayment) return; // block duplicate submits
+    setIsInitializingPayment(true);
+    try {
+      if (currency === "NGN") {
+        await handlePaystackPayment();
+      } else {
+        await handleStripePayment();
+      }
+    } finally {
+      setIsInitializingPayment(false);
     }
-    return handleStripePayment();
   };
 
   const handleUseAddress = () => {
@@ -337,7 +346,7 @@ export default function CheckoutContent() {
                     </button>
 
                     {/* Continue to Review — full width + centered on mobile */}
-                    <button disabled={!cartItems || cartItems.length === 0}
+                    <button disabled={!cartItems || cartItems.length === 0 || ispaying}
                       onClick={handleConfirmOrder}
                       className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
                     px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
@@ -345,7 +354,7 @@ export default function CheckoutContent() {
                     transition-all duration-300'
                       style={{ fontFamily: "Cairo, sans-serif" }}
                     >
-                      Confirm order
+                      {ispaying ? <Loader /> : "Confirm order"}
                     </button>
                   </div>
 
@@ -359,6 +368,7 @@ export default function CheckoutContent() {
                   items={cartItems}
                   OrderDetails={orderResponse!.order}
                   isPaying={ispaying}
+                  isLoading={isInitializingPayment}
                   onPayment={handlePayment}
                 />
               </motion.div>

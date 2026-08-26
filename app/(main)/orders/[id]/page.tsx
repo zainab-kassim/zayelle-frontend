@@ -9,6 +9,7 @@ import OrderTracking, { TRACKING_STEP_COUNT } from "@/components/shared/orders/O
 import PersonalInfoCard from "@/components/shared/orders/PersonalInfoCard";
 import OrderSummaryCard from "@/components/shared/orders/OrderSummaryCard";
 import OrderItemsList from "@/components/shared/orders/OrderItemsList";
+import OrderDetailSkeleton from "@/components/ui/OrderDetailSkeleton";
 
 export default function OrderDetailsPage() {
   const params = useParams();
@@ -51,13 +52,7 @@ export default function OrderDetailsPage() {
   }
 
   if (!order) {
-    return (
-      <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
-        <p className="text-[15px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
-          Loading order details…
-        </p>
-      </main>
-    );
+    return <OrderDetailSkeleton />;
   }
 
   // same order code format used in OrderHistoryCard: `ZKT-87${order.id}`

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useOrderStore } from "@/store/orderStore";
 import OrderHistoryCard from "@/components/shared/orders/OrderHistoryCard";
 import OrderStatusFilter from "@/components/shared/orders/OrderStatusFilter";
+import StretchBarLoader from "@/components/ui/StretchBarLoader";
 
 export default function Orders() {
   const orders = useOrderStore((state) => state.orders);
@@ -50,7 +51,14 @@ export default function Orders() {
               className="self-center mt-2 px-8 py-3 border border-[#e8e8e8] text-[#1a1a1a] text-[11px] font-semibold tracking-[0.18em] uppercase rounded-md hover:border-[#1a1a1a] transition-all duration-300 disabled:opacity-50"
               style={{ fontFamily: "Cairo, sans-serif" }}
             >
-              {isLoading ? "Loading…" : "Load More"}
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <StretchBarLoader width={28} height={2.5} color="#1a1a1a" pulseColor="#c8c8c8" label="Loading more orders" />
+                  Loading…
+                </span>
+              ) : (
+                "Load More"
+              )}
             </button>
           )}
         </div>

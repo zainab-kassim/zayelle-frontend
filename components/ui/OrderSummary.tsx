@@ -3,13 +3,15 @@
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useCheckoutStore } from "@/store/checkoutStore";
 import { formatPrice } from "@/lib/currency";
+import Loader from "@/components/ui/Loader";
 
 interface OrderSummaryProps {
   subtotal: number;
   onCheckout: () => void;
+  isCheckingOut?: boolean;
 }
 
-export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps) {
+export default function OrderSummary({ subtotal, onCheckout, isCheckingOut = false }: OrderSummaryProps) {
    const currency = useCurrencyStore((state) => state.currency);
    const cartItems = useCheckoutStore((state) => state.cartItems);
 
@@ -52,15 +54,16 @@ export default function OrderSummary({ subtotal, onCheckout }: OrderSummaryProps
       </p>
 
       {/* Checkout button */}
-      <button disabled={!cartItems || cartItems.length === 0}
+      <button disabled={!cartItems || cartItems.length === 0 || isCheckingOut}
         onClick={onCheckout}
         className='w-full py-3.5 disabled:bg-[#cccccc] bg-[#1a1a1a] text-white
           text-[11px] font-semibold tracking-[0.22em] uppercase
           rounded-md transition-all duration-300
+          flex items-center justify-center
           hover:bg-[#333]'
         style={{ fontFamily: "Cairo, sans-serif" }}
       >
-        Checkout
+        {isCheckingOut ? <Loader /> : "Checkout"}
       </button>
     </div>
   );
