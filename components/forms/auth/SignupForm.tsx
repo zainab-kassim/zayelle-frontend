@@ -16,7 +16,10 @@ export default function SignUpForm() {
     };
 
     return (
-        <main className="min-h-screen bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12">
+        <main
+            className="h-screen overflow-y-auto no-scrollbar bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
             <div className="w-full md:max-w-[600px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
 
                 {/* ── Header Image — organza floral (Floreal Collection), replaces the blob area.
@@ -86,7 +89,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -108,7 +111,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -133,7 +136,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -157,7 +160,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -183,7 +186,7 @@ export default function SignUpForm() {
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3.5 pl-3.5 md:py-3.5 md:pl-4 pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
@@ -216,7 +219,7 @@ export default function SignUpForm() {
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3.5 pl-3.5 md:py-3.5 md:pl-4 pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
