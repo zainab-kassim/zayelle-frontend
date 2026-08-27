@@ -22,7 +22,7 @@ export default function SignUpForm() {
                 {/* ── Blob Area ── */}
                 <div className="relative h-[280px] overflow-hidden">
 
-                    {/* Left blob — hot pink, heavily clipped top-left */}
+                    {/* Left blob — Zayelle's own terracotta accent (#C2583A, from FlorealCollection's "See All" link — the one deliberate accent already in the codebase), heavily clipped top-left */}
                     <div
                         className="absolute rounded-full"
                         style={{
@@ -30,11 +30,11 @@ export default function SignUpForm() {
                             height: '320px',
                             top: '-120px',
                             left: '-100px',
-                            background: 'radial-gradient(circle at center, #FE3B92, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #C2583A, #FFFFFF)',
                         }}
                     />
 
-                    {/* Center blob — soft pale pink, clipped at top */}
+                    {/* Center blob — deep rust, same terracotta family, clipped at top — dark tone stays subtle at low opacity */}
                     <div
                         className="absolute rounded-full"
                         style={{
@@ -43,12 +43,12 @@ export default function SignUpForm() {
                             top: '-130px',
                             left: '50%',
                             transform: 'translateX(-50%)',
-                            background: 'radial-gradient(circle at center, #D94E50, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #7E3926, #FFFFFF)',
                             opacity: 0.2,
                         }}
                     />
 
-                    {/* Right blob — salmon-pink, clipped top-right, extends further down */}
+                    {/* Right blob — lighter terracotta-peach tint of the same family, clipped top-right, extends further down */}
                     <div
                         className="absolute rounded-full"
                         style={{
@@ -56,7 +56,7 @@ export default function SignUpForm() {
                             height: '340px',
                             top: '-60px',
                             right: '-110px',
-                            background: 'radial-gradient(circle at center, #D94E71, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #DA9B89, #FFFFFF)',
                         }}
                     />
                 </div>
@@ -98,7 +98,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -120,7 +120,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -145,7 +145,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -169,7 +169,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 border-b rounded-md border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -179,74 +179,74 @@ export default function SignUpForm() {
                             </form.Field>
                         </div>
 
-                        {/* Password */}
-                        <div className="mb-6">
-                            <label className="block text-[14px] font-medium text-black mb-2">
-                                Password
-                            </label>
-                            <form.Field name="password">
-                                {(field) => (
-                                    <>
-                                        <div className="relative">
-                                            <input
-                                                type={showPassword ? 'text' : 'password'}
-                                                placeholder="Enter Password"
-                                                value={field.state.value}
-                                                onChange={(e) => field.handleChange(e.target.value)}
-                                                onBlur={field.handleBlur}
-                                                className="w-full border-0 pr-10 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
-                                            >
-                                                {showPassword
-                                                    ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                    : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
-                                            </button>
-                                        </div>
+                        {/* Password + Confirm Password */}
+                        <div className="flex gap-5 mb-6">
+                            <div className="flex-1">
+                                <label className="block text-[14px] font-medium text-black mb-2">
+                                    Password
+                                </label>
+                                <form.Field name="password">
+                                    {(field) => (
+                                        <>
+                                            <div className="relative">
+                                                <input
+                                                    type={showPassword ? 'text' : 'password'}
+                                                    placeholder="Enter Password"
+                                                    value={field.state.value}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    onBlur={field.handleBlur}
+                                                    className="w-full border-0 rounded-lg outline-none py-2.5 pl-3 pr-10 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
+                                                >
+                                                    {showPassword
+                                                        ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
+                                                        : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
+                                                </button>
+                                            </div>
 
-                                        <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
+                                            <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
 
-                                    </>
-                                )}
-                            </form.Field>
-                        </div>
+                                        </>
+                                    )}
+                                </form.Field>
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-[14px] font-medium text-black mb-2">
+                                    Confirm
+                                </label>
+                                <form.Field name="confirmPassword">
+                                    {(field) => (
+                                        <>
+                                            <div className="relative">
+                                                <input
+                                                    type={showConfirmPassword ? 'text' : 'password'}
+                                                    placeholder="Confirm"
+                                                    value={field.state.value}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    onBlur={field.handleBlur}
+                                                    className="w-full border-0 rounded-lg outline-none py-2.5 pl-3 pr-10 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
+                                                >
+                                                    {showConfirmPassword
+                                                        ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
+                                                        : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
+                                                </button>
+                                            </div>
 
-                        {/* Confirm Password */}
-                        <div className="mb-6">
-                            <label className="block text-[14px] font-medium text-black mb-2">
-                                Confirm Password
-                            </label>
-                            <form.Field name="confirmPassword">
-                                {(field) => (
-                                    <>
-                                        <div className="relative">
-                                            <input
-                                                type={showConfirmPassword ? 'text' : 'password'}
-                                                placeholder="Confirm Password"
-                                                value={field.state.value}
-                                                onChange={(e) => field.handleChange(e.target.value)}
-                                                onBlur={field.handleBlur}
-                                                className="w-full border-0 pr-10 rounded-md border-b border-[#C0C0C0] outline-none py-1.5 px-2 bg-transparent text-[14px] font-medium text-black placeholder-[#8B8282]"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
-                                            >
-                                                {showConfirmPassword
-                                                    ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                    : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
-                                            </button>
-                                        </div>
+                                            <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
 
-                                        <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
-
-                                    </>
-                                )}
-                            </form.Field>
+                                        </>
+                                    )}
+                                </form.Field>
+                            </div>
                         </div>
 
                         {/* Checkbox Row */}
@@ -284,7 +284,7 @@ export default function SignUpForm() {
                                     type="button"
                                     onClick={form.handleSubmit}
                                     disabled={isSubmitting}
-                                    className="w-full bg-black text-white rounded-[8px] py-4 mb-5 cursor-pointer text-[16px] font-bold flex items-center justify-center disabled:bg-gray-950 disabled:cursor-not-allowed"
+                                    className="w-full bg-button-primary text-white rounded-[8px] py-4 mb-5 cursor-pointer text-[16px] font-bold flex items-center justify-center transition-colors duration-150 active:bg-button-primary-active disabled:bg-gray-950 disabled:cursor-not-allowed"
                                 >
                                     {isSubmitting ? <Loader /> : "Sign Up"}
                                 </button>

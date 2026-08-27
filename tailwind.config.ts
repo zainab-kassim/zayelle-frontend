@@ -7,7 +7,15 @@ const config: Config = {
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // scoped to primary buttons specifically — not the site's general brand accent
+        'button-primary': {
+          DEFAULT: '#1a1a1a',
+          active: '#333333',
+        },
+      },
+    },
   },
   plugins: [],
 };
