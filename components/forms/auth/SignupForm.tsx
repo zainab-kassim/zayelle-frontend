@@ -22,7 +22,7 @@ export default function SignUpForm() {
                 {/* ── Blob Area ── */}
                 <div className="relative h-[280px] overflow-hidden">
 
-                    {/* Left blob — Zayelle's own terracotta accent (#C2583A, from FlorealCollection's "See All" link — the one deliberate accent already in the codebase), heavily clipped top-left */}
+                    {/* Left blob — saturated variant of Zayelle's terracotta accent (#C2583A, from FlorealCollection's "See All" link), heavily clipped top-left */}
                     <div
                         className="absolute rounded-full"
                         style={{
@@ -30,11 +30,11 @@ export default function SignUpForm() {
                             height: '320px',
                             top: '-120px',
                             left: '-100px',
-                            background: 'radial-gradient(circle at center, #C2583A, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #E15A2E, #FFFFFF)',
                         }}
                     />
 
-                    {/* Center blob — deep rust, same terracotta family, clipped at top — dark tone stays subtle at low opacity */}
+                    {/* Center blob — saturated red-orange, same terracotta family, clipped at top — needs to be vivid, not just dark, to survive 0.2 opacity without collapsing to grey */}
                     <div
                         className="absolute rounded-full"
                         style={{
@@ -43,7 +43,7 @@ export default function SignUpForm() {
                             top: '-130px',
                             left: '50%',
                             transform: 'translateX(-50%)',
-                            background: 'radial-gradient(circle at center, #7E3926, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #D4451F, #FFFFFF)',
                             opacity: 0.2,
                         }}
                     />
@@ -56,7 +56,7 @@ export default function SignUpForm() {
                             height: '340px',
                             top: '-60px',
                             right: '-110px',
-                            background: 'radial-gradient(circle at center, #DA9B89, #FFFFFF)',
+                            background: 'radial-gradient(circle at center, #E8A47E, #FFFFFF)',
                         }}
                     />
                 </div>
