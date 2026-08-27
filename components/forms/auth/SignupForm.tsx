@@ -19,50 +19,29 @@ export default function SignUpForm() {
         <main className="min-h-screen bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12">
             <div className="w-full md:max-w-[600px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
 
-                {/* ── Blob Area ── */}
-                <div className="relative h-[280px] overflow-hidden">
-
-                    {/* Left blob — saturated variant of Zayelle's terracotta accent (#C2583A, from FlorealCollection's "See All" link), heavily clipped top-left */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            width: '320px',
-                            height: '320px',
-                            top: '-120px',
-                            left: '-100px',
-                            background: 'radial-gradient(circle at center, #E15A2E, #FFFFFF)',
-                        }}
-                    />
-
-                    {/* Center blob — saturated red-orange, same terracotta family, clipped at top — needs to be vivid, not just dark, to survive 0.2 opacity without collapsing to grey */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            width: '300px',
-                            height: '300px',
-                            top: '-130px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            background: 'radial-gradient(circle at center, #D4451F, #FFFFFF)',
-                            opacity: 0.2,
-                        }}
-                    />
-
-                    {/* Right blob — lighter terracotta-peach tint of the same family, clipped top-right, extends further down */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            width: '340px',
-                            height: '340px',
-                            top: '-60px',
-                            right: '-110px',
-                            background: 'radial-gradient(circle at center, #E8A47E, #FFFFFF)',
-                        }}
+                {/* ── Header Image — organza floral (Floreal Collection), replaces the blob area.
+                     Masked to fade to transparent at the bottom so it dissolves into the card's
+                     white background instead of getting hard-cropped — no visible seam, and the
+                     heading below can sit on top of it since that faded zone is legible. ── */}
+                <div
+                    className="relative h-[280px] overflow-hidden"
+                    style={{
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
+                        maskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
+                    }}
+                >
+                    <Image
+                        src="/auth/signup-header.png"
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 600px, 100vw"
+                        className="object-cover"
+                        priority
                     />
                 </div>
 
                 {/* ── Heading ── */}
-                <div className="text-center -mt-28 relative z-10">
+                <div className="text-center -mt-32 relative z-10">
                     <h1
                         className="text-[#2C2420] mb-0.5 leading-tight text-[26px] md:text-[38px]"
                         style={{
@@ -73,7 +52,7 @@ export default function SignUpForm() {
                         Welcome to Zayelle
                     </h1>
                     <p
-                        className="text-[#5a5a5a] mb-14"
+                        className="text-[#2C2420] mb-14 font-medium"
                         style={{
                             fontFamily: "'Cairo', sans-serif",
                             fontSize: '17px',
