@@ -12,7 +12,7 @@ const config: Config = {
         // scoped to primary buttons specifically — not the site's general brand accent
         'button-primary': {
           DEFAULT: '#1a1a1a',
-          active: '#333333',
+          active: '#0d0d0d',
         },
       },
     },

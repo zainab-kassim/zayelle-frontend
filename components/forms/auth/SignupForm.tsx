@@ -12,7 +12,7 @@ export default function SignUpForm() {
 
     const FieldError = ({ errors, isTouched }: { errors: any[], isTouched: boolean }) => {
         if (!isTouched || !errors?.[0]) return null;
-        return <p className="text-red-500 text-[11px] mt-1">{errors[0].message}</p>;
+        return <p className="text-red-500 text-[13px] mt-1.5">{errors[0].message}</p>;
     };
 
     return (
@@ -24,7 +24,7 @@ export default function SignUpForm() {
                      white background instead of getting hard-cropped — no visible seam, and the
                      heading below can sit on top of it since that faded zone is legible. ── */}
                 <div
-                    className="relative h-[140px] md:h-[280px] overflow-hidden"
+                    className="relative h-[165px] md:h-[280px] overflow-hidden"
                     style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
                         maskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
@@ -41,7 +41,7 @@ export default function SignUpForm() {
                 </div>
 
                 {/* ── Heading ── */}
-                <div className="text-center -mt-12 md:-mt-32 relative z-10">
+                <div className="text-center -mt-16 md:-mt-32 relative z-10">
                     <h1
                         className="text-[#2C2420] mb-0.5 leading-tight text-[26px] md:text-[33px]"
                         style={{
@@ -52,7 +52,7 @@ export default function SignUpForm() {
                         Welcome to Zayelle
                     </h1>
                     <p
-                        className="text-[#2C2420] mb-7 md:mb-14 font-medium text-[14px] md:text-[17px]"
+                        className="text-[#2C2420] mb-8 md:mb-14 font-medium text-[14px] md:text-[17px]"
                         style={{
                             fontFamily: "'Cairo', sans-serif",
                         }}
@@ -74,7 +74,7 @@ export default function SignUpForm() {
                         {/* Firstname + Lastname */}
                         <div className="flex gap-5 mb-6">
                             <div className="flex-1">
-                                <label className="block text-[14px] font-medium text-black mb-2">
+                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Firstname
                                 </label>
                                 <form.Field name="firstName">
@@ -86,7 +86,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -96,7 +96,7 @@ export default function SignUpForm() {
                                 </form.Field>
                             </div>
                             <div className="flex-1">
-                                <label className="block text-[14px] font-medium text-black mb-2">
+                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Lastname
                                 </label>
                                 <form.Field name="lastName">
@@ -108,7 +108,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -121,7 +121,7 @@ export default function SignUpForm() {
 
                         {/* Email */}
                         <div className="mb-6">
-                            <label className="block text-[14px] font-medium text-black mb-2">
+                            <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                 Email
                             </label>
                             <form.Field name="email">
@@ -133,7 +133,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -145,7 +145,7 @@ export default function SignUpForm() {
 
                         {/* Phonenumber */}
                         <div className="mb-6">
-                            <label className="block text-[14px] font-medium text-black mb-2">
+                            <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                 Phonenumber
                             </label>
                             <form.Field name="phoneNumber">
@@ -157,7 +157,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-2.5 px-3 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                            className="w-full border-0 rounded-lg outline-none py-3.5 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -170,7 +170,7 @@ export default function SignUpForm() {
                         {/* Password + Confirm Password */}
                         <div className="flex gap-5 mb-6">
                             <div className="flex-1">
-                                <label className="block text-[14px] font-medium text-black mb-2">
+                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Password
                                 </label>
                                 <form.Field name="password">
@@ -183,7 +183,7 @@ export default function SignUpForm() {
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-2.5 pl-3 pr-10 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                    className="w-full border-0 rounded-lg outline-none py-3.5 pl-3.5 md:py-3.5 md:pl-4 pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
@@ -191,8 +191,8 @@ export default function SignUpForm() {
                                                     className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
                                                 >
                                                     {showPassword
-                                                        ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                        : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
+                                                        ? <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
+                                                        : <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
                                                 </button>
                                             </div>
 
@@ -203,7 +203,7 @@ export default function SignUpForm() {
                                 </form.Field>
                             </div>
                             <div className="flex-1">
-                                <label className="block text-[14px] font-medium text-black mb-2">
+                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Confirm
                                 </label>
                                 <form.Field name="confirmPassword">
@@ -212,11 +212,11 @@ export default function SignUpForm() {
                                             <div className="relative">
                                                 <input
                                                     type={showConfirmPassword ? 'text' : 'password'}
-                                                    placeholder="Confirm"
+                                                    placeholder="Confirm password"
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-2.5 pl-3 pr-10 bg-[#F5F5F5] text-[14px] font-medium text-black placeholder-[#8B8282]"
+                                                    className="w-full border-0 rounded-lg outline-none py-3.5 pl-3.5 md:py-3.5 md:pl-4 pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
@@ -224,8 +224,8 @@ export default function SignUpForm() {
                                                     className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
                                                 >
                                                     {showConfirmPassword
-                                                        ? <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                        : <Image width={16} height={16} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
+                                                        ? <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
+                                                        : <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
                                                 </button>
                                             </div>
 
@@ -248,9 +248,9 @@ export default function SignUpForm() {
                                                 checked={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.checked)}
                                                 onBlur={field.handleBlur}
-                                                className="w-3.5 h-3.5 accent-[#4E8ED9] cursor-pointer flex-shrink-0"
+                                                className="w-4 h-4 accent-[#4E8ED9] cursor-pointer flex-shrink-0"
                                             />
-                                            <span className="text-[14px]  font-medium text-black">
+                                            <span className="text-[16px] font-medium text-[#1a1a1a]">
                                                 I agree with{' '}
                                                 <a href="#" className="text-[#4E8ED9] underline">
                                                     privacy policy
@@ -272,7 +272,7 @@ export default function SignUpForm() {
                                     type="button"
                                     onClick={form.handleSubmit}
                                     disabled={isSubmitting}
-                                    className="w-full bg-button-primary text-white rounded-[8px] py-4 mb-5 cursor-pointer text-[16px] font-bold flex items-center justify-center transition-colors duration-150 active:bg-button-primary-active disabled:bg-gray-950 disabled:cursor-not-allowed"
+                                    className="w-full bg-button-primary text-white rounded-[8px] py-4 mb-6 cursor-pointer text-[18px] font-bold flex items-center justify-center transition-colors duration-150 hover:bg-button-primary-active active:bg-button-primary-active disabled:bg-gray-950 disabled:cursor-not-allowed"
                                 >
                                     {isSubmitting ? <Loader /> : "Sign Up"}
                                 </button>
@@ -280,7 +280,7 @@ export default function SignUpForm() {
                         </form.Subscribe>
 
                         {/* Footer Text */}
-                        <p className="text-center text-[14px] font-medium text-black">
+                        <p className="text-center text-[16px] font-medium text-[#1a1a1a]">
                             You already have an account?{' '}
                             <a href="/auth/login" className="text-[#4E8ED9]">
                                 Login
