@@ -77,7 +77,7 @@ export default function SignUpForm() {
                         {/* Firstname + Lastname */}
                         <div className="flex gap-5 mb-6">
                             <div className="flex-1">
-                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Firstname
                                 </label>
                                 <form.Field name="firstName">
@@ -89,7 +89,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -99,7 +99,7 @@ export default function SignUpForm() {
                                 </form.Field>
                             </div>
                             <div className="flex-1">
-                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Lastname
                                 </label>
                                 <form.Field name="lastName">
@@ -111,7 +111,7 @@ export default function SignUpForm() {
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
 
                                             <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -124,7 +124,7 @@ export default function SignUpForm() {
 
                         {/* Email */}
                         <div className="mb-6">
-                            <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                            <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                 Email
                             </label>
                             <form.Field name="email">
@@ -136,7 +136,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -148,7 +148,7 @@ export default function SignUpForm() {
 
                         {/* Phonenumber */}
                         <div className="mb-6">
-                            <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                            <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                 Phonenumber
                             </label>
                             <form.Field name="phoneNumber">
@@ -160,7 +160,7 @@ export default function SignUpForm() {
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
@@ -173,7 +173,7 @@ export default function SignUpForm() {
                         {/* Password + Confirm Password */}
                         <div className="flex gap-5 mb-6">
                             <div className="flex-1">
-                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Password
                                 </label>
                                 <form.Field name="password">
@@ -186,7 +186,7 @@ export default function SignUpForm() {
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
@@ -206,7 +206,7 @@ export default function SignUpForm() {
                                 </form.Field>
                             </div>
                             <div className="flex-1">
-                                <label className="block text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
+                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
                                     Confirm
                                 </label>
                                 <form.Field name="confirmPassword">
@@ -219,7 +219,7 @@ export default function SignUpForm() {
                                                     value={field.state.value}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[16px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                                 />
                                                 <button
                                                     type="button"
