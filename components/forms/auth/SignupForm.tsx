@@ -17,7 +17,7 @@ export default function SignUpForm() {
 
     return (
         <main className="min-h-screen bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12">
-            <div className="w-full md:max-w-[480px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
+            <div className="w-full md:max-w-[600px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
 
                 {/* ── Blob Area ── */}
                 <div className="relative h-[280px] overflow-hidden">
@@ -61,17 +61,27 @@ export default function SignUpForm() {
                     />
                 </div>
 
-                {/* ── Logo ── */}
-                <h1
-                    className="text-center text-[#2C2420] -mt-28 mb-14 relative z-10"
-                    style={{
-                        fontFamily: "'DynaPuff', cursive",
-                        fontWeight: 500,
-                        fontSize: '38px',
-                    }}
-                >
-                    Zayelle
-                </h1>
+                {/* ── Heading ── */}
+                <div className="text-center -mt-28 relative z-10">
+                    <h1
+                        className="text-[#2C2420] mb-0.5 leading-tight text-[26px] md:text-[38px]"
+                        style={{
+                            fontFamily: "'DynaPuff', cursive",
+                            fontWeight: 500,
+                        }}
+                    >
+                        Welcome to Zayelle
+                    </h1>
+                    <p
+                        className="text-[#5a5a5a] mb-14"
+                        style={{
+                            fontFamily: "'Cairo', sans-serif",
+                            fontSize: '17px',
+                        }}
+                    >
+                        Create your account
+                    </p>
+                </div>
 
                 <form
                     onSubmit={(e) => {
