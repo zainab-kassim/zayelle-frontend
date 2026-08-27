@@ -24,7 +24,7 @@ export default function SignUpForm() {
                      white background instead of getting hard-cropped — no visible seam, and the
                      heading below can sit on top of it since that faded zone is legible. ── */}
                 <div
-                    className="relative h-[280px] overflow-hidden"
+                    className="relative h-[140px] md:h-[280px] overflow-hidden"
                     style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
                         maskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
@@ -41,21 +41,20 @@ export default function SignUpForm() {
                 </div>
 
                 {/* ── Heading ── */}
-                <div className="text-center -mt-32 relative z-10">
+                <div className="text-center -mt-12 md:-mt-32 relative z-10">
                     <h1
-                        className="text-[#2C2420] mb-0.5 leading-tight text-[26px] md:text-[38px]"
+                        className="text-[#2C2420] mb-0.5 leading-tight text-[26px] md:text-[33px]"
                         style={{
-                            fontFamily: "'DynaPuff', cursive",
-                            fontWeight: 500,
+                            fontFamily: '"Expletus Sans", serif',
+                            fontWeight: 600,
                         }}
                     >
                         Welcome to Zayelle
                     </h1>
                     <p
-                        className="text-[#2C2420] mb-14 font-medium"
+                        className="text-[#2C2420] mb-7 md:mb-14 font-medium text-[14px] md:text-[17px]"
                         style={{
                             fontFamily: "'Cairo', sans-serif",
-                            fontSize: '17px',
                         }}
                     >
                         Create your account
