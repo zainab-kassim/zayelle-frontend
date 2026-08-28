@@ -76,17 +76,18 @@ export default function GoogleButton() {
         strategy="afterInteractive"
         onLoad={initClient}
       />
-      <button
-        type="button"
-        onClick={handleClick}
-        disabled={loading}
-        className="w-full flex items-center justify-center gap-3 border border-[#E0E0E0] rounded-[8px] py-3.5 bg-white text-[15px] md:text-[16px] font-medium text-[#1a1a1a] transition-colors duration-150 hover:bg-[#EFEFEF] active:bg-[#E5E5E5] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-      >
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={handleClick}
+          disabled={loading}
+          className="inline-flex items-center justify-center gap-3 border border-[#E0E0E0] rounded-[8px] py-3.5 px-6 bg-white text-[15px] md:text-[16px] font-medium text-[#1a1a1a] transition-colors duration-150 hover:bg-[#EFEFEF] active:bg-[#E5E5E5] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        >
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
               <path
                 fill="#4285F4"
                 d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"
@@ -107,7 +108,8 @@ export default function GoogleButton() {
             Continue with Google
           </>
         )}
-      </button>
+        </button>
+      </div>
     </>
   );
 }
