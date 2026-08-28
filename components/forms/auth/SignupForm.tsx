@@ -55,7 +55,7 @@ export default function SignUpForm() {
                         Welcome to Zayelle
                     </h1>
                     <p
-                        className="text-[#2C2420] mb-8 md:mb-14 font-medium text-[14px] md:text-[17px]"
+                        className="text-[#2C2420] mb-5 md:mb-9 font-medium text-[14px] md:text-[17px]"
                         style={{
                             fontFamily: "'Cairo', sans-serif",
                         }}

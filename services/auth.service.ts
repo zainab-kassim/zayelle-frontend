@@ -35,11 +35,11 @@ export const signUp = async (
   return response.data;
 };
 
-//google sign-in service — sends the Google ID token to the backend for
+//google sign-in service — sends the Google access token to the backend for
 //verification; the backend logs the user in (or creates the account) and
 //sets our own auth cookies
-export const signInWithGoogle = async (idToken: string) => {
-  const response = await axiosInstance.post('/auth/google', { idToken });
+export const signInWithGoogle = async (accessToken: string) => {
+  const response = await axiosInstance.post('/auth/google', { accessToken });
 
   return response.data;
 };
