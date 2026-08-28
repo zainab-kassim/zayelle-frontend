@@ -23,7 +23,7 @@ export default function LoginForm() {
                      Masked to fade to transparent at the bottom so it dissolves into the card's
                      white background instead of getting hard-cropped. ── */}
                 <div
-                    className="relative h-[220px] md:h-[280px] overflow-hidden"
+                    className="relative h-[190px] md:h-[280px] overflow-hidden"
                     style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
                         maskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
