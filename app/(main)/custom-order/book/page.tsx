@@ -63,7 +63,7 @@ export default function BookPage() {
 
   async function handleConfirm() {
     // Check if user is logged in
-    const Username = localStorage.getItem('firstName');
+    const Username = localStorage.getItem('fullName');
     const UserEmail = localStorage.getItem('email');
     if (!Username && !UserEmail) {
       toast.error("Please log in to book a consultation.");

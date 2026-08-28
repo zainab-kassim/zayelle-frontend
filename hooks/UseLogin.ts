@@ -24,8 +24,8 @@ export const useLogIn = () => {
                     value.email,
                     value.password,
                 );
-                 toast.success(`Welcome back, ${response.user.firstname}!`);
-                localStorage.setItem('firstName', response.user.firstname);
+                 toast.success(`Welcome back, ${response.user.fullName}!`);
+                localStorage.setItem('fullName', response.user.fullName);
                 localStorage.setItem('email', response.user.email);
                 router.push(decodeURIComponent(redirectTo));
 

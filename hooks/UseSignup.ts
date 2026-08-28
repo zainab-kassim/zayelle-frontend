@@ -12,12 +12,9 @@ export const useSignUp = () => {
             onSubmit: signUpSchema,
         },
         defaultValues: {
-            firstName: '',
-            lastName: '',
+            fullName: '',
             email: '',
-            phoneNumber: '',
             password: '',
-            confirmPassword: '',
             agreeToPolicy: false,
         },
         onSubmit: async ({ value }) => {
@@ -26,15 +23,12 @@ export const useSignUp = () => {
 
             try {
                 const response = await signUp(
-                    value.firstName,
-                    value.lastName,
+                    value.fullName,
                     value.email,
-                    value.phoneNumber,
-                    value.password,
-                    value.confirmPassword
+                    value.password
                 );
-                toast.success(`Welcome, ${response.user.firstname}!`);
-                localStorage.setItem('firstName', response.user.firstname);
+                toast.success(`Welcome, ${response.user.fullName}!`);
+                localStorage.setItem('fullName', response.user.fullName);
                 localStorage.setItem('email', response.user.email);
 
                 router.push('/');

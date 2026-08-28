@@ -58,7 +58,7 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         isRefreshing = false;
         refreshSubscribers = [];
-        localStorage.removeItem('firstName');
+        localStorage.removeItem('fullName');
         const currentPath = window.location.pathname + window.location.search;
         window.location.href = `/auth/login?redirect=${encodeURIComponent(currentPath)}`;
         return Promise.reject(refreshError);

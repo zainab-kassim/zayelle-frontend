@@ -37,7 +37,7 @@ export default function SavedAddressCard({
       >
         <div className="flex flex-col gap-1">
           <p className="text-[13px] font-semibold text-[#1a1a1a]">
-            {address.firstName} {address.lastName}
+            {address.customerName}
           </p>
           <p className="text-[12px] text-[#5a5a5a]" >
             {address.street}{address.apt ? `, ${address.apt}` : ""}

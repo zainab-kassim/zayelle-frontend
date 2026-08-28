@@ -173,10 +173,10 @@ export default function AddressForm({
 
       {/* Contact section */}
       <div className="flex flex-col gap-4">
+        <Field label="Customer Name" id="customerName" placeholder="Full name of recipient"
+          value={values.customerName ?? ""} onChange={(v) => onChange("customerName", v)} />
         <Field label="Phone Number" id="phone" placeholder="(555) 123-4567"
           value={values.phone ?? ""} onChange={(v) => onChange("phone", v)} />
-        <Field label="Email Address" id="email" placeholder="you@example.com"
-          value={values.email ?? ""} onChange={(v) => onChange("email", v)} />
       </div>
 
       {/* Shipping section */}

@@ -4,8 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { CartItem } from '@/types/cart';
 
 export interface Address {
-  firstName: string;
-  lastName: string;
+  customerName: string;
   phone: string;
   email: string;
   street: string;
@@ -24,7 +23,8 @@ export interface OrderResponse {
     total_price: number;
     totalLocal: number;
     status: string;
-    phone_number: string;
+    customerName: string;
+    customerPhonenumber: string;
     street_address: string;
     apt_no: string;
     city: string;
@@ -34,7 +34,6 @@ export interface OrderResponse {
     user_id: {
       id: number;
       email: string;
-      firstname: string;
     };
   };
 }

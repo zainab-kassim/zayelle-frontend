@@ -5,7 +5,8 @@ export interface CreateOrderPayload {
   cart_id: number;
   street_address: string;
   apt_no: string;
-  phone_number: string;
+  customerName: string;
+  customerPhonenumber: string;
   city: string;
   state: string;
   postal_code: string;
@@ -40,7 +41,8 @@ export interface OrderHistoryOrder {
   total_price: number;
   totalLocal: number;
   status: string;
-  phone_number: string;
+  customerName: string;
+  customerPhonenumber: string;
   street_address: string;
   apt_no: string;
   city: string;

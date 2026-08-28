@@ -3,10 +3,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSignUp } from "@/hooks/UseSignup";
 import Loader from "@/components/ui/Loader";
+import GoogleButton from "@/components/forms/auth/GoogleButton";
 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const { form } = useSignUp();
 
@@ -16,18 +16,18 @@ export default function SignUpForm() {
     };
 
     return (
-        <main
-            className="h-screen overflow-y-auto no-scrollbar bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-            <div className="w-full md:max-w-[600px] bg-white overflow-hidden md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
+        <main className="min-h-screen bg-white md:bg-white flex flex-col items-center justify-start md:justify-center md:py-12">
+            <div
+                className="w-full md:max-w-[660px] bg-white overflow-hidden overflow-y-auto max-h-screen md:max-h-[calc(100vh-6rem)] no-scrollbar md:rounded-[24px] md:shadow-[0_8px_40px_rgba(0,0,0,0.10)]"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
 
                 {/* ── Header Image — organza floral (Floreal Collection), replaces the blob area.
                      Masked to fade to transparent at the bottom so it dissolves into the card's
                      white background instead of getting hard-cropped — no visible seam, and the
                      heading below can sit on top of it since that faded zone is legible. ── */}
                 <div
-                    className="relative h-[165px] md:h-[280px] overflow-hidden"
+                    className="relative h-[165px] md:h-[200px] overflow-hidden"
                     style={{
                         WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
                         maskImage: 'linear-gradient(to bottom, black 0%, black 40%, rgba(0,0,0,0.65) 58%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.08) 92%, transparent 100%)',
@@ -74,18 +74,30 @@ export default function SignUpForm() {
                     {/* ── Form ── */}
                     <div className="px-7 pb-10">
 
-                        {/* Firstname + Lastname */}
-                        <div className="flex gap-5 mb-6">
+                        {/* Continue with Google */}
+                        <div className="mb-6">
+                            <GoogleButton />
+                        </div>
+
+                        {/* Divider */}
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="flex-1 h-px bg-[#E0E0E0]" />
+                            <span className="text-[13px] text-[#8B8282]">or</span>
+                            <div className="flex-1 h-px bg-[#E0E0E0]" />
+                        </div>
+
+                        {/* Full Name + Email */}
+                        <div className="flex flex-col md:flex-row gap-5 mb-6">
                             <div className="flex-1">
                                 <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                    Firstname
+                                    Full Name
                                 </label>
-                                <form.Field name="firstName">
+                                <form.Field name="fullName">
                                     {(field) => (
                                         <>
                                             <input
                                                 type="text"
-                                                placeholder="Enter firstname"
+                                                placeholder="Enter full name"
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
@@ -100,14 +112,14 @@ export default function SignUpForm() {
                             </div>
                             <div className="flex-1">
                                 <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                    Lastname
+                                    Email
                                 </label>
-                                <form.Field name="lastName">
+                                <form.Field name="email">
                                     {(field) => (
                                         <>
                                             <input
-                                                type="text"
-                                                placeholder="Enter lastname"
+                                                type="email"
+                                                placeholder="Enter email"
                                                 value={field.state.value}
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
@@ -122,122 +134,39 @@ export default function SignUpForm() {
                             </div>
                         </div>
 
-                        {/* Email */}
+                        {/* Password */}
                         <div className="mb-6">
                             <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                Email
+                                Password
                             </label>
-                            <form.Field name="email">
+                            <form.Field name="password">
                                 {(field) => (
                                     <>
-                                        <input
-                                            type="email"
-                                            placeholder="Enter email"
-                                            value={field.state.value}
-                                            onChange={(e) => field.handleChange(e.target.value)}
-                                            onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="Enter Password"
+                                                value={field.state.value}
+                                                onChange={(e) => field.handleChange(e.target.value)}
+                                                onBlur={field.handleBlur}
+                                                className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
+                                            >
+                                                {showPassword
+                                                    ? <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
+                                                    : <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
+                                            </button>
+                                        </div>
 
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
 
                                     </>
                                 )}
                             </form.Field>
-                        </div>
-
-                        {/* Phonenumber */}
-                        <div className="mb-6">
-                            <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                Phonenumber
-                            </label>
-                            <form.Field name="phoneNumber">
-                                {(field) => (
-                                    <>
-                                        <input
-                                            type="tel"
-                                            placeholder="Enter phonenumber"
-                                            value={field.state.value}
-                                            onChange={(e) => field.handleChange(e.target.value)}
-                                            onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3 px-3.5 md:py-3.5 md:px-4 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
-                                        />
-
-                                        <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
-
-                                    </>
-                                )}
-                            </form.Field>
-                        </div>
-
-                        {/* Password + Confirm Password */}
-                        <div className="flex gap-5 mb-6">
-                            <div className="flex-1">
-                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                    Password
-                                </label>
-                                <form.Field name="password">
-                                    {(field) => (
-                                        <>
-                                            <div className="relative">
-                                                <input
-                                                    type={showPassword ? 'text' : 'password'}
-                                                    placeholder="Enter Password"
-                                                    value={field.state.value}
-                                                    onChange={(e) => field.handleChange(e.target.value)}
-                                                    onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
-                                                >
-                                                    {showPassword
-                                                        ? <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                        : <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
-                                                </button>
-                                            </div>
-
-                                            <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
-
-                                        </>
-                                    )}
-                                </form.Field>
-                            </div>
-                            <div className="flex-1">
-                                <label className="block text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] mb-2.5">
-                                    Confirm
-                                </label>
-                                <form.Field name="confirmPassword">
-                                    {(field) => (
-                                        <>
-                                            <div className="relative">
-                                                <input
-                                                    type={showConfirmPassword ? 'text' : 'password'}
-                                                    placeholder="Confirm password"
-                                                    value={field.state.value}
-                                                    onChange={(e) => field.handleChange(e.target.value)}
-                                                    onBlur={field.handleBlur}
-                                                    className="w-full border-0 rounded-lg outline-none py-3 pl-3.5 md:py-3.5 md:pl-4 pr-12 md:pr-10 bg-[#F5F5F5] text-[14px] md:text-[16.5px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[11px] text-[#8B8282] cursor-pointer"
-                                                >
-                                                    {showConfirmPassword
-                                                        ? <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=4y6r43dyjbzw&format=png&color=000000" alt="Show" />
-                                                        : <Image width={19} height={19} src="https://img.icons8.com/?size=100&id=85035&format=png&color=000000" alt="Hide" />}
-                                                </button>
-                                            </div>
-
-                                            <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
-
-                                        </>
-                                    )}
-                                </form.Field>
-                            </div>
                         </div>
 
                         {/* Checkbox Row */}

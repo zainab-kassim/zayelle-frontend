@@ -19,11 +19,11 @@ interface OrderDetails{
   state: string;
   country: string;
   postal_code: string;
-  phone_number: string;
+  customerName: string;
+  customerPhonenumber: string;
   user_id: {
     id: number;
     email: string;
-    firstname: string;
   };
 }
 
@@ -161,7 +161,13 @@ export default function ReviewOrder({
                 className="text-[12px] text-[#5a5a5a]"
                 style={{ fontFamily: "Cairo, sans-serif" }}
               >
-                {OrderDetails.phone_number}
+                {OrderDetails.customerName}
+              </p>
+              <p
+                className="text-[12px] text-[#5a5a5a]"
+                style={{ fontFamily: "Cairo, sans-serif" }}
+              >
+                {OrderDetails.customerPhonenumber}
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"

@@ -27,6 +27,7 @@ export default function OrderDetailsPage() {
       .then((response) => {
         console.log("Order details:", response.order);
         setOrder(response.order);
+        setCustomerName(response.order.customerName ?? "");
       })
       .catch((err) => {
         console.error("Failed to fetch order details:", err);
@@ -34,10 +35,10 @@ export default function OrderDetailsPage() {
       });
   }, [id]);
 
-  // logged-in user's name/email aren't on the order record — they're stashed
-  // in localStorage at login/signup (see hooks/UseLogin.ts, hooks/UseSignup.ts)
+  // the customer name is on the order record (order.customerName, set above);
+  // the account email isn't on the order — it's stashed in localStorage at
+  // login/signup (see hooks/UseLogin.ts, hooks/UseSignup.ts)
   useEffect(() => {
-    setCustomerName(localStorage.getItem("firstName") ?? "");
     setCustomerEmail(localStorage.getItem("email") ?? "");
   }, []);
 
@@ -111,7 +112,7 @@ export default function OrderDetailsPage() {
           <PersonalInfoCard
             name={customerName}
             email={customerEmail}
-            phone={order.phone_number}
+            phone={order.customerPhonenumber}
             addressLines={addressLines}
             postalCode={order.postal_code}
           />

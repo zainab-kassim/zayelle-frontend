@@ -22,7 +22,7 @@ const CURRENCY_ICONS: Record<string, string> = {
 export default function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
-    const [firstName, setFirstName] = useState('');
+    const [fullName, setFullName] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
@@ -34,8 +34,8 @@ export default function Navbar() {
 
     useEffect(() => {
         setIsMounted(true);
-        const stored = localStorage.getItem('firstName');
-        if (stored) setFirstName(stored);
+        const stored = localStorage.getItem('fullName');
+        if (stored) setFullName(stored);
     }, []);
 
     useEffect(() => {
@@ -66,9 +66,9 @@ export default function Navbar() {
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
-            localStorage.removeItem('firstName');
+            localStorage.removeItem('fullName');
             localStorage.removeItem('email');
-            setFirstName('');
+            setFullName('');
             setIsDropdownOpen(false);
             toast.success('Logged out successfully');
             router.push('/');
@@ -125,7 +125,7 @@ export default function Navbar() {
                                     className="text-[11px] sm:text-[12px] md:text-[16px] max-w-28 text-black whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
                                     style={{ fontFamily: "'Cairo', sans-serif" }}
                                 >
-                                    hey, {firstName || 'there'}
+                                    hey, {fullName || 'there'}
                                 </span>
                                 <motion.div
                                     animate={{ rotate: isDropdownOpen ? 180 : 0 }}
@@ -216,7 +216,7 @@ export default function Navbar() {
                                         </div>
                                         <div className="h-px bg-[#E0E0E0]" />
 
-                                        {firstName ? (
+                                        {fullName ? (
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50 text-left"
@@ -307,7 +307,7 @@ export default function Navbar() {
                                 />
                             </button>
                             <div className="flex flex-col p-6 pt-20">
-                                {firstName ? (
+                                {fullName ? (
                                     <button
                                         onClick={handleLogout}
                                         className="px-4 py-4 text-[14px] text-left text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"

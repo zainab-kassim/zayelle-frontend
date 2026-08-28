@@ -17,7 +17,7 @@ import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayme
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
-  firstName: "", lastName: "", phone: "", email: "",
+  customerName: "", phone: "", email: "",
   street: "", apt: "", postalCode: "", city: "",
   province: "", country: "",
 };
@@ -153,6 +153,15 @@ export default function CheckoutContent() {
     fetchCartItems();
   }, []);
 
+  // email isn't collected in the address form — it comes from the logged-in
+  // account (stashed in localStorage at login/signup)
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setFormValues((prev) => ({ ...prev, email: storedEmail }));
+    }
+  }, []);
+
   const handleFieldChange = (field: keyof Address, value: string) => {
     setUsingSaved(false); // deselect saved if user starts typing
     setFormValues(prev => ({ ...prev, [field]: value }));
@@ -160,8 +169,8 @@ export default function CheckoutContent() {
 
   const handleContinue = (): Address | null => {
     if (!usingSaved) {
-      const { phone, email, street, city, province, country, postalCode } = formValues;
-      if (!phone || !email || !street || !city || !province || !country || !postalCode) {
+      const { customerName, phone, street, city, province, country, postalCode } = formValues;
+      if (!customerName || !phone || !street || !city || !province || !country || !postalCode) {
         toast.error("Please fill in all required fields before continuing.");
         return null;
       }
@@ -181,7 +190,8 @@ export default function CheckoutContent() {
         cart_id: cartItems[0].cart_id,
         street_address: address.street,
         apt_no: address.apt,
-        phone_number: address.phone,
+        customerName: address.customerName,
+        customerPhonenumber: address.phone,
         city: address.city,
         state: address.province,
         postal_code: address.postalCode,
