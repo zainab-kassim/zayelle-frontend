@@ -38,8 +38,10 @@ export const signUp = async (
 //google sign-in service — sends the Google access token to the backend for
 //verification; the backend logs the user in (or creates the account) and
 //sets our own auth cookies
-export const signInWithGoogle = async (accessToken: string) => {
-  const response = await axiosInstance.post('/auth/google', { accessToken });
+export const signInWithGoogle = async (googleAccessToken: string) => {
+  const response = await axiosInstance.post('/auth/google', {
+    googleAccessToken,
+  });
 
   return response.data;
 };
