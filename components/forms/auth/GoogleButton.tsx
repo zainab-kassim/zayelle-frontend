@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { signInWithGoogle } from '@/services/auth.service';
-import Loader from '@/components/ui/Loader';
+import TinySpinner from '@/components/ui/TinySpinner';
 
 // Google Identity Services attaches itself to window.google once the
 // gsi/client script loads; it ships no types.
@@ -84,7 +84,8 @@ export default function GoogleButton() {
           className="inline-flex items-center justify-center gap-3 border border-[#E0E0E0] rounded-[8px] py-3.5 px-6 bg-white text-[15px] md:text-[16px] font-medium text-[#1a1a1a] transition-colors duration-150 hover:bg-[#EFEFEF] active:bg-[#E5E5E5] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
           {loading ? (
-            <Loader />
+            // same 18px box as the G icon — no layout shift
+            <TinySpinner size={18} />
           ) : (
             <>
               <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
