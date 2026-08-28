@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useLogIn } from "@/hooks/UseLogin";
 import Loader from "@/components/ui/Loader";
 import GoogleButton from "@/components/forms/auth/GoogleButton";
-import AppleButton from "@/components/forms/auth/AppleButton";
 
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -71,10 +70,9 @@ export default function LoginForm() {
                     {/* ── Form ── */}
                     <div className="px-7 lg:px-12 pb-14 lg:pb-16">
 
-                        {/* Social sign-in */}
-                        <div className="flex flex-col sm:flex-row sm:justify-center gap-3 mb-6">
+                        {/* Continue with Google */}
+                        <div className="mb-6">
                             <GoogleButton />
-                            <AppleButton />
                         </div>
 
                         {/* Divider */}
