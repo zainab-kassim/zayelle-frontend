@@ -51,7 +51,7 @@ export default function LoginForm() {
                         Welcome Back
                     </h1>
                     <p
-                        className="text-[#2C2420] mb-7 md:mb-14 font-medium text-[14px] md:text-[17px]"
+                        className="text-[#2C2420] mb-7 md:mb-9 font-medium text-[14px] md:text-[17px]"
                         style={{
                             fontFamily: "'Cairo', sans-serif",
                         }}
