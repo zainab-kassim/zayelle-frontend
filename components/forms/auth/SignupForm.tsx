@@ -76,7 +76,7 @@ export default function SignUpForm() {
                     <div className="px-7 pb-10">
 
                         {/* Social sign-in */}
-                        <div className="flex flex-col gap-3 mb-6">
+                        <div className="flex flex-col sm:flex-row sm:justify-center gap-3 mb-6">
                             <GoogleButton />
                             <AppleButton />
                         </div>

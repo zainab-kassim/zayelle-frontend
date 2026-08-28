@@ -72,7 +72,7 @@ export default function LoginForm() {
                     <div className="px-7 lg:px-12 pb-14 lg:pb-16">
 
                         {/* Social sign-in */}
-                        <div className="flex flex-col gap-3 mb-6">
+                        <div className="flex flex-col sm:flex-row sm:justify-center gap-3 mb-6">
                             <GoogleButton />
                             <AppleButton />
                         </div>
