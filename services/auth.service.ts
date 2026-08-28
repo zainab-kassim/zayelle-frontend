@@ -45,4 +45,15 @@ export const signInWithGoogle = async (googleAccessToken: string) => {
 
   return response.data;
 };
+
+//apple sign-in service — sends the Apple ID token (and the name, which Apple
+//only returns on the first sign-in) to the backend for verification
+export const signInWithApple = async (idToken: string, fullName?: string) => {
+  const response = await axiosInstance.post('/auth/apple', {
+    idToken,
+    ...(fullName ? { fullName } : {}),
+  });
+
+  return response.data;
+};
  
