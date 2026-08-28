@@ -91,7 +91,7 @@ export default function AppleButton() {
           type="button"
           onClick={handleClick}
           disabled={loading}
-          className="inline-flex items-center justify-center gap-3 rounded-[8px] py-3.5 px-6 bg-black text-[15px] md:text-[16px] font-medium text-white transition-colors duration-150 hover:bg-[#1d1d1f] active:bg-[#2a2a2c] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+          className="inline-flex items-center justify-center gap-3 rounded-[8px] py-3.5 px-6 bg-black text-[15px] md:text-[16px] font-normal text-white transition-colors duration-150 hover:bg-[#1d1d1f] active:bg-[#2a2a2c] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
           {loading ? (
             // bordered spinner, white so it reads on the black button
