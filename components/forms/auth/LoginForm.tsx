@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useLogIn } from "@/hooks/UseLogin";
 import Loader from "@/components/ui/Loader";
+import GoogleButton from "@/components/forms/auth/GoogleButton";
 
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -68,6 +69,18 @@ export default function LoginForm() {
                 >
                     {/* ── Form ── */}
                     <div className="px-7 lg:px-12 pb-14 lg:pb-16">
+
+                        {/* Continue with Google */}
+                        <div className="mb-6">
+                            <GoogleButton />
+                        </div>
+
+                        {/* Divider */}
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="flex-1 h-px bg-[#E0E0E0]" />
+                            <span className="text-[13px] text-[#8B8282]">or</span>
+                            <div className="flex-1 h-px bg-[#E0E0E0]" />
+                        </div>
 
                         {/* Email */}
                         <div className="mb-7">
