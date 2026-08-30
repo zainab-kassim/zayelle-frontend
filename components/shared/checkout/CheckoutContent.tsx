@@ -60,7 +60,7 @@ export default function CheckoutContent() {
     Boolean(searchParams.get("reference") ?? searchParams.get("trxref") ?? searchParams.get("session_id"))
   );
   // Stripe sends the browser here (cancel_url) when the user backs out of Checkout
-  const [isCanceling, setIsCanceling] = useState(Boolean(searchParams.get("canceled")));
+  const [isCanceling, setIsCanceling] = useState(searchParams.get("canceled") === "1");
 
   // step 3 is the single point of truth for a payment result — every outcome routes there
   // this handles Paystack's redirect callback (?reference=/?trxref=)
@@ -109,19 +109,23 @@ export default function CheckoutContent() {
     const canceledOrderId = searchParams.get("order_id");
 
     if (canceled === "1") {
-      // fire-and-forget: the checkout.session.expired webhook is the backstop
-      // if this call fails or never runs
-      Promise.resolve(
-        canceledOrderId
-          ? CancelStripeCheckout(Number(canceledOrderId)).catch(() => {})
-          : undefined
-      ).finally(() => {
-        resetCheckout();
-        setIsCanceling(false);
-        toast.info("Checkout canceled. Your items are still in your cart.");
-        // strip the params so a refresh doesn't re-trigger this
-        router.replace("/checkout");
-      });
+      (async () => {
+        try {
+          // the checkout.session.expired webhook is the backstop if this
+          // call fails or never runs
+          if (canceledOrderId) {
+            await CancelStripeCheckout(Number(canceledOrderId));
+          }
+        } catch {
+          // ignore — webhook restores inventory either way
+        } finally {
+          resetCheckout();
+          setIsCanceling(false);
+          toast.info("Checkout canceled. Your items are still in your cart.");
+          // strip the params so a refresh doesn't re-trigger this
+          router.replace("/checkout");
+        }
+      })();
       return;
     }
 
