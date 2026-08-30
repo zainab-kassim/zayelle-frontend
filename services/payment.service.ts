@@ -33,3 +33,15 @@ export const VerifyStripePayment = async (session_id: string) => {
 
   return response.data;
 };
+
+// called when the user backs out of Stripe Checkout (lands on cancel_url) —
+// cancels the pending order and restores inventory right away instead of
+// waiting for the checkout.session.expired webhook
+export const CancelStripeCheckout = async (order_id: number) => {
+  const response = await axiosInstance.post(
+    "/payment/stripe/cancel-checkout",
+    { order_id }
+  );
+
+  return response.data;
+};

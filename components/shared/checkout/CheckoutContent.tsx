@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
-import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment } from "@/services/payment.service";
+import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment, CancelStripeCheckout } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
@@ -59,6 +59,8 @@ export default function CheckoutContent() {
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(
     Boolean(searchParams.get("reference") ?? searchParams.get("trxref") ?? searchParams.get("session_id"))
   );
+  // Stripe sends the browser here (cancel_url) when the user backs out of Checkout
+  const [isCanceling, setIsCanceling] = useState(Boolean(searchParams.get("canceled")));
 
   // step 3 is the single point of truth for a payment result — every outcome routes there
   // this handles Paystack's redirect callback (?reference=/?trxref=)
@@ -103,6 +105,25 @@ export default function CheckoutContent() {
   useEffect(() => {
     const reference = searchParams.get("reference") ?? searchParams.get("trxref");
     const session_id = searchParams.get("session_id");
+    const canceled = searchParams.get("canceled");
+    const canceledOrderId = searchParams.get("order_id");
+
+    if (canceled === "1") {
+      // fire-and-forget: the checkout.session.expired webhook is the backstop
+      // if this call fails or never runs
+      Promise.resolve(
+        canceledOrderId
+          ? CancelStripeCheckout(Number(canceledOrderId)).catch(() => {})
+          : undefined
+      ).finally(() => {
+        resetCheckout();
+        setIsCanceling(false);
+        toast.info("Checkout canceled. Your items are still in your cart.");
+        // strip the params so a refresh doesn't re-trigger this
+        router.replace("/checkout");
+      });
+      return;
+    }
 
     if (reference) {
       setPaymentReference(reference, "paystack");
@@ -275,7 +296,7 @@ export default function CheckoutContent() {
 
       {/* Step content */}
       <AnimatePresence mode="wait">
-        {isVerifyingPayment ? (
+        {isVerifyingPayment || isCanceling ? (
           <motion.div key="verifying"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -285,7 +306,7 @@ export default function CheckoutContent() {
               <Loader />
             </div>
             <p className="text-[13px] text-[#5a5a5a]" style={{ fontFamily: "Cairo, sans-serif" }}>
-              Confirming your payment…
+              {isCanceling ? "Canceling checkout…" : "Confirming your payment…"}
             </p>
           </motion.div>
         ) : (
