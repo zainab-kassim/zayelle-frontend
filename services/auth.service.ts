@@ -45,4 +45,19 @@ export const signInWithGoogle = async (googleAccessToken: string) => {
 
   return response.data;
 };
+
+//request a password reset link
+export const requestPasswordReset = async (email: string) => {
+  const response = await axiosInstance.post('/auth/forgot-password', { email });
+  return response.data;
+};
+
+//set a new password using the token from the reset email
+export const resetPassword = async (token: string, password: string) => {
+  const response = await axiosInstance.post('/auth/reset-password', {
+    token,
+    password,
+  });
+  return response.data;
+};
  

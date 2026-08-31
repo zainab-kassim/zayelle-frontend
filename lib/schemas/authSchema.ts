@@ -19,3 +19,21 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
+
+// Forgot-password form (request a reset link)
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Invalid email address'),
+});
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
+
+// Reset-password form (set a new password from the emailed link)
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(12, 'Password must be at least 12 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;

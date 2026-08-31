@@ -106,9 +106,14 @@ export default function LoginForm() {
 
                         {/* Password */}
                         <div className="mb-7">
-                            <label className="block text-[15px] md:text-[18px] font-medium text-[#1a1a1a] mb-2.5">
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between mb-2.5">
+                                <label className="block text-[15px] md:text-[18px] font-medium text-[#1a1a1a]">
+                                    Password
+                                </label>
+                                <a href="/auth/forgot-password" className="text-[13px] text-[#4E8ED9] underline">
+                                    Forgot password?
+                                </a>
+                            </div>
                             <form.Field name="password">
                                 {(field) => (
                                     <>
