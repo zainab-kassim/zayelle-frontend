@@ -45,3 +45,15 @@ export const CancelStripeCheckout = async (order_id: number) => {
 
   return response.data;
 };
+
+// called when the user clicks Cancel/X on Paystack (lands on cancel_action) —
+// restores inventory if Paystack already reports the transaction abandoned/failed,
+// otherwise leaves it for the delayed charge.abandoned webhook
+export const CancelPaystackCheckout = async (order_id: number) => {
+  const response = await axiosInstance.post(
+    "/payment/paystack/cancel-checkout",
+    { order_id }
+  );
+
+  return response.data;
+};

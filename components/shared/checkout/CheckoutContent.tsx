@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 import { createOrder } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
-import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment, CancelStripeCheckout } from "@/services/payment.service";
+import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment, CancelStripeCheckout, CancelPaystackCheckout } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
 
 const EMPTY_ADDRESS: Address = {
@@ -107,14 +107,21 @@ export default function CheckoutContent() {
     const session_id = searchParams.get("session_id");
     const canceled = searchParams.get("canceled");
     const canceledOrderId = searchParams.get("order_id");
+    const canceledProvider = searchParams.get("provider");
 
     if (canceled === "1") {
       (async () => {
         try {
-          // the checkout.session.expired webhook is the backstop if this
-          // call fails or never runs
+          // the provider webhook (checkout.session.expired / charge.abandoned)
+          // is the backstop if this call fails or never runs
           if (canceledOrderId) {
-            await CancelStripeCheckout(Number(canceledOrderId));
+            const id = Number(canceledOrderId);
+            // startsWith, not ===, in case Paystack tacks its own params on
+            if (canceledProvider?.startsWith("paystack")) {
+              await CancelPaystackCheckout(id);
+            } else {
+              await CancelStripeCheckout(id);
+            }
           }
         } catch {
           // ignore — webhook restores inventory either way
