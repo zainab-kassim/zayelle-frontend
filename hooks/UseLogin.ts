@@ -37,6 +37,10 @@ export const useLogIn = () => {
                     if (status === 400) {
                         toast.error(message || "Invalid form data");
                         console.log("Validation error details:", error.response?.data);
+                    } else if (status === 401) {
+                        // Wrong password, unknown email, or a Google-only account — the
+                        // backend returns the same generic message for all three.
+                        toast.error(message || "Invalid email or password");
                     } else if (status === 409) {
                         toast.error("Account already exists");
                     } else if (status === 500) {

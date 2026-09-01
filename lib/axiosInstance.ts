@@ -14,6 +14,12 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
+// The backend tags a 401 with `code: 'TOKEN_EXPIRED'` only when the access
+// token is missing/expired — the one case where refreshing and retrying is the
+// right move. Every other 401 (bad credentials, Google sign-in failure, an
+// invalid refresh token, …) carries a different code and is left for the caller.
+const TOKEN_EXPIRED_CODE = 'TOKEN_EXPIRED';
+
 // Shared refresh state so concurrent 401s don't race each other
 let isRefreshing = false;
 let refreshSubscribers: Array<() => void> = [];
@@ -32,11 +38,11 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (
+    const isTokenExpired =
       error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes('/auth/token')
-    ) {
+      error.response?.data?.code === TOKEN_EXPIRED_CODE;
+
+    if (isTokenExpired && !originalRequest._retry) {
       originalRequest._retry = true;
 
       // If a refresh is already in flight, queue this request instead of firing another
