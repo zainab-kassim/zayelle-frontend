@@ -67,7 +67,7 @@ export default function BookPage() {
     const UserEmail = localStorage.getItem('email');
     if (!Username && !UserEmail) {
       toast.error("Please log in to book a consultation.");
-      router.push('/auth/signup?redirect=/book');
+      router.push('/auth/signup?redirect=/custom-order/book');
       return;
     }
 
