@@ -1,5 +1,4 @@
 import axiosInstance from '@/lib/axiosInstance';
- 
 
 // ── Authentication Services ──
 
@@ -9,12 +8,12 @@ export const login = async (email: string, password: string) => {
     email,
     password,
   });
- 
+
   return response.data;
 };
 
 //logout service
-export const Logout = async () => {
+export const logout = async () => {
   const response = await axiosInstance.post('/auth/logout');
   return response.data;
 };

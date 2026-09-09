@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCurrencyStore } from '@/store/currencyStore';
-import { Logout } from '@/services/auth.service';
+import { logout } from '@/services/auth.service';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
 
@@ -62,7 +62,7 @@ export default function Navbar() {
 
     async function handleLogout() {
         try {
-            await Logout();
+            await logout();
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
