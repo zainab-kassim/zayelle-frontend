@@ -3,10 +3,20 @@ import { toast } from 'sonner';
 import { signUpSchema } from '@/lib/schemas/authSchema';
 import { signUp } from '@/services/auth.service';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+// Only ever redirect to a same-app relative path — the `redirect` query
+// param comes straight from the URL, so a crafted link (?redirect=//evil.com
+// or ?redirect=https://evil.com) must never be able to send a user off-site.
+const getSafeRedirect = (path: string | null): string => {
+    if (!path || !path.startsWith('/') || path.startsWith('//')) return '/';
+    return path;
+};
 
 export const useSignUp = () => {
       const router = useRouter();
+      const searchParams = useSearchParams();
+      const redirectTo = getSafeRedirect(searchParams.get('redirect'));
     const form = useForm({
         validators: {
             onSubmit: signUpSchema,
@@ -31,7 +41,7 @@ export const useSignUp = () => {
                 localStorage.setItem('fullName', response.user.fullName);
                 localStorage.setItem('email', response.user.email);
 
-                router.push('/');
+                router.push(redirectTo);
 
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
