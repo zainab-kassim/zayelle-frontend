@@ -65,8 +65,9 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
         refreshSubscribers = [];
         localStorage.removeItem('fullName');
+        localStorage.removeItem('email');
         const currentPath = window.location.pathname + window.location.search;
-        window.location.href = `/auth/login?redirect=${encodeURIComponent(currentPath)}`;
+        window.location.href = `/auth/login?redirect=${encodeURIComponent(currentPath)}&session=expired`;
         return Promise.reject(refreshError);
       }
     }
