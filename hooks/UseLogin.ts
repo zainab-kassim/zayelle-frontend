@@ -5,11 +5,18 @@ import { login } from '@/services/auth.service';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+// Only ever redirect to a same-app relative path — the `redirect` query
+// param comes straight from the URL, so a crafted link (?redirect=//evil.com
+// or ?redirect=https://evil.com) must never be able to send a user off-site.
+const getSafeRedirect = (path: string | null): string => {
+    if (!path || !path.startsWith('/') || path.startsWith('//')) return '/';
+    return path;
+};
 
 export const useLogIn = () => {
     const router = useRouter();
         const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirect') || '/';
+    const redirectTo = getSafeRedirect(searchParams.get('redirect'));
     const form = useForm({
         validators: {
             onSubmit: loginSchema,
