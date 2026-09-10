@@ -25,7 +25,6 @@ export const useSignUp = () => {
             fullName: '',
             email: '',
             password: '',
-            agreeToPolicy: false,
         },
         onSubmit: async ({ value }) => {
             // isLoading logic
