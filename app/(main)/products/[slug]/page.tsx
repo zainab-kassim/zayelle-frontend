@@ -10,6 +10,7 @@ import ProductImageViewer from "@/components/shared/product/ProductImageViewer";
 import ProductInfo from "@/components/shared/product/ProductInfo";
 import { useCurrencyStore } from "@/store/currencyStore";
 import ProductDetailSkeleton from "@/components/shared/product/ProductsdetailsSection";
+import { useAsyncData } from "@/hooks/UseAsyncData";
 
 
 interface PageProps {
@@ -20,30 +21,21 @@ export default function ProductSlugPage({ params }: PageProps) {
   const { slug } = use(params);
   const { currency } = useCurrencyStore();
 
-  const [product, setProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   // ── Fetch product ──────────────────────────────────────────────
+  const { data: product, isLoading, error } = useAsyncData<Product | null>(
+    () => getProductBySlug(slug),
+    [slug, currency],
+    null
+  );
+  const isError = Boolean(error);
+
   useEffect(() => {
-    const fetchProduct = async () => {
-      setIsLoading(true);
-      setIsError(false);
-      try {
-        const data = await getProductBySlug(slug);
-        setProduct(data);
-        if (data.size?.length) setSelectedSize(data.size[0]);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProduct();
-  }, [slug, currency]);
+    if (product?.size?.length) setSelectedSize(product.size[0]);
+  }, [product]);
 
   // ── Add to cart ────────────────────────────────────────────────
   const handleAddToCart = async () => {
