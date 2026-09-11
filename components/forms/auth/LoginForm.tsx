@@ -42,10 +42,10 @@ export default function LoginForm() {
                 {/* ── Heading ── */}
                 <div className="text-center -mt-20 md:-mt-32 relative z-10">
                     <h1
-                        className="text-[#2C2420] mb-0.5 leading-tight text-[29px] md:text-[33px]"
+                        className="text-[#2C2420] mb-0.5 leading-tight text-[29px] md:text-[26px]"
                         style={{
                             fontFamily: '"Expletus Sans", serif',
-                            fontWeight: 600,
+                            fontWeight: 200,
                         }}
                     >
                         Welcome Back
@@ -84,7 +84,7 @@ export default function LoginForm() {
 
                         {/* Email */}
                         <div className="mb-7">
-                            <label className="block text-[15px] md:text-[18px] font-medium text-[#1a1a1a] mb-2.5">
+                            <label className="block text-[14px] md:text-[13px] font-medium text-[#1a1a1a] mb-2">
                                 Email
                             </label>
                             <form.Field name="email">
@@ -93,10 +93,11 @@ export default function LoginForm() {
                                         <input
                                             type="email"
                                             placeholder="Enter email"
+                                            autoComplete="email"
                                             value={field.state.value}
                                             onChange={(e) => field.handleChange(e.target.value)}
                                             onBlur={field.handleBlur}
-                                            className="w-full border-0 rounded-lg outline-none py-3 px-3 md:py-4 md:px-4 bg-[#F5F5F5] text-[15px] md:text-[18px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                            className="w-full border-0 rounded-lg outline-none py-3 px-3 md:py-4 md:px-4 bg-[#F5F5F5] text-[15px] md:text-[15px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                         />
                                         <FieldError errors={field.state.meta.errors} isTouched={field.state.meta.isTouched} />
                                     </>
@@ -107,7 +108,7 @@ export default function LoginForm() {
                         {/* Password */}
                         <div className="mb-7">
                             <div className="flex items-center justify-between mb-2.5">
-                                <label className="block text-[15px] md:text-[18px] font-medium text-[#1a1a1a]">
+                                <label className="block text-[14px] md:text-[13px] font-medium text-[#1a1a1a]">
                                     Password
                                 </label>
                                 <a href="/auth/forgot-password" className="text-[13px] text-[#4E8ED9] underline">
@@ -125,7 +126,7 @@ export default function LoginForm() {
                                                 autoComplete="current-password"
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 onBlur={field.handleBlur}
-                                                className="w-full border-0 rounded-lg outline-none py-3 pl-3 md:py-4 md:pl-4 pr-10 bg-[#F5F5F5] text-[15px] md:text-[18px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
+                                                className="w-full border-0 rounded-lg outline-none py-3 pl-3 md:py-4 md:pl-4 pr-10 bg-[#F5F5F5] text-[15px] md:text-[15px] font-medium text-[#1a1a1a] placeholder-[#8B8282] transition-colors duration-150 hover:bg-[#EFEFEF] focus:bg-white focus:ring-[0.5px] focus:ring-black"
                                             />
                                             <button
                                                 type="button"
