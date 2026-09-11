@@ -34,8 +34,8 @@ export default function BestSellerBanner() {
                 {/* ── Background + overlay — clipped to card shape ─────────── */}
                 <div className="absolute inset-0 rounded-2xl overflow-hidden">
                     <Image
-                        src="https://images.unsplash.com/photo-1734216736346-b87e2e0ac8db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="banner background — warm beige textured"
+                        src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWJzdHJhY3R5JTIwd2hpdGViYWNrZ3JvdW5kfGVufDB8fDB8fHww"
+                        alt="banner background"
                         fill
                         className="object-cover object-center"
                         priority
