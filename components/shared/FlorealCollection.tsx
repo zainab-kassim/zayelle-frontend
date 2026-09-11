@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductCard from '@/components/ui/ProductCard';
 import ProductCardSkeleton from '@/components/ui/CardSkeleton';
 import { getProductByCollection } from '@/services/product.service';
 import { Product } from '@/types/product';
 import { useCurrencyStore } from '@/store/currencyStore';
+import { useAsyncData } from '@/hooks/UseAsyncData';
 
 
 interface FloralCollectionProps {
@@ -15,29 +15,14 @@ interface FloralCollectionProps {
 
 export default function FloralCollection({ collection }: FloralCollectionProps) {
   const router = useRouter();
-  const [products, setProducts] = useState<Product[]>([])
-  const [isLoading, setIsLoading] = useState(true);
   const { currency } = useCurrencyStore();
 
-
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchProducts = async () => {
-      try {
-        const response = await getProductByCollection(collection);
-        const fetchedProducts = response.products;
-        if (fetchedProducts.length) {
-          setProducts(fetchedProducts);
-        }
-      } catch {
-        // handle error
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [currency, collection]); // currency changes → re-fetches → interceptor sends new header → backend returns new prices
+  // currency changes → re-fetches → interceptor sends new header → backend returns new prices
+  const { data: products, isLoading } = useAsyncData(
+    () => getProductByCollection(collection).then((res) => res.products),
+    [currency, collection],
+    [] as Product[]
+  );
 
   return (
     <section className="w-full bg-white  pt-1 sm:pb-5 sm:pt-5 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
