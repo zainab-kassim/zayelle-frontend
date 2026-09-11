@@ -8,10 +8,19 @@ export default function CurrencyInitializer() {
   const setCurrency = useCurrencyStore((state) => state.setCurrency);
 
   useEffect(() => {
-    axiosInstance.get('/currency').then((res) => {
-      setCurrency(res.data.currency);
-    });
-  }, []);
+    // Don't override a currency the user already has (persisted from a
+    // previous visit or an explicit selection) with the server default.
+    if (useCurrencyStore.getState().currency) return;
+
+    axiosInstance
+      .get('/currency')
+      .then((res) => {
+        setCurrency(res.data.currency);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch default currency:', error);
+      });
+  }, [setCurrency]);
 
   return null;
 }
