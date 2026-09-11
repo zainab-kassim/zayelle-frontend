@@ -10,6 +10,7 @@ import DesktopProductGrid from "@/components/ui/DesktopProductGrid";
 import MobileCollections from "@/components/shared/MobileCollections";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { useAsyncData } from "@/hooks/UseAsyncData";
 
 
 const COLLECTION_MAP: Record<string, string> = {
@@ -20,66 +21,39 @@ const COLLECTION_MAP: Record<string, string> = {
 
 function ProductsContent() {
   const { currency } = useCurrencyStore();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("ALL");
-  const [products,     setProducts]     = useState<Product[]>([]);
-  const [isLoading,    setIsLoading]    = useState(false);
 
-  // ── Fetch all products ─────────────────────────────────────────
-  const fetchAllProducts = async () => {
-    setIsLoading(true);
-    try {
-      const response = await getProducts();
-      if (response.products.length) setProducts(response.products);
-    } catch {
-        console.error("Error fetching all products");
-      // handle silently
-    } finally {
-      setIsLoading(false);
+  // The URL's ?collection= param re-syncs the active filter whenever it (or
+  // currency) changes, taking priority over any manual sidebar selection —
+  // same precedence the previous single fetch-effect had.
+  useEffect(() => {
+    const collection = searchParams.get("collection");
+
+    if (collection) {
+      const filterKey = Object.keys(COLLECTION_MAP).find(
+        key => COLLECTION_MAP[key] === collection
+      );
+      if (filterKey) setActiveFilter(filterKey);
+    } else {
+      setActiveFilter("ALL");
     }
-  };
+  }, [searchParams, currency]);
 
-  // ── Fetch by collection ────────────────────────────────────────
-  const fetchByCollection = async (slug: string) => {
-    setIsLoading(true);
-    try {
-      const response = await getProductByCollection(slug);
-      if (response.products.length) setProducts(response.products);
-    } catch {
-      // handle silently
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const collectionSlug = activeFilter === "ALL" ? null : COLLECTION_MAP[activeFilter];
 
- useEffect(() => {
-  const collection = searchParams.get("collection");
-
-  if (collection) {
-    const filterKey = Object.keys(COLLECTION_MAP).find(
-      key => COLLECTION_MAP[key] === collection
-    );
-    if (filterKey) {
-      setActiveFilter(filterKey);
-      fetchByCollection(collection); // use collection slug directly
-    }
-  } else {
-    setActiveFilter("ALL");
-    fetchAllProducts();
-  }
-}, [currency,searchParams]);
+  const { data: products, isLoading } = useAsyncData(
+    () =>
+      (collectionSlug ? getProductByCollection(collectionSlug) : getProducts()).then(
+        (res) => res.products
+      ),
+    [currency, collectionSlug],
+    [] as Product[]
+  );
 
   // ── Filter change ──────────────────────────────────────────────
   const handleFilterChange = (filter: string) => {
     setActiveFilter(filter);
-    setProducts([]);
-
-    if (filter === "ALL") {
-      fetchAllProducts();
-    } else {
-      const slug = COLLECTION_MAP[filter];
-      if (slug) fetchByCollection(slug);
-    }
   };
 
   return (
