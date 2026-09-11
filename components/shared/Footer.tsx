@@ -2,11 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function Footer() {
-    const router = useRouter();
-
     return (
         <footer className="w-full bg-white">
 
@@ -85,7 +82,7 @@ export default function Footer() {
                     </Link>
 
                     {/* Facebook */}
-                    <Link href="/facebook.com/byzayelle">
+                    <Link href="https://facebook.com/byzayelle">
                         <div
                             className="w-6 h-6 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style={{ background: '#2076C6', border: '2px solid #26C1F4' }}
