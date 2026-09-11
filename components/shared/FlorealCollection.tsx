@@ -13,9 +13,11 @@ interface FloralCollectionProps {
   collection: string;
   eyebrow: string;
   title: string;
+  mobileImageHeightClassName?: string;
+  mobileImageWrapperClassName?: string;
 }
 
-export default function FloralCollection({ collection, eyebrow, title }: FloralCollectionProps) {
+export default function FloralCollection({ collection, eyebrow, title, mobileImageHeightClassName, mobileImageWrapperClassName }: FloralCollectionProps) {
   const router = useRouter();
   const { currency } = useCurrencyStore();
 
@@ -108,6 +110,8 @@ export default function FloralCollection({ collection, eyebrow, title }: FloralC
                 name={product.name}
                 price={product.price}
                 slug={product.slug}
+                {...(mobileImageHeightClassName ? { imageHeightClassName: mobileImageHeightClassName } : {})}
+                {...(mobileImageWrapperClassName ? { imageWrapperClassName: mobileImageWrapperClassName } : {})}
               />
             </div>
           ))}

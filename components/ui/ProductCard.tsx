@@ -12,9 +12,11 @@ interface ProductCardProps {
     name: string;
     price: string;
     slug: string;
+    imageHeightClassName?: string;
+    imageWrapperClassName?: string;
 }
 
-export default function ProductCard({ id,slug, image, name, price }: ProductCardProps) {
+export default function ProductCard({ id,slug, image, name, price, imageHeightClassName = 'h-[190px] md:h-[330px]', imageWrapperClassName = 'relative pb-3 pt-6 z-0' }: ProductCardProps) {
     const router = useRouter();
 const currency = useCurrencyStore((state) => state.currency);
 
@@ -32,10 +34,10 @@ const currency = useCurrencyStore((state) => state.currency);
         <div  >
             {/* Image area */}
             
-            <div  className="relative pb-3 pt-6 z-0">
+            <div  className={imageWrapperClassName}>
                
                 {/* Product image */}
-                <div className="relative w-full h-[190px] md:h-[330px] overflow-hidden">
+                <div className={`relative w-full ${imageHeightClassName} overflow-hidden`}>
                     <Image
                         src={image[0]}
                         alt={name}
