@@ -19,11 +19,11 @@ export default function ProductCard({ id,slug, image, name, price }: ProductCard
 const currency = useCurrencyStore((state) => state.currency);
 
     return (
-        <div 
-            className="flex relative flex-col cursor-pointer rounded-lg md:rounded-xl lg:rounded-2xl pb-4"
+        <div
+            className="group flex relative flex-col cursor-pointer rounded-lg md:rounded-xl lg:rounded-2xl pb-4 transition-shadow duration-300 hover:shadow-[0_12px_28px_rgba(26,20,16,0.1)]"
             onClick={() => router.push(`/products/${slug}`)}
             style={{ background: '#F8F8F8' }}
-            
+
         >
              <div className='z-20' onClick={(e) => e.stopPropagation()}>
      <AddToCartButtonPlusIcon productid={id} />
@@ -35,12 +35,13 @@ const currency = useCurrencyStore((state) => state.currency);
             <div  className="relative pb-3 pt-6 z-0">
                
                 {/* Product image */}
-                <div className="relative w-full h-[170px] md:h-[300px]">
+                <div className="relative w-full h-[190px] md:h-[330px] overflow-hidden">
                     <Image
                         src={image[0]}
                         alt={name}
                         fill
-                        style={{ objectFit: 'contain', transform: 'scale(1.28)' }}
+                        className="transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+                        style={{ objectFit: 'contain' }}
                     />
                 </div>
             </div>

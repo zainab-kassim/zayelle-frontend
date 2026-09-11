@@ -11,9 +11,11 @@ import { useAsyncData } from '@/hooks/UseAsyncData';
 
 interface FloralCollectionProps {
   collection: string;
+  eyebrow: string;
+  title: string;
 }
 
-export default function FloralCollection({ collection }: FloralCollectionProps) {
+export default function FloralCollection({ collection, eyebrow, title }: FloralCollectionProps) {
   const router = useRouter();
   const { currency } = useCurrencyStore();
 
@@ -25,13 +27,38 @@ export default function FloralCollection({ collection }: FloralCollectionProps) 
   );
 
   return (
-    <section className="w-full bg-white  pt-1 sm:pb-5 sm:pt-5 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
+    <section className="w-full bg-white">
 
       {/* Section Header */}
-      <div className=" text-right mb-3 sm:mb-5 px-2">
+      <div className="flex items-end justify-between gap-4 mb-5 sm:mb-6">
+        <div>
+          <span
+            className="block text-[#6b6b6b] font-semibold mb-1"
+            style={{
+              fontFamily: 'Cairo, sans-serif',
+              fontSize: '11px',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {eyebrow}
+          </span>
+          <h2
+            className="text-[#1a1410] font-bold uppercase"
+            style={{
+              fontFamily: '"Poppins", sans-serif',
+              fontSize: 'clamp(13px, 2.6vw, 22px)',
+              letterSpacing: '0.01em',
+            }}
+          >
+            {title}
+          </h2>
+        </div>
+
         <button
           onClick={() => router.push(`/products?collection=${collection}`)}
-          className="text-[14px] md:text-[16px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
+          className="shrink-0 uppercase text-[#1a1410] cursor-pointer bg-transparent border-none tracking-[0.14em] hover:text-[#C2583A] transition-colors duration-200"
+          style={{ fontFamily: 'Cairo, sans-serif', fontSize: '12px', fontWeight: 600 }}
         >
           See All
         </button>
@@ -41,12 +68,12 @@ export default function FloralCollection({ collection }: FloralCollectionProps) 
       <div className="hidden lg:flex flex-row gap-6">
         {isLoading
           ? Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex-1">
+            <div key={i} className="flex-1 min-w-0">
               <ProductCardSkeleton />
             </div>
           ))
-          : products.map((product) => (
-            <div key={product.id} className="flex-1">
+          : products.slice(0, 3).map((product) => (
+            <div key={product.id} className="flex-1 min-w-0">
               <ProductCard
                 id={product.id}
                 image={product.image}
