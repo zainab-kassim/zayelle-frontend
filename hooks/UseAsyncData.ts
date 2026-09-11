@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 // swallow-or-log the error" pattern used by list-fetching components.
 // Not meant for calls that need to branch on a specific error (status code,
 // error type, etc.) — those should keep their own try/catch.
-//
-// Doesn't log the error itself: every fetcher passed in here is an
-// axiosInstance call, and axiosInstance's response interceptor already logs
-// every failed request once, before it ever reaches this hook's .catch().
 export function useAsyncData<T>(
     fetcher: () => Promise<T>,
     deps: unknown[],
