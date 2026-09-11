@@ -22,7 +22,6 @@ export default function AddToCartButtonPlusIcon({ productid }: AddToCartButtonPl
     const [isLoading, setIsLoading] = useState(false);
 
     const handleAddToCart = async () => {
-        console.log("button clicked", productid);
         // Block duplicate requests
         if (isLoading) return;
 
