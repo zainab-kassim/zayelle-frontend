@@ -26,14 +26,12 @@ export default function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const currency = useCurrencyStore((state) => state.currency);
     const setCurrency = useCurrencyStore((state) => state.setCurrency);
 
     useEffect(() => {
-        setIsMounted(true);
         const stored = localStorage.getItem('fullName');
         if (stored) setFullName(stored);
     }, []);
@@ -51,8 +49,6 @@ export default function Navbar() {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isDropdownOpen]);
-
-    if (!isMounted) return null;
 
     const handleCurrencySelect = (selected: string) => {
         setCurrency(selected);
