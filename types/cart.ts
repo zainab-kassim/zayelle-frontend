@@ -6,13 +6,6 @@ export interface AddToCartPayload {
   size: string;
 }
 
-export interface CartServiceError {
-  message: string;
-  status?: number;
-}
-
-// types/cart.ts
-
 export interface CartProduct {
   name: string;
   slug: string;
