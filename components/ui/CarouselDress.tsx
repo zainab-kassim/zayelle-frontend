@@ -13,11 +13,6 @@ interface DressItem {
   name: string;
 }
 
-interface CarouselDressProps {
-  activeIndex: number;
-  setActiveIndex: (index: number) => void;
-}
-
 // ─── Dress data ───────────────────────────────────────────────────────────────
 const DRESSES: DressItem[] = [
   { src: "/dresses/dress-red.png",   alt: "Rouge Florale",   name: "Rouge Florale"   },
@@ -73,7 +68,7 @@ const SHADOW: Record<Position, { width: string; opacity: number }> = {
 const INIT: Position[] = ["center", "right", "left","back"];
 
 // ─── Component ────────────────────────────────────────────────────────────────
-export default function CarouselDress({ setActiveIndex }: CarouselDressProps) {
+export default function CarouselDress() {
   const posRef  = useRef<Position[]>(INIT);
   const [positions, setPositions] = useState<Position[]>(INIT);
   const [wrappingIdx, setWrappingIdx] = useState<number | null>(null);
@@ -92,11 +87,6 @@ export default function CarouselDress({ setActiveIndex }: CarouselDressProps) {
 
     posRef.current = next;
     setPositions(next);
-
-    // Notify parent which dress is now at center
-    const centerIdx = next.indexOf("center");
-    if (centerIdx !== -1) setActiveIndex(centerIdx);
-
 
     if (wrapIdx !== -1) {
       setWrappingIdx(wrapIdx);

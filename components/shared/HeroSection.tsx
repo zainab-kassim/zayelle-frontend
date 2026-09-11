@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import CarouselDress from "@/components/ui/CarouselDress";
 
 
 export default function HeroSection() {
-    const [activeIndex, setActiveIndex] = useState(0);
-
     return (
         <section
             className="w-full flex flex-col items-center justify-start bg-white py-6 mt-4 "
@@ -81,10 +78,7 @@ export default function HeroSection() {
 
                 {/* ── Dress carousel — fully isolated ───────────────────────── */}
                 <div className="relative z-10 w-full pt-5 lg:pt-8">
-                    <CarouselDress
-                        activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
-                    />
+                    <CarouselDress />
                 </div>
 
                 {/* ── Shop Now CTA ───────────────────────────────────────────── */}
