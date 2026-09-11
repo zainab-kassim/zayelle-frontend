@@ -1,10 +1,21 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useCurrencyStore } from '@/store/currencyStore';
 
 const axiosInstance = axios.create({
   baseURL: '/api',
   withCredentials: true,
 });
+
+// Single choke point every request passes through — mirrors the backend's
+// catch-all error middleware (server.ts), which logs whatever a route
+// handler didn't handle itself before responding. Logged here, not thrown
+// as a new error: callers still decide their own user-facing behavior.
+function logRequestError(error: AxiosError) {
+  const method = error.config?.method?.toUpperCase() ?? '';
+  const url = error.config?.url ?? '';
+  const status = error.response?.status ?? 'network error';
+  console.error(`[API] ${method} ${url} → ${status}`, error.response?.data ?? error.message);
+}
 
 axiosInstance.interceptors.request.use((config) => {
   const currency = useCurrencyStore.getState().currency;
@@ -64,6 +75,7 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         isRefreshing = false;
         refreshSubscribers = [];
+        logRequestError(refreshError as AxiosError);
         localStorage.removeItem('fullName');
         localStorage.removeItem('email');
         const currentPath = window.location.pathname + window.location.search;
@@ -72,6 +84,7 @@ axiosInstance.interceptors.response.use(
       }
     }
 
+    logRequestError(error);
     return Promise.reject(error);
   }
 );
