@@ -54,8 +54,8 @@ function BubbleTail({ align }: { align: "left" | "right" }) {
         >
             <svg width="13" height="18" viewBox="0 0 10 14" fill="none">
                 {align === "left"
-                    ? <path d="M10 0 Q10 14 0 14 Q4 10 4 0 Z" fill="rgba(59, 130, 246)" />
-                    : <path d="M0 0 Q0 14 10 14 Q6 10 6 0 Z" fill="rgb(255 255 255 / 0.65)" />
+                    ? <path d="M10 0 Q10 14 0 14 Q4 10 4 0 Z" fill="#241C14" />
+                    : <path d="M0 0 Q0 14 10 14 Q6 10 6 0 Z" fill="rgba(250, 246, 240, 0.85)" />
                 }
             </svg>
         </span>
@@ -90,8 +90,8 @@ function ReviewBubble({ review }: { review: Review }) {
               shadow-[0_4px_20px_rgba(0,0,0,0.07)]
               backdrop-blur-md
               ${isRight
-                                ? "bg-white/65 border border-white/80 rounded-br-sm"
-                                : "bg-blue-500  rounded-bl-sm"
+                                ? "bg-[#FAF6F0]/85 border border-[#e8ddd0] rounded-br-sm"
+                                : "bg-[#241C14] rounded-bl-sm"
                             }
             `}
                         style={{
@@ -103,7 +103,7 @@ function ReviewBubble({ review }: { review: Review }) {
                         {/* Name inside bubble */}
                         <p
                             className={`text-[13px] lg:text-[16px] font-bold tracking-widest uppercase mb-1 ${isRight ? "text-black" : "text-white"}`}
-                            style={{ fontFamily: "Expletus Sans, serif" }}
+                            style={{ fontFamily: '"Poppins", sans-serif' }}
                         >
                             {review.name}
                         </p>
@@ -135,19 +135,20 @@ function SectionHeading() {
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             className="flex flex-col items-center gap-2 mb-10 text-center"
         >
-            <div className="flex items-center gap-3">
-                <span className="block h-px w-8 bg-black/40" />
-                <span
-                    className="text-[9px] tracking-[0.35em] uppercase text-blck font-semibold"
-                    style={{ fontFamily: "Cairo, sans-serif" }}
-                >
-                    Customer Love
-                </span>
-                <span className="block h-px w-8 bg-black/40" />
-            </div>
+            <span
+                className="text-[#C2583A] font-semibold"
+                style={{
+                    fontFamily: "Cairo, sans-serif",
+                    fontSize: "11px",
+                    letterSpacing: "0.24em",
+                    textTransform: "uppercase",
+                }}
+            >
+                Customer Love
+            </span>
             <h2
-                className="text-[#2a1f14] font-bold uppercase tracking-wide"
-                style={{ fontFamily: '"Expletus Sans", serif', fontSize: "clamp(20px, 4vw, 36px)" }}
+                className="text-[#1a1410] font-bold uppercase tracking-wide"
+                style={{ fontFamily: '"Poppins", sans-serif', fontSize: "clamp(22px, 4vw, 36px)" }}
             >
                 What They're Saying
             </h2>
