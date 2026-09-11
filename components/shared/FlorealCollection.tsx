@@ -9,7 +9,11 @@ import { Product } from '@/types/product';
 import { useCurrencyStore } from '@/store/currencyStore';
 
 
-export default function FloralCollection() {
+interface FloralCollectionProps {
+  collection: string;
+}
+
+export default function FloralCollection({ collection }: FloralCollectionProps) {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +24,7 @@ export default function FloralCollection() {
     setIsLoading(true);
     const fetchProducts = async () => {
       try {
-        const response = await getProductByCollection('floreal-collection');
+        const response = await getProductByCollection(collection);
         const fetchedProducts = response.products;
         if (fetchedProducts.length) {
           setProducts(fetchedProducts);
@@ -33,7 +37,7 @@ export default function FloralCollection() {
     };
 
     fetchProducts();
-  }, [currency]); // currency changes → re-fetches → interceptor sends new header → backend returns new prices
+  }, [currency, collection]); // currency changes → re-fetches → interceptor sends new header → backend returns new prices
 
   return (
     <section className="w-full bg-white  pt-1 sm:pb-5 sm:pt-5 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
@@ -41,7 +45,7 @@ export default function FloralCollection() {
       {/* Section Header */}
       <div className=" text-right mb-3 sm:mb-5 px-2">
         <button
-          onClick={() => router.push('/products?collection=floreal-collection')}
+          onClick={() => router.push(`/products?collection=${collection}`)}
           className="text-[14px] md:text-[16px] uppercase text-[#C2583A] cursor-pointer bg-transparent border-none"
         >
           See All
@@ -71,16 +75,13 @@ export default function FloralCollection() {
 
       {/* Mobile — horizontally scrollable */}
       <div
-        className="flex lg:hidden flex-row gap-6"
+        className="flex lg:hidden flex-row gap-6 no-scrollbar"
         style={{
           overflowX: 'scroll',
           scrollbarWidth: 'none',
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        <style>{`
-          .scroll-hide::-webkit-scrollbar { display: none; }
-        `}</style>
         {isLoading
           ? Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="flex-shrink-0 w-[58vw] max-w-[280px]">

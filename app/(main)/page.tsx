@@ -8,9 +8,9 @@ export default function Home() {
     <>
       <div className=' px-4 md:px-12 lg:px-34 xl:px-16'>
         <HeroSection />
-        <FloralCollection />
+        <FloralCollection collection="floreal-collection" />
         <Banner />
-          <FloralCollection />
+        <FloralCollection collection="ember-collection" />
       </div>
           <MessageReviews />
     </>
