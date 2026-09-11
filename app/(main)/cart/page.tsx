@@ -10,30 +10,25 @@ import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
 import { deleteCartItem, updateCartQuantity } from "@/services/cart.service";
 import { toast } from "sonner";
 import { useCheckoutStore } from "@/store/checkoutStore";
+import { CartItem } from "@/types/cart";
+import { useAsyncData } from "@/hooks/UseAsyncData";
 
 export default function CartPage() {
   const { cartItems, setCartItems, resetCheckout } = useCheckoutStore();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const currency = useCurrencyStore()
 
+  const { data: fetchedCartItems, isLoading, error } = useAsyncData<CartItem[]>(
+    () => getCartItems(),
+    [currency],
+    []
+  );
+  const isError = Boolean(error);
+
   useEffect(() => {
-    setIsLoading(true);
-    setIsError(false);
-    const fetchCartItems = async () => {
-      try {
-        const cartItems = await getCartItems();
-        setCartItems(cartItems);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchCartItems();
-  }, [currency]);
+    setCartItems(fetchedCartItems);
+  }, [fetchedCartItems, setCartItems]);
 
 
   // ── Loading ────────────────────────────────────────────────────
