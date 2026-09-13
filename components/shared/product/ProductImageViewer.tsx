@@ -75,7 +75,7 @@ export default function ProductImageViewer({ images, name }: ProductImageViewerP
           >
             <Image
               src={images[activeIndex]}
-              alt={`${name} — ${LABELS[activeIndex]} view`}
+              alt={`${name}, ${LABELS[activeIndex]} view`}
               fill
               className="object-contain object-center"
               style={{ objectFit: 'contain', }}
@@ -110,7 +110,7 @@ export default function ProductImageViewer({ images, name }: ProductImageViewerP
             >
               <Image
                 src={src}
-                alt={`${name} — ${LABELS[i]} view`}
+                alt={`${name}, ${LABELS[i]} view`}
                 fill
                 className="object-contain object-center p-10"
                 priority={i === 0}

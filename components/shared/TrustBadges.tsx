@@ -32,7 +32,7 @@ const BADGES = [
 export default function TrustBadges() {
     return (
         <section
-            className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 py-2"
+            className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4"
             aria-label="Why shop with Zayelle"
         >
             {BADGES.map((badge) => (

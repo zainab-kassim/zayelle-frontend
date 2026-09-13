@@ -28,29 +28,29 @@ function CategoryTile({ slug, label }: CategoryTile) {
     return (
         <Link
             href={`/products?collection=${slug}`}
-            className="group relative w-full aspect-[7/8] sm:aspect-[5/6] overflow-hidden rounded-2xl bg-surface"
+            className="group relative w-full aspect-[1/1] overflow-hidden rounded-2xl bg-surface flex flex-col"
         >
-            {isLoading ? (
-                <div className="absolute inset-0 animate-pulse bg-line/40" />
-            ) : image ? (
-                <div className="absolute inset-9 sm:inset-11">
-                    <Image
-                        src={image}
-                        alt={label}
-                        fill
-                        className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                        sizes="(max-width: 640px) 90vw, 33vw"
-                    />
-                </div>
-            ) : null}
+            <div className="relative flex-1 min-h-0">
+                {isLoading ? (
+                    <div className="absolute inset-0 animate-pulse bg-line/40" />
+                ) : image ? (
+                    <div className="absolute inset-8 sm:inset-9">
+                        <Image
+                            src={image}
+                            alt={label}
+                            fill
+                            className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                            sizes="(max-width: 640px) 90vw, 33vw"
+                        />
+                    </div>
+                ) : null}
+            </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-5 sm:p-6">
-                <span className="font-serif text-white text-[16px] sm:text-[19px] font-medium tracking-tight">
+            <div className="flex items-center justify-between gap-2 px-5 py-3 sm:px-6 sm:py-3.5 border-t border-line">
+                <span className="font-serif text-ink text-[15px] sm:text-[17px] font-medium tracking-tight">
                     {label}
                 </span>
-                <span className="font-sans text-white uppercase tracking-[0.14em] text-[10px] sm:text-[11px] whitespace-nowrap opacity-90 transition-transform duration-300 group-hover:translate-x-1 border-b border-white/60 pb-0.5">
+                <span className="font-sans text-muted uppercase tracking-[0.14em] text-[10px] sm:text-[11px] whitespace-nowrap transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink border-b border-line group-hover:border-ink pb-0.5">
                     Shop
                 </span>
             </div>
@@ -60,7 +60,7 @@ function CategoryTile({ slug, label }: CategoryTile) {
 
 export default function CategoryShowcase() {
     return (
-        <section className="w-full py-3 sm:py-4" aria-label="Shop by collection">
+        <section className="w-full" aria-label="Shop by collection">
             <div className="mb-5 sm:mb-6">
                 <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] mb-1.5">
                     Shop by Collection

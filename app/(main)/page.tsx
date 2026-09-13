@@ -17,10 +17,6 @@ export default function Home() {
         collection="floreal-collection"
         eyebrow="Fresh In"
         title="Floreal Collection"
-        mobileImageHeightClassName="h-[220px] md:h-[330px]"
-        mobileImageWrapperClassName="relative pb-0 pt-2 z-0"
-        desktopImageHeightClassName="h-[190px] md:h-[380px]"
-        desktopImageWrapperClassName="relative pb-0 pt-2 z-0"
       />
       <Banner />
       <FloralCollection

@@ -102,7 +102,7 @@ export default function CarouselDress() {
 
   return (
     <div
-      className="relative w-full h-[240px] md:h-[360px] lg:h-[420px]"
+      className="relative w-full h-[200px] md:h-[300px] lg:h-[350px]"
       aria-label="Floreal Collection dress carousel"
     >
       {DRESSES.map((dress, i) => {
@@ -125,8 +125,8 @@ export default function CarouselDress() {
             {/* ── Dress image ────────────────────────────────────────── */}
             <div
               style={{
-                width:    "clamp(170px, 26vw, 330px)",
-                height:   "clamp(240px, 38vw, 470px)",
+                width:    "clamp(140px, 21vw, 270px)",
+                height:   "clamp(200px, 31vw, 385px)",
                 position: "relative",
                 flexShrink: 0,
               }}

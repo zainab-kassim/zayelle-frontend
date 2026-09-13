@@ -47,7 +47,7 @@ export default function ProductCard({ id, slug, image, name, price, imageHeightC
                 <div className="font-sans text-[11px] md:text-[12px] tracking-[0.06em] uppercase text-muted truncate">
                     {name}
                 </div>
-                <div className="font-sans text-[13px] md:text-[16px] lg:text-[17px] font-semibold text-ink">
+                <div className="font-sans text-[13px] sm:text-[14px] md:text-[16px] lg:text-[17px] font-semibold text-ink">
                     {formatPrice(price, currency)}
                 </div>
             </div>

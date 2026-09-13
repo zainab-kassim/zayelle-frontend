@@ -36,10 +36,10 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
       {/* Section Header */}
       <div className="flex items-end justify-between gap-4 mb-5 sm:mb-6">
         <div>
-          <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] mb-1.5">
+          <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] sm:text-[12px] mb-1.5">
             {eyebrow}
           </span>
-          <h2 className="font-serif text-ink font-medium tracking-tight text-[22px] sm:text-[28px] md:text-[32px]">
+          <h2 className="font-serif text-ink font-medium tracking-tight text-[24px] sm:text-[30px] md:text-[34px]">
             {title}
           </h2>
         </div>

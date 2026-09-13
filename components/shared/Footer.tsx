@@ -58,7 +58,7 @@ const SOCIALS = [
 
 function FooterColumnHeading({ children }: { children: React.ReactNode }) {
     return (
-        <p className="font-sans text-white font-semibold uppercase tracking-[0.2em] text-[11px] mb-4">
+        <p className="font-sans text-paper font-semibold uppercase tracking-[0.2em] text-[11px] mb-4">
             {children}
         </p>
     );
@@ -68,7 +68,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
     return (
         <Link
             href={href}
-            className="font-sans block text-[#D8D0C4] hover:text-white transition-colors duration-200 no-underline text-[13px]"
+            className="font-sans block text-paper/70 hover:text-paper transition-colors duration-200 no-underline text-[13px]"
         >
             {children}
         </Link>
@@ -86,11 +86,11 @@ export default function Footer() {
                     {/* Brand */}
                     <div className="col-span-2 lg:col-span-2 flex flex-col gap-4">
                         <Link href="/" className="w-fit">
-                            <span className="font-serif text-white text-[24px] font-semibold tracking-tight">
+                            <span className="font-serif text-paper text-[24px] font-semibold tracking-tight">
                                 Zayelle
                             </span>
                         </Link>
-                        <p className="font-sans text-[#B8AE9E] max-w-xs leading-relaxed text-[13px]">
+                        <p className="font-sans text-paper/65 max-w-xs leading-relaxed text-[13px]">
                             Designed for every version of you. Fashion pieces crafted for how you actually live, with custom orders and worldwide currency support.
                         </p>
 
@@ -134,10 +134,10 @@ export default function Footer() {
 
             {/* ── Bottom bar ── */}
             <div className="border-t border-white/10 px-4 md:px-12 lg:px-34 xl:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-                <p className="font-sans text-[#8A8072] text-center text-[12px]">
+                <p className="font-sans text-paper/50 text-center text-[12px]">
                     © 2026 Zayelle. All rights reserved.
                 </p>
-                <p className="font-sans text-[#8A8072] text-center text-[12px]">
+                <p className="font-sans text-paper/50 text-center text-[12px]">
                     Secure checkout powered by Stripe &amp; Paystack
                 </p>
             </div>
