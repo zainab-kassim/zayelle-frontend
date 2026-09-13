@@ -1,13 +1,7 @@
 import type { Metadata } from 'next';
-import { Cairo } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
 import CurrencyInitializer from '@/components/shared/CurrencyInitializer';
-
-const cairo = Cairo({
-  subsets: ['latin'],
-  variable: '--font-cairo',
-});
 
 export const metadata: Metadata = {
   title: 'Zayelle',
@@ -23,11 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Expletus+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700&family=DynaPuff:wght@500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className={`${cairo.variable}`}>
+      <body>
         <CurrencyInitializer />
         <main>
           {children}

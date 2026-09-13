@@ -44,7 +44,7 @@ export default function LoginForm() {
                     <h1
                         className="text-[#2C2420] mb-0.5 leading-tight text-[29px] md:text-[26px]"
                         style={{
-                            fontFamily: '"Expletus Sans", serif',
+                            fontFamily: '"Fraunces", serif',
                             fontWeight: 200,
                         }}
                     >
@@ -53,7 +53,7 @@ export default function LoginForm() {
                     <p
                         className="text-[#2C2420] mb-7 md:mb-9 font-medium text-[14px] md:text-[17px]"
                         style={{
-                            fontFamily: "'Cairo', sans-serif",
+                            fontFamily: "'Inter', sans-serif",
                         }}
                     >
                         Login to your account

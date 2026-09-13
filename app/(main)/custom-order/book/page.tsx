@@ -94,7 +94,7 @@ export default function BookPage() {
       <div className="w-full min-h-screen  bg-white flex items-center justify-center px-4">
         <div className="text-center flex flex-col items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-500 text-2xl">✓</div>
-          <h2 className="text-xl font-semibold text-[#1a1a1a]" style={{ fontFamily: '"Expletus Sans", serif' }}>
+          <h2 className="text-xl font-semibold text-[#1a1a1a]" style={{ fontFamily: '"Fraunces", serif' }}>
             Consultation booked!
           </h2>
           <p className="text-sm text-[#5a5a5a]">
@@ -117,7 +117,7 @@ export default function BookPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
             Google Meet
           </span>
-          <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-1" style={{ fontFamily: '"Expletus Sans", serif' }}>
+          <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-1" style={{ fontFamily: '"Fraunces", serif' }}>
             Book a custom order call
           </h1>
           <p className="text-sm text-[#5a5a5a]">30-minute session · We'll discuss your order details and measurements</p>
@@ -224,7 +224,7 @@ export default function BookPage() {
               onClick={handleConfirm}
               disabled={!selectedDate || !selectedTime}
               className="w-full mt-6 py-3.5 bg-[#1a1a1a] text-white rounded-md text-[11px] font-semibold tracking-[0.22em] uppercase transition-all duration-300 hover:bg-[#333] disabled:opacity-40 disabled:cursor-not-allowed border-none"
-              style={{ fontFamily: "Cairo, sans-serif" }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
               Book meeting
             </button>

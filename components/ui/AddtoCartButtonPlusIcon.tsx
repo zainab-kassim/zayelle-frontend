@@ -10,9 +10,10 @@ import { AxiosError } from "axios";
 
 interface AddToCartButtonPlusIconProps {
     productid: number; // The product ID
+    variant?: "icon" | "bar";
 }
 
-export default function AddToCartButtonPlusIcon({ productid }: AddToCartButtonPlusIconProps) {
+export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }: AddToCartButtonPlusIconProps) {
     const payload: AddToCartPayload = {
         productid,
         quantity: 1,
@@ -42,6 +43,27 @@ export default function AddToCartButtonPlusIcon({ productid }: AddToCartButtonPl
             setIsLoading(false);
         }
     };
+
+    if (variant === "bar") {
+        return (
+            <button
+                onClick={handleAddToCart}
+                disabled={isLoading}
+                aria-label={isLoading ? "Adding to cart..." : "Quick add to cart"}
+                className="
+          w-full bg-ink text-white
+          py-3
+          flex items-center justify-center gap-2
+          font-sans font-semibold uppercase tracking-[0.14em] text-[11px]
+          disabled:opacity-70 disabled:cursor-not-allowed
+          transition-colors duration-200
+          hover:bg-button-primary-active
+        "
+            >
+                {isLoading ? <TinySpinner size={14} /> : "Quick Add"}
+            </button>
+        );
+    }
 
     return (
         <button

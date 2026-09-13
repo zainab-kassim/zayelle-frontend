@@ -60,19 +60,19 @@ function ReviewItem({ item }: { item: CartItem }) {
       <div className="flex flex-col gap-1">
         <p
           className="text-[13px] sm:text-[14px] font-bold uppercase tracking-wide text-[#1a1a1a]"
-          style={{ fontFamily: '"Expletus Sans", serif' }}
+          style={{ fontFamily: '"Fraunces", serif' }}
         >
           {product.name}
         </p>
         <p
           className="text-[11px] text-[#8a8a8a] uppercase tracking-widest"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           {item.size} / {product.name.split(" ").pop()}
         </p>
         <p
           className="text-[12px] text-[#5a5a5a] mt-1"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           QTY: {item.quantity}
         </p>
@@ -104,7 +104,7 @@ export default function ReviewOrder({
       {/* Section title */}
       <p
         className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#1a1a1a]"
-        style={{ fontFamily: '"Expletus Sans", serif' }}
+        style={{ fontFamily: '"Fraunces", serif' }}
       >
         Your Items
       </p>
@@ -134,7 +134,7 @@ export default function ReviewOrder({
             <div className="flex flex-col gap-1 pb-4 border-b border-[#e8e8e8]">
               <p
                 className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-2"
-                style={{ fontFamily: '"Expletus Sans", serif' }}
+                style={{ fontFamily: '"Fraunces", serif' }}
               >
                 Delivery Address
               </p>
@@ -142,7 +142,7 @@ export default function ReviewOrder({
                 <p
                   key={i}
                   className="text-[12px] uppercase text-[#5a5a5a]"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {line}
                 </p>
@@ -153,25 +153,25 @@ export default function ReviewOrder({
             <div className="flex flex-col gap-1 pt-4">
               <p
                 className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-2"
-                style={{ fontFamily: '"Expletus Sans", serif' }}
+                style={{ fontFamily: '"Fraunces", serif' }}
               >
                 Contact
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {OrderDetails.customerName}
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {OrderDetails.customerPhonenumber}
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {OrderDetails.user_id.email}
               </p>
@@ -188,7 +188,7 @@ export default function ReviewOrder({
           >
             <p
               className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-5"
-              style={{ fontFamily: '"Expletus Sans", serif' }}
+              style={{ fontFamily: '"Fraunces", serif' }}
             >
               Order Summary
             </p>
@@ -196,11 +196,11 @@ export default function ReviewOrder({
             {/* Subtotal */}
             <div className="flex justify-between items-center mb-3">
               <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Inter, sans-serif" }}>
                 Subtotal
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Inter, sans-serif" }}>
                 {formatPrice(OrderDetails.totalLocal, currency)}
               </p>
             </div>
@@ -208,11 +208,11 @@ export default function ReviewOrder({
             {/* Shipping */}
             <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#e8e8e8]">
               <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Inter, sans-serif" }}>
                 Shipping Fee
               </p>
               <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}>
+                style={{ fontFamily: "Inter, sans-serif" }}>
                 {formatPrice(500, currency)}
               </p>
             </div>
@@ -220,11 +220,11 @@ export default function ReviewOrder({
             {/* Total */}
             <div className="flex justify-between items-center mb-5">
               <p className="text-[14px] text-[#1a1a1a]"
-                style={{ fontFamily: '"Expletus Sans", serif' }}>
+                style={{ fontFamily: '"Fraunces", serif' }}>
                 Total
               </p>
               <p className="text-[15px] font-bold text-[#1a1a1a]"
-                style={{ fontFamily: '"Expletus Sans", serif' }}>
+                style={{ fontFamily: '"Fraunces", serif' }}>
                 {formatPrice(OrderDetails.totalLocal, currency)}
               </p>
             </div>
@@ -238,7 +238,7 @@ export default function ReviewOrder({
                 flex items-center justify-center
                 hover:bg-[#333] transition-all duration-300
                 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ fontFamily: "Cairo, sans-serif" }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
               {isLoading ? <Loader /> : "Proceed to Payment"}
             </button>

@@ -5,13 +5,13 @@ function Stat({ label, value }: { label: string; value: string }) {
     <div className="flex flex-col items-center gap-1">
       <span
         className="text-[10px] sm:text-[13px] text-[#8a8a8a] text-center"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {label}
       </span>
       <span
         className="text-[11px] sm:text-[14px] font-semibold text-[#1a1a1a] text-center"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {value}
       </span>
@@ -42,13 +42,13 @@ export default function OrderHeaderStats({
       <div className="flex flex-col items-center gap-1">
         <span
           className="text-[10px] sm:text-[13px] text-[#8a8a8a] text-center"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           Status
         </span>
         <span
           className={`w-fit flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-[13px] font-semibold ${badge.bg} ${badge.text}`}
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <span className={`w-1.5 h-1.5 rounded-full ${badge.dot}`} />
           {badge.label}

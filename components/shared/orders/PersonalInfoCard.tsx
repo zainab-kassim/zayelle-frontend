@@ -3,13 +3,13 @@ function InfoRow({ label, value }: { label: string; value: string }) {
     <div className="flex flex-col gap-0.5">
       <span
         className="text-[11px] sm:text-[13px] text-[#8a8a8a] uppercase tracking-widest"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {label}
       </span>
       <span
         className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {value}
       </span>
@@ -38,7 +38,7 @@ export default function PersonalInfoCard({
         <div className="flex flex-col gap-2">
           <p
             className="text-[11px] sm:text-[13px] font-medium tracking-[0.2em] uppercase text-[#1a1a1a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Personal Info
           </p>
@@ -52,7 +52,7 @@ export default function PersonalInfoCard({
         <div className="flex flex-col gap-1">
           <span
             className="text-[11px] sm:text-[13px] text-[#8a8a8a] uppercase tracking-widest"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Shipping Address
           </span>
@@ -61,7 +61,7 @@ export default function PersonalInfoCard({
               <p
                 key={i}
                 className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {line}
               </p>

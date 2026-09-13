@@ -21,7 +21,7 @@ export default function ProductSection({
       {/* Section heading — always visible */}
       <h2
         className="text-[12px] sm:text-[14px] font-bold tracking-[0.10em] uppercase text-[#1a1a1a] border-b border-[#ebebeb] pb-3"
-        style={{ fontFamily: '"Expletus Sans", serif' }}
+        style={{ fontFamily: '"Fraunces", serif' }}
       >
         {title}
       </h2>

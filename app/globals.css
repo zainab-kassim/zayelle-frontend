@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: var(--font-cairo), sans-serif;
+body {
+  background: #FCFBF9;
+  color: #171310;
 }
 
 /* Firefox/IE are handled via the scrollbarWidth/msOverflowStyle inline

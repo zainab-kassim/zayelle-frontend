@@ -42,7 +42,7 @@ export default function ProductCartCard({
             <div className="flex flex-col flex-1 min-w-0">
                 <p
                     className="text-[10px] md:text-[14px]  font-semibold text-[#1a1a1a] uppercase tracking-wide truncate "
-                    style={{ fontFamily: '"Expletus Sans", serif' }}
+                    style={{ fontFamily: '"Fraunces", serif' }}
                 >
                     {CartItem.product.name}
                 </p>
@@ -51,14 +51,14 @@ export default function ProductCartCard({
 
                     <p
                         className="text-[12px] md:text-[15px] text-[#8a8a8a] uppercase tracking-widest"
-                        style={{ fontFamily: "Cairo, sans-serif" }}
+                        style={{ fontFamily: "Inter, sans-serif" }}
                     >
                         {CartItem.size}
                     </p>
                     {CartItem.product.color && (
                         <p
                             className="text-[12px] md:text-[15px]  text-[#8a8a8a] uppercase tracking-widest"
-                            style={{ fontFamily: "Cairo, sans-serif" }}
+                            style={{ fontFamily: "Inter, sans-serif" }}
                         >
                             /{CartItem.product.color}
                         </p>
@@ -66,7 +66,7 @@ export default function ProductCartCard({
                 </span>
                 <p
                     className=" text-[13px] md:text-[16px] font-semibold text-[#1a1a1a] mt-1"
-                    style={{ fontFamily: '"Expletus Sans", serif' }}
+                    style={{ fontFamily: '"Fraunces", serif' }}
                 >
                     {formatPrice(totalItemPrice, currency)}
                 </p>

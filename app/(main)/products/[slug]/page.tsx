@@ -69,7 +69,7 @@ export default function ProductSlugPage({ params }: PageProps) {
       <div className="w-full min-h-screen flex items-center justify-center">
         <p
           className="text-[14px] text-[#5a5a5a] tracking-widest uppercase"
-          style={{ fontFamily: '"Expletus Sans", serif' }}
+          style={{ fontFamily: '"Fraunces", serif' }}
         >
           Product not found.
         </p>

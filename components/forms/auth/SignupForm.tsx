@@ -42,13 +42,13 @@ export default function SignUpForm() {
                 <div className="text-center -mt-20 md:-mt-32 relative z-10">
                     <h1
                         className="text-[#2C2420] mb-0.5 leading-tight text-[29px] md:text-[26px]"
-                        style={{ fontFamily: '"Expletus Sans", serif', fontWeight: 200 }}
+                        style={{ fontFamily: '"Fraunces", serif', fontWeight: 200 }}
                     >
                         Create your account
                     </h1>
                     <p
                         className="text-[#2C2420] mb-6 md:mb-8 font-medium text-[14px] md:text-[17px]"
-                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                        style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                         Join Zayelle, your closet is waiting
                     </p>

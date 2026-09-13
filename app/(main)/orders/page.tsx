@@ -37,7 +37,7 @@ export default function Orders() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {orders.length === 0 && !isLoading ? (
-            <p className="text-[13px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+            <p className="text-[13px] text-[#8a8a8a]" style={{ fontFamily: "Inter, sans-serif" }}>
               No orders found.
             </p>
           ) : (
@@ -49,7 +49,7 @@ export default function Orders() {
               onClick={() => fetchNextPage()}
               disabled={isLoading}
               className="self-center mt-2 px-8 py-3 border border-[#e8e8e8] text-[#1a1a1a] text-[11px] font-semibold tracking-[0.18em] uppercase rounded-md hover:border-[#1a1a1a] transition-all duration-300 disabled:opacity-50"
-              style={{ fontFamily: "Cairo, sans-serif" }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">

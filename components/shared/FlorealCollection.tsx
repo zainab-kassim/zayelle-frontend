@@ -15,9 +15,11 @@ interface FloralCollectionProps {
   title: string;
   mobileImageHeightClassName?: string;
   mobileImageWrapperClassName?: string;
+  desktopImageHeightClassName?: string;
+  desktopImageWrapperClassName?: string;
 }
 
-export default function FloralCollection({ collection, eyebrow, title, mobileImageHeightClassName, mobileImageWrapperClassName }: FloralCollectionProps) {
+export default function FloralCollection({ collection, eyebrow, title, mobileImageHeightClassName, mobileImageWrapperClassName, desktopImageHeightClassName, desktopImageWrapperClassName }: FloralCollectionProps) {
   const router = useRouter();
   const { currency } = useCurrencyStore();
 
@@ -29,40 +31,24 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
   );
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full">
 
       {/* Section Header */}
       <div className="flex items-end justify-between gap-4 mb-5 sm:mb-6">
         <div>
-          <span
-            className="block text-[#6b6b6b] font-semibold mb-1"
-            style={{
-              fontFamily: 'Cairo, sans-serif',
-              fontSize: '11px',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-            }}
-          >
+          <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] mb-1.5">
             {eyebrow}
           </span>
-          <h2
-            className="text-[#1a1410] font-bold uppercase"
-            style={{
-              fontFamily: '"Poppins", sans-serif',
-              fontSize: 'clamp(13px, 2.6vw, 22px)',
-              letterSpacing: '0.01em',
-            }}
-          >
+          <h2 className="font-serif text-ink font-medium tracking-tight text-[22px] sm:text-[28px] md:text-[32px]">
             {title}
           </h2>
         </div>
 
         <button
           onClick={() => router.push(`/products?collection=${collection}`)}
-          className="shrink-0 uppercase text-[#1a1410] cursor-pointer bg-transparent border-none tracking-[0.14em] hover:text-[#C2583A] transition-colors duration-200"
-          style={{ fontFamily: 'Cairo, sans-serif', fontSize: '12px', fontWeight: 600 }}
+          className="font-sans shrink-0 uppercase text-ink cursor-pointer bg-transparent border-b border-ink/40 pb-0.5 tracking-[0.14em] text-[11px] sm:text-[12px] font-semibold hover:border-ink transition-colors duration-200"
         >
-          See All
+          View All
         </button>
       </div>
 
@@ -82,6 +68,8 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
                 name={product.name}
                 price={product.price}
                 slug={product.slug}
+                {...(desktopImageHeightClassName ? { imageHeightClassName: desktopImageHeightClassName } : {})}
+                {...(desktopImageWrapperClassName ? { imageWrapperClassName: desktopImageWrapperClassName } : {})}
               />
             </div>
           ))}

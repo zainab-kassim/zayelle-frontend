@@ -48,7 +48,7 @@ export default function OrderSummary({ subtotal, onCheckout, isCheckingOut = fal
       {/* Shipping */}
       <p
         className="text-[11px] text-[#8a8a8a] tracking-wide"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         Shipping Will Be Calculated At Checkout
       </p>
@@ -61,7 +61,7 @@ export default function OrderSummary({ subtotal, onCheckout, isCheckingOut = fal
           rounded-md transition-all duration-300
           flex items-center justify-center
           hover:bg-[#333]'
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {isCheckingOut ? <Loader /> : "Checkout"}
       </button>

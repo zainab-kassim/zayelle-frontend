@@ -27,7 +27,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
       {/* Collection + year */}
       <p
         className="text-[13px] lg:text-[15px] font-semibold tracking-[0.25em] uppercase text-[#5a5a5a]"
-        style={{ fontFamily: '"Expletus Sans", serif' }}
+        style={{ fontFamily: '"Fraunces", serif' }}
       >
         {product.collections?.name?.toUpperCase()} • 2026
       </p>
@@ -35,7 +35,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
       {/* Price */}
       <p
         className="md:text-[23px] lg:text-[38px] xl:text-[30px] text-xl font-bold text-[#1a1a1a] leading-none"
-        style={{ fontFamily: '"Expletus Sans", serif' }}
+        style={{ fontFamily: '"Fraunces", serif' }}
       >
 
         {formatPrice(product.price, currency)}
@@ -75,7 +75,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
           flex items-center justify-center
           hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed
 "
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         {isAddingToCart ? <Loader /> : "Add to Cart"}
       </button>

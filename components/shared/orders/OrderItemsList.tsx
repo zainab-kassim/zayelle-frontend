@@ -14,7 +14,7 @@ export default function OrderItemsList({ items, currency }: OrderItemsListProps)
         {/* Desktop header row */}
         <div
           className="hidden sm:flex items-center justify-between pl-5 pr-10 sm:pr-14 py-3 bg-[#F8F8F8] text-[13px] text-[#8a8a8a] uppercase tracking-widest"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <span>Product</span>
           <div className="flex items-center gap-6">
@@ -42,25 +42,25 @@ export default function OrderItemsList({ items, currency }: OrderItemsListProps)
               <div className="flex flex-col flex-1 min-w-0">
                 <p
                   className="text-[13px] font-medium text-[#1a1a1a] uppercase tracking-wide truncate"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {item.product_id.name}
                 </p>
                 <p
                   className="text-[11px] text-[#8a8a8a] uppercase tracking-widest"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {item.size}
                 </p>
                 <p
                   className="text-[13px] font-medium text-[#1a1a1a] mt-1"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {formatPrice(item.price, currency)}
                 </p>
                 <p
                   className="text-[11px] text-[#8a8a8a] mt-1"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   Qty: {item.quantity}
                 </p>
@@ -84,13 +84,13 @@ export default function OrderItemsList({ items, currency }: OrderItemsListProps)
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <p
                     className="text-[15px] font-medium text-[#1a1a1a] truncate"
-                    style={{ fontFamily: "Cairo, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     {item.product_id.name}
                   </p>
                   <p
                     className="text-[13px] text-[#8a8a8a] uppercase"
-                    style={{ fontFamily: "Cairo, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     SKU: {item.product_id.slug}
                   </p>
@@ -98,7 +98,7 @@ export default function OrderItemsList({ items, currency }: OrderItemsListProps)
               </div>
               <div
                 className="flex items-center gap-6 text-[14px] text-[#5a5a5a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 <span className="uppercase w-12 text-center">{item.size}</span>
                 <span className="w-16 text-center">Qty {item.quantity}</span>

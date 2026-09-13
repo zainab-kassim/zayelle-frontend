@@ -20,7 +20,7 @@ export default function CartItems({
       <div className="flex items-center justify-center py-16">
         <p
           className="text-[13px] text-[#aaa] tracking-widest uppercase"
-          style={{ fontFamily: '"Expletus Sans", serif' }}
+          style={{ fontFamily: '"Fraunces", serif' }}
         >
           Your cart is empty.
         </p>

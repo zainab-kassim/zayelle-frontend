@@ -17,7 +17,7 @@ export default function OrderTracking({
     <div className="flex flex-col gap-3">
       <p
         className="hidden sm:block text-[17px] font-semibold text-[#1a1a1a]"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         Order Tracking
       </p>
@@ -46,7 +46,7 @@ export default function OrderTracking({
                 <p
                   className="mt-2 sm:mt-3 text-center text-[11px] sm:text-[14px] font-medium leading-tight"
                   style={{
-                    fontFamily: "Cairo, sans-serif",
+                    fontFamily: "Inter, sans-serif",
                     color: isDone ? activeColor : "#8a8a8a",
                   }}
                 >
@@ -54,7 +54,7 @@ export default function OrderTracking({
                 </p>
                 <p
                   className="hidden sm:block mt-0.5 text-center text-[13px] text-[#b0b0b0] leading-tight"
-                  style={{ fontFamily: "Cairo, sans-serif" }}
+                  style={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {i === 0 ? placedDate : isDone ? "Completed" : "Pending"}
                 </p>

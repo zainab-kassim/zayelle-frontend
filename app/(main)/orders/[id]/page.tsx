@@ -45,7 +45,7 @@ export default function OrderDetailsPage() {
   if (error) {
     return (
       <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
-        <p className="text-[15px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+        <p className="text-[15px] text-[#8a8a8a]" style={{ fontFamily: "Inter, sans-serif" }}>
           {error}
         </p>
       </main>

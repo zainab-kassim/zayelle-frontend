@@ -316,7 +316,7 @@ export default function CheckoutContent() {
             <div className="w-14 h-14 rounded-full bg-[#1a1a1a] flex items-center justify-center">
               <Loader />
             </div>
-            <p className="text-[13px] text-[#5a5a5a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+            <p className="text-[13px] text-[#5a5a5a]" style={{ fontFamily: "Inter, sans-serif" }}>
               {isCanceling ? "Canceling checkout…" : "Confirming your payment…"}
             </p>
           </motion.div>
@@ -382,7 +382,7 @@ export default function CheckoutContent() {
                       onClick={() => router.push("/cart")}
                       className="hidden lg:flex items-center gap-2 text-[13px] text-[#5a5a5a]
                     hover:text-[#1a1a1a] transition-colors duration-200"
-                      style={{ fontFamily: "Cairo, sans-serif" }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       Back to Cart
                     </button>
@@ -394,7 +394,7 @@ export default function CheckoutContent() {
                     px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
                     tracking-[0.2em] uppercase rounded-lg hover:bg-[#333]
                     transition-all duration-300'
-                      style={{ fontFamily: "Cairo, sans-serif" }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       {ispaying ? <Loader /> : "Confirm order"}
                     </button>
@@ -434,18 +434,18 @@ export default function CheckoutContent() {
                 )}
 
                 <p className="text-[18px] font-semibold text-[#1a1a1a]"
-                  style={{ fontFamily: '"Expletus Sans", serif' }}>
+                  style={{ fontFamily: '"Fraunces", serif' }}>
                   {paymentStatus === "success" && "Confirmation"}
                   {paymentStatus === "pending" && "Payment Processing"}
                   {paymentStatus === "failed" && "Payment Unsuccessful"}
                 </p>
                 <p className="text-[13px] text-[#8a8a8a] mt-2"
-                  style={{ fontFamily: "Cairo, sans-serif" }}>
+                  style={{ fontFamily: "Inter, sans-serif" }}>
                   {paymentMessage || "Your order has been confirmed."}
                 </p>
                 {paymentStatus === "success" && orderResponse?.order?.id && (
                   <p className="text-[12px] text-[#8a8a8a] mt-1"
-                    style={{ fontFamily: "Cairo, sans-serif" }}>
+                    style={{ fontFamily: "Inter, sans-serif" }}>
                     Order #{orderResponse.order.id}
                   </p>
                 )}
@@ -456,7 +456,7 @@ export default function CheckoutContent() {
                       <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center">
                         <Loader />
                       </div>
-                      <p className="text-[12px] text-[#8a8a8a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+                      <p className="text-[12px] text-[#8a8a8a]" style={{ fontFamily: "Inter, sans-serif" }}>
                         Checking status…
                       </p>
                     </div>
@@ -465,7 +465,7 @@ export default function CheckoutContent() {
                       onClick={handleCheckStatus}
                       className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
                     tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
-                      style={{ fontFamily: "Cairo, sans-serif" }}
+                      style={{ fontFamily: "Inter, sans-serif" }}
                     >
                       Check Status
                     </button>
@@ -477,7 +477,7 @@ export default function CheckoutContent() {
                     onClick={handleStartNewCheckout}
                     className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
                   tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
-                    style={{ fontFamily: "Cairo, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     Start New Checkout
                   </button>

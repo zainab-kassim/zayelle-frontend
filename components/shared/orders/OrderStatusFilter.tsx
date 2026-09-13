@@ -29,7 +29,7 @@ export default function OrderStatusFilter({
                 ? "bg-[#1a1a1a] text-white"
                 : "bg-white border border-[#e8e8e8] text-[#1a1a1a] hover:border-[#1a1a1a]"
             }`}
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             <span className="text-[13px] font-medium">{tab.label}</span>
             <span

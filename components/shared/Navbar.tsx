@@ -19,6 +19,14 @@ const CURRENCY_ICONS: Record<string, string> = {
     NGN: "https://img.icons8.com/?size=100&id=Qbb2whnonplQ&format=png&color=000000",
 };
 
+const NAV_LINKS = [
+    { label: 'Shop All', href: '/products' },
+    { label: 'New Arrivals', href: '/products?collection=new-arrivals' },
+    { label: 'Floreal Collection', href: '/products?collection=floreal-collection' },
+    { label: 'Luxe Weave', href: '/products?collection=ember-collection' },
+    { label: 'Custom Order', href: '/custom-order/book' },
+];
+
 export default function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
@@ -73,55 +81,38 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="fixed top-6 left-0 right-0 z-30 flex justify-center px-4 md:px-12 lg:px-34 xl:px-14">
-                <nav
-                    className="w-full max-w-full rounded-full bg-white/20 px-6 md:px-10 lg:px-14 py-2 md:py-2.5 flex items-center justify-between"
-                    style={{
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                        boxShadow: '-1px 3px 10px rgba(0, 0, 0, 0.12)',
-                    }}
-                >
+            <div className="fixed top-0 left-0 right-0 z-30 bg-paper/95 backdrop-blur-sm border-b border-line">
+                <nav className="w-full flex items-center justify-between px-4 md:px-12 lg:px-34 xl:px-16 py-3 md:py-4">
+
                     {/* LEFT — Brand */}
-                    <Link href="/">
-                        <span
-                            className="text-[12px] sm:text-[16px] md:text-[18px] font-bold text-[#2C2420] cursor-pointer whitespace-nowrap flex-shrink-0"
-                            style={{ fontFamily: "'DynaPuff', cursive" }}
-                        >
+                    <Link href="/" className="flex-shrink-0">
+                        <span className="font-serif text-[20px] sm:text-[22px] md:text-[25px] font-semibold text-ink tracking-tight">
                             Zayelle
                         </span>
                     </Link>
 
                     {/* CENTER — Navigation Links (Desktop only) */}
-                    <div className="hidden md:flex items-center gap-6 lg:gap-10 flex-1 justify-center">
-                        <Link
-                            href="/products"
-                            className="text-[13px] lg:text-[14px] text-black cursor-pointer transition-opacity duration-300 hover:opacity-60 whitespace-nowrap"
-                            style={{ fontFamily: "'Cairo', sans-serif" }}
-                        >
-                            Products
-                        </Link>
-                        <Link
-                            href="/custom-order/book"
-                            className="text-[13px] lg:text-[14px] text-black cursor-pointer transition-opacity duration-300 hover:opacity-60 whitespace-nowrap"
-                            style={{ fontFamily: "'Cairo', sans-serif" }}
-                        >
-                            Book Custom Order
-                        </Link>
+                    <div className="hidden xl:flex items-center gap-6 flex-1 justify-center">
+                        {NAV_LINKS.map((link) => (
+                            <Link
+                                key={link.label}
+                                href={link.href}
+                                className="font-sans text-[12px] uppercase tracking-[0.12em] text-ink/80 cursor-pointer transition-colors duration-200 hover:text-ink whitespace-nowrap"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
                     </div>
 
                     {/* RIGHT — User & Actions */}
-                    <div className="flex items-center gap-1 sm:gap-3 md:gap-5 ml-auto flex-shrink-0">
+                    <div className="flex items-center gap-2 sm:gap-4 md:gap-6 ml-auto flex-shrink-0">
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-black/5"
+                                className="flex items-center gap-1.5 px-1 sm:px-2 py-1.5 rounded-md transition-colors duration-200 hover:bg-ink/5"
                             >
-                                <span
-                                    className="text-[11px] sm:text-[12px] md:text-[16px] max-w-28 text-black whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
-                                    style={{ fontFamily: "'Cairo', sans-serif" }}
-                                >
-                                    hey, {fullName || 'there'}
+                                <span className="font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.08em] max-w-24 text-ink whitespace-nowrap overflow-hidden text-ellipsis">
+                                    {fullName ? `Hey, ${fullName}` : 'Sign In'}
                                 </span>
                                 <motion.div
                                     animate={{ rotate: isDropdownOpen ? 180 : 0 }}
@@ -131,8 +122,8 @@ export default function Navbar() {
                                     <Image
                                         src="https://img.icons8.com/?size=100&id=99991&format=png&color=000000"
                                         alt="Dropdown"
-                                        width={12}
-                                        height={12}
+                                        width={11}
+                                        height={11}
                                     />
                                 </motion.div>
                             </button>
@@ -144,15 +135,14 @@ export default function Navbar() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -10 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute right-0 mt-2 w-[160px] sm:w-[180px] bg-white rounded-lg shadow-lg overflow-hidden z-50"
+                                        className="absolute right-0 mt-3 w-[170px] sm:w-[190px] bg-white rounded-lg border border-line shadow-[0_12px_28px_rgba(23,19,16,0.1)] overflow-hidden z-50"
                                     >
                                         {/* Currency Selector */}
                                         <div className="relative">
                                             <button
                                                 onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
                                                  disabled={pathname === '/checkout'}
-                                                className="w-full flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
-                                                style={{ fontFamily: "'Cairo', sans-serif" }}
+                                                className="w-full flex items-center justify-between px-4 py-3 font-sans text-[12px] text-ink transition-colors duration-200 hover:bg-surface"
                                             >
                                                 <div className="flex items-center gap-2">
                                                     <Image
@@ -186,16 +176,15 @@ export default function Navbar() {
                                                         animate={{ opacity: 1, y: 0 }}
                                                         exit={{ opacity: 0, y: -5 }}
                                                         transition={{ duration: 0.15 }}
-                                                        className="bg-gray-50 border-t border-[#E0E0E0]"
+                                                        className="bg-surface border-t border-line"
                                                     >
 
                                                         {SUPPORTED_CURRENCIES.map((c) => (
                                                             <button
                                                                 key={c}
                                                                 onClick={() => handleCurrencySelect(c)}
-                                                                className={`w-full text-left px-6 py-2 text-[11px] sm:text-[12px] transition-colors duration-200 hover:bg-gray-100 flex items-center gap-2 ${currency === c ? 'font-bold text-black' : 'text-gray-600'
+                                                                className={`w-full text-left px-6 py-2 font-sans text-[12px] transition-colors duration-200 hover:bg-white flex items-center gap-2 ${currency === c ? 'font-semibold text-ink' : 'text-muted'
                                                                     }`}
-                                                                style={{ fontFamily: "'Cairo', sans-serif" }}
                                                             >
                                                                 <Image
                                                                     src={CURRENCY_ICONS[c]}
@@ -210,30 +199,29 @@ export default function Navbar() {
                                                 )}
                                             </AnimatePresence>
                                         </div>
-                                        <div className="h-px bg-[#E0E0E0]" />
+                                        <div className="h-px bg-line" />
 
                                         {fullName ? (
                                             <button
                                                 onClick={handleLogout}
-                                                className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50 text-left"
+                                                className="w-full block px-4 py-3 font-sans text-[12px] text-ink transition-colors duration-200 hover:bg-surface text-left"
                                             >
                                                 Logout
                                             </button>
                                         ) : (
                                             <Link
                                                 href="/auth/signup"
-                                                className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
+                                                className="w-full block px-4 py-3 font-sans text-[12px] text-ink transition-colors duration-200 hover:bg-surface"
                                             >
                                                 Sign Up
                                             </Link>
                                         )}
 
-                                        <div className="h-px bg-[#E0E0E0]" />
+                                        <div className="h-px bg-line" />
 
                                         <Link
                                             href="/orders"
-                                            className="w-full block px-3 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-[13px] text-black transition-colors duration-200 hover:bg-gray-50"
-                                            style={{ fontFamily: "'Cairo', sans-serif" }}
+                                            className="w-full block px-4 py-3 font-sans text-[12px] text-ink transition-colors duration-200 hover:bg-surface"
                                         >
                                             My Orders
                                         </Link>
@@ -245,21 +233,21 @@ export default function Navbar() {
                         {/* Shopping Bag */}
                         <Link
                             href="/cart"
-                            className="flex items-center justify-center transition-all duration-300 hover:bg-black/5 flex-shrink-0"
+                            className="flex items-center justify-center transition-opacity duration-200 hover:opacity-60 flex-shrink-0"
                         >
                             <Image
                                 src="https://img.icons8.com/?size=100&id=5ueBhwT0NbKz&format=png&color=000000"
                                 alt="Shopping Bag"
-                                width={16}
-                                height={16}
-                                className="sm:w-[19px] sm:h-[19px] md:w-[22px] md:h-[22px] lg:w-[24px] lg:h-[24px]"
+                                width={17}
+                                height={17}
+                                className="sm:w-[19px] sm:h-[19px] md:w-[21px] md:h-[21px]"
                             />
                         </Link>
 
                         {/* Hamburger Menu (Mobile only) */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:bg-black/5"
+                            className="xl:hidden flex items-center justify-center w-7 h-7 rounded-md transition-colors duration-200 hover:bg-ink/5"
                         >
                             <Image
                                 src="https://img.icons8.com/?size=100&id=TAcvUHWWyuTG&format=png&color=000000"
@@ -272,7 +260,7 @@ export default function Navbar() {
                 </nav>
             </div>
 
-            {/* Mobile Sidebar — unchanged */}
+            {/* Mobile Sidebar */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <>
@@ -281,7 +269,7 @@ export default function Navbar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed inset-0 bg-black/20 z-30 md:hidden"
+                            className="fixed inset-0 bg-ink/20 z-30 xl:hidden"
                             onClick={() => setIsMobileMenuOpen(false)}
                         />
                         <motion.div
@@ -289,54 +277,49 @@ export default function Navbar() {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
-                            className="fixed top-0 right-0 h-screen w-64 bg-white z-40 md:hidden shadow-lg"
+                            className="fixed top-0 right-0 h-screen w-72 bg-white z-40 xl:hidden shadow-lg"
                         >
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="absolute top-6 right-6 flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-300 hover:bg-gray-50"
-                            >
-                                <Image
-                                    src="https://img.icons8.com/?size=100&id=lXczJ2GQ3hgb&format=png&color=000000"
-                                    alt="Close"
-                                    width={20}
-                                    height={20}
-                                />
-                            </button>
-                            <div className="flex flex-col p-6 pt-20">
+                            <div className="flex items-center justify-between px-6 py-5 border-b border-line">
+                                <span className="font-serif text-[19px] font-semibold text-ink">Zayelle</span>
+                                <button
+                                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                    className="flex items-center justify-center w-7 h-7 rounded-md transition-colors duration-200 hover:bg-surface"
+                                >
+                                    <Image
+                                        src="https://img.icons8.com/?size=100&id=lXczJ2GQ3hgb&format=png&color=000000"
+                                        alt="Close"
+                                        width={18}
+                                        height={18}
+                                    />
+                                </button>
+                            </div>
+                            <div className="flex flex-col p-6 gap-1">
+                                {NAV_LINKS.map((link) => (
+                                    <Link
+                                        key={link.label}
+                                        href={link.href}
+                                        className="font-sans text-[13px] uppercase tracking-[0.1em] text-ink py-4 border-b border-line transition-colors duration-200 hover:opacity-60"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
                                 {fullName ? (
                                     <button
                                         onClick={handleLogout}
-                                        className="px-4 py-4 text-[14px] text-left text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
-                                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                                        className="font-sans text-[13px] uppercase tracking-[0.1em] text-left text-ink py-4 border-b border-line transition-colors duration-200 hover:opacity-60"
                                     >
                                         Logout
                                     </button>
                                 ) : (
                                     <Link
                                         href="/auth/signup"
-                                        className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
-                                        style={{ fontFamily: "'Cairo', sans-serif" }}
+                                        className="font-sans text-[13px] uppercase tracking-[0.1em] text-ink py-4 border-b border-line transition-colors duration-200 hover:opacity-60"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         Sign Up
                                     </Link>
                                 )}
-                                <Link
-                                    href="/products"
-                                    className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-b-lg border-b border-b-[#E0E0E0]"
-                                    style={{ fontFamily: "'Cairo', sans-serif" }}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Products
-                                </Link>
-                                <Link
-                                    href="/custom-order/book"
-                                    className="px-4 py-4 text-[14px] text-black transition-colors duration-200 hover:bg-gray-50 rounded-lg"
-                                    style={{ fontFamily: "'Cairo', sans-serif" }}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Book Custom Order
-                                </Link>
                             </div>
                         </motion.div>
                     </>

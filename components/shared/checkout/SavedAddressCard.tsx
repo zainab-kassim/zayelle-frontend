@@ -53,10 +53,10 @@ export default function SavedAddressCard({
         <div className="h-px bg-[#e8e8e8]" />
 
         <div className="flex flex-col gap-1">
-          <p className="text-[12px] text-[#5a5a5a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+          <p className="text-[12px] text-[#5a5a5a]" style={{ fontFamily: "Inter, sans-serif" }}>
             Phone: {address.phone}
           </p>
-          <p className="text-[12px] text-[#5a5a5a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+          <p className="text-[12px] text-[#5a5a5a]" style={{ fontFamily: "Inter, sans-serif" }}>
             Email: {address.email}
           </p>
         </div>

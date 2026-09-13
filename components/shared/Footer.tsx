@@ -58,15 +58,7 @@ const SOCIALS = [
 
 function FooterColumnHeading({ children }: { children: React.ReactNode }) {
     return (
-        <p
-            className="text-white font-semibold mb-4"
-            style={{
-                fontFamily: 'Cairo, sans-serif',
-                fontSize: '11px',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-            }}
-        >
+        <p className="font-sans text-white font-semibold uppercase tracking-[0.2em] text-[11px] mb-4">
             {children}
         </p>
     );
@@ -76,8 +68,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
     return (
         <Link
             href={href}
-            className="block text-[#D8D0C4] hover:text-white transition-colors duration-200 no-underline"
-            style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px' }}
+            className="font-sans block text-[#D8D0C4] hover:text-white transition-colors duration-200 no-underline text-[13px]"
         >
             {children}
         </Link>
@@ -86,26 +77,20 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 
 export default function Footer() {
     return (
-        <footer className="w-full" style={{ background: '#000000' }}>
+        <footer className="w-full bg-ink">
 
             {/* ── Main grid ── */}
-            <div className="px-4 md:px-12 lg:px-34 pt-12 sm:pt-16 pb-10 sm:pb-12">
+            <div className="px-4 md:px-12 lg:px-34 xl:px-16 pt-12 sm:pt-16 pb-10 sm:pb-12">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
 
                     {/* Brand */}
                     <div className="col-span-2 lg:col-span-2 flex flex-col gap-4">
                         <Link href="/" className="w-fit">
-                            <span
-                                className="text-[22px] text-white"
-                                style={{ fontFamily: "'DynaPuff', cursive", fontWeight: 500 }}
-                            >
+                            <span className="font-serif text-white text-[24px] font-semibold tracking-tight">
                                 Zayelle
                             </span>
                         </Link>
-                        <p
-                            className="text-[#B8AE9E] max-w-xs leading-relaxed"
-                            style={{ fontFamily: 'Cairo, sans-serif', fontSize: '13px' }}
-                        >
+                        <p className="font-sans text-[#B8AE9E] max-w-xs leading-relaxed text-[13px]">
                             Designed for every version of you. Fashion pieces crafted for how you actually live, with custom orders and worldwide currency support.
                         </p>
 
@@ -148,17 +133,11 @@ export default function Footer() {
             </div>
 
             {/* ── Bottom bar ── */}
-            <div className="border-t border-white/10 px-4 md:px-12 lg:px-34 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-                <p
-                    className="text-[#8A8072] text-center"
-                    style={{ fontFamily: 'Cairo, sans-serif', fontSize: '12px' }}
-                >
+            <div className="border-t border-white/10 px-4 md:px-12 lg:px-34 xl:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <p className="font-sans text-[#8A8072] text-center text-[12px]">
                     © 2026 Zayelle. All rights reserved.
                 </p>
-                <p
-                    className="text-[#8A8072] text-center"
-                    style={{ fontFamily: 'Cairo, sans-serif', fontSize: '12px' }}
-                >
+                <p className="font-sans text-[#8A8072] text-center text-[12px]">
                     Secure checkout powered by Stripe &amp; Paystack
                 </p>
             </div>

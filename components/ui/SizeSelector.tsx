@@ -18,7 +18,7 @@ export default function SizeSelector({
     <div className="flex flex-col gap-3">
       <p
         className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#1a1a1a]"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         Select Size
       </p>

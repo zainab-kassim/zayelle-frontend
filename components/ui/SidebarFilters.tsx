@@ -31,7 +31,7 @@ export default function SidebarFilters({
                   ? "font-bold text-[#1a1a1a]"
                   : "font-normal text-[#747474] hover:text-[#1a1a1a]"
                 }
-              `} style={{ fontFamily: '"Expletus Sans", serif' }}
+              `} style={{ fontFamily: '"Fraunces", serif' }}
             >
               {filter}
             </button>

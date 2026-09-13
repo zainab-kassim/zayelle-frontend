@@ -3,110 +3,74 @@
 import Image from "next/image";
 import Link from "next/link";
 
-/**
- * BestSellerBanner
- *
- * Files expected in /public:
- *   /images/banner-bg.jpg      — warm beige/cream background (or swap for your own)
- *   /images/banner-models.png  — PNG of the two models (transparent bg)
- *
- * Fonts expected in layout.tsx / globals.css:
- *   Expletus Sans — used for headings
- *   Cairo         — used for CTA
- */
 export default function BestSellerBanner() {
     return (
-        <section className="w-full  pt-4 pb-6">
-            {/*
-       * Card container
-       * ─────────────────────────────────────────────────────────────
-       * overflow-visible  → model image can bleed above the card
-       * relative          → anchors the background image
-       * rounded-2xl       → matches the Figma card shape
-       */}
+        <section className="w-full pt-4 pb-6">
             <div
                 className="
-          relative w-full overflow-visible rounded-2xl
+          relative w-full overflow-visible rounded-3xl
           flex items-stretch
-          min-h-[155px] h-[32vw] max-h-[400px]
+          min-h-[260px] h-[42vw] max-h-[480px]
         "
             >
-                {/* ── Background + overlay — clipped to card shape ─────────── */}
-                <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                {/* ── Background — clipped to card shape ─────────── */}
+                <div className="absolute inset-0 rounded-3xl overflow-hidden" aria-hidden="true">
                     <Image
-                        src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWJzdHJhY3R5JTIwd2hpdGViYWNrZ3JvdW5kfGVufDB8fDB8fHww"
-                        alt="banner background"
+                        src="https://images.unsplash.com/photo-1744658841145-10f531c1e218?q=80&w=2400&auto=format&fit=crop"
+                        alt=""
                         fill
-                        className="object-cover object-center"
-                        priority
-                        aria-hidden="true"
+                        className="object-cover"
+                        sizes="100vw"
                     />
-                    {/* Warm sandy overlay */}
                     <div
                         className="absolute inset-0"
                         style={{
                             background:
-                                "linear-gradient(100deg, rgba(220,185,148,0.55) 0%, rgba(200,165,125,0.3) 50%, rgba(180,145,105,0.1) 100%)",
+                                "linear-gradient(115deg, rgba(23,19,16,0.92) 0%, rgba(42,33,25,0.88) 55%, rgba(59,42,24,0.80) 100%)",
                         }}
-                        aria-hidden="true"
                     />
                 </div>
-
 
                 {/* ── Content row ──────────────────────────────────────────── */}
                 <div className="relative z-10 flex w-full items-center">
 
                     {/* Left — text block */}
-                    <div className="flex flex-col justify-center gap-[clamp(4px,1.5vw,14px)] px-4 sm:px-10 md:px-14 py-[clamp(14px,2.5vw,32px)] flex-1 min-w-0">
+                    <div className="flex flex-col justify-center gap-[clamp(6px,1.5vw,16px)] px-4 sm:px-10 md:px-14 py-[clamp(14px,2.5vw,32px)] flex-1 min-w-0">
+
+                        {/* Eyebrow */}
+                        <span className="font-sans text-white/70 tracking-[0.22em] uppercase text-[10px] sm:text-[12px] font-medium">
+                            The Edit
+                        </span>
 
                         {/* Title */}
-                        <h2
-                            className="text-[#3b2a18] font-bold leading-tight uppercase"
-                            style={{
-                                fontFamily: '"Expletus Sans", serif',
-                                fontSize: "clamp(16px, 3vw, 45px)",
-                                letterSpacing: "0.01em",
-                                lineHeight: "1.2",
-                            }}
-                        >
-                            Best Seller&nbsp;·&nbsp;Back
-                            <br />
-                            By Request
+                        <h2 className="font-serif text-white font-medium leading-[1.1]" style={{ fontSize: "clamp(22px, 4.4vw, 52px)" }}>
+                            Back by <span className="italic">request</span>
                         </h2>
 
                         {/* Subtitle */}
-                        <p
-                            className="text-[#6b4e2e] tracking-widest uppercase"
-                            style={{
-                                fontFamily: '"Expletus Sans", serif',
-                                fontSize: "clamp(6px, 1vw, 13px)",
-                                fontWeight: 400,
-                                letterSpacing: "0.2em",
-                            }}
-                        >
+                        <p className="font-sans text-white/70 tracking-[0.12em] uppercase text-[11px] sm:text-[13px]">
                             Zayelle Luxe Weave
                         </p>
 
                         {/* CTA */}
                         <Link
-                              href="/products?collection=ember-collection"
+                            href="/products?collection=ember-collection"
                             className="
-                self-start mt-[clamp(2px,0.8vw,10px)]
+                self-start mt-[clamp(4px,1vw,14px)]
                 inline-flex items-center justify-center
-                border border-[#3b2a18]/40 rounded-full
-                bg-transparent text-[#3b2a18] font-semibold uppercase
-                tracking-[0.2em] no-underline
+                rounded-full
+                bg-white text-ink font-sans font-semibold uppercase
+                tracking-[0.18em] no-underline
                 transition-all duration-300
-                hover:bg-[#3b2a18]/8 hover:border-[#3b2a18]/70
+                hover:bg-white/90
                 hover:-translate-y-0.5
               "
                             style={{
-                                fontFamily: "Cairo, sans-serif",
-                                fontSize: "clamp(6px, 1.1vw, 16px)",
-                                padding: "clamp(6px,1vw,12px) clamp(16px,2.5vw,32px)",
+                                fontSize: "clamp(10px, 1.1vw, 13px)",
+                                padding: "clamp(10px,1.2vw,15px) clamp(22px,2.8vw,36px)",
                             }}
                         >
-                            Explore
+                            Explore The Edit
                         </Link>
                     </div>
 
@@ -115,13 +79,12 @@ export default function BestSellerBanner() {
            * ───────────────────────────────────────────────────────────
            * overflow-visible on the section + items-end here so the PNG
            * can bleed above and below the card for the pop-out effect.
-           * The negative bottom margin pulls it slightly out of frame.
            */}
                     <div
-                        className="relative flex-shrink-0 self-end mr-2 sm:mr-7 lg:mr-14"
+                        className="relative flex-shrink-0 self-end mr-2 sm:mr-8 lg:mr-16"
                         style={{
-                            width: "clamp(140px, 25vw, 380px)",
-                            height: "clamp(185px, 36vw, 460px)",
+                            width: "clamp(150px, 27vw, 400px)",
+                            height: "clamp(200px, 40vw, 500px)",
                         }}
                     >
                         <Image
@@ -129,7 +92,7 @@ export default function BestSellerBanner() {
                             alt="Zayelle Luxe Weave — two models wearing the collection"
                             fill
                             className="object-contain object-bottom"
-                            sizes="(max-width: 640px) 140px, (max-width: 900px) 36vw, 420px"
+                            sizes="(max-width: 640px) 150px, (max-width: 900px) 38vw, 440px"
                             priority
                         />
                     </div>

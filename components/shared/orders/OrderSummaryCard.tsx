@@ -16,7 +16,7 @@ export default function OrderSummaryCard({ subtotal, total, currency }: OrderSum
     <div className="h-full rounded-2xl p-5 border border-[#f0f0f0]" style={{ background: "#F8F8F8" }}>
       <p
         className="text-[11px] sm:text-[13px] font-medium tracking-[0.2em] uppercase text-[#1a1a1a] mb-4"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       >
         Order Summary
       </p>
@@ -24,13 +24,13 @@ export default function OrderSummaryCard({ subtotal, total, currency }: OrderSum
         <div className="flex justify-between items-center">
           <span
             className="text-[13px] sm:text-[15px] text-[#5a5a5a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Subtotal
           </span>
           <span
             className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             {formatPrice(subtotal, currency)}
           </span>
@@ -38,13 +38,13 @@ export default function OrderSummaryCard({ subtotal, total, currency }: OrderSum
         <div className="flex justify-between items-center pb-3 border-b border-[#e8e8e8]">
           <span
             className="text-[13px] sm:text-[15px] text-[#5a5a5a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Shipping
           </span>
           <span
             className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             {formatPrice(SHIPPING_FEE, currency)}
           </span>
@@ -52,13 +52,13 @@ export default function OrderSummaryCard({ subtotal, total, currency }: OrderSum
         <div className="flex justify-between items-center">
           <span
             className="text-[13px] sm:text-[15px] font-medium text-[#1a1a1a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Total Amount
           </span>
           <span
             className="text-[14px] sm:text-[16px] font-semibold text-[#1a1a1a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             {formatPrice(total, currency)}
           </span>

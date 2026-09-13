@@ -73,7 +73,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
           <BagIcon />
           <span
             className="text-[13px] font-bold text-[#1a1a1a]"
-            style={{ fontFamily: '"Expletus Sans", serif' }}
+            style={{ fontFamily: '"Fraunces", serif' }}
           >
             {orderCode}
           </span>
@@ -81,13 +81,13 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
         <div className="flex items-center gap-3">
           <span
             className="hidden lg:inline text-[11px] text-[#8a8a8a]"
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             Estimated arrival: {estimatedArrival}
           </span>
           <span
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${badge.bg} ${badge.text}`}
-            style={{ fontFamily: "Cairo, sans-serif" }}
+            style={{ fontFamily: "Inter, sans-serif" }}
           >
             <span className="relative flex w-1.5 h-1.5">
               <span
@@ -104,7 +104,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
       <div className="hidden lg:flex items-center justify-between px-5 py-3 border-b border-[#f0f0f0]">
         <div
           className="flex items-center gap-1.5 text-[12px] text-[#5a5a5a]"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <TruckIcon />
           Ottawa, Canada
@@ -112,7 +112,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
         <div className="flex-1 mx-4 border-t border-dashed border-[#d8d8d8]" />
         <div
           className="flex items-center gap-1.5 text-[12px] text-[#5a5a5a]"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <PinIcon />
           {order.state}, {order.country}
@@ -123,20 +123,20 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
       <div className="flex lg:hidden flex-col gap-2 px-5 py-3 border-b border-[#f0f0f0]">
         <div
           className="flex items-center gap-1.5 w-fit px-3 py-1.5 rounded-full border border-[#e8e8e8] text-[11px] text-[#5a5a5a]"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <TruckIcon />
           Ottawa, Canada
         </div>
         <div
           className="w-fit px-3 py-1.5 rounded-full border border-[#e8e8e8] text-[11px] text-[#8a8a8a]"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           Estimated arrival: {estimatedArrival}
         </div>
         <div
           className="flex items-center gap-1.5 w-fit px-3 py-1.5 rounded-full border border-[#e8e8e8] text-[11px] text-[#5a5a5a]"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           <PinIcon />
           {order.state}, {order.country}
@@ -164,19 +164,19 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
             <div className="flex flex-col gap-0.5">
               <p
                 className="text-[13px] font-semibold text-[#1a1a1a]"
-                style={{ fontFamily: '"Expletus Sans", serif' }}
+                style={{ fontFamily: '"Fraunces", serif' }}
               >
                 {item.product_id.name}
               </p>
               <p
                 className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {formatPrice(item.price, currency)} × {item.quantity}
               </p>
               <p
                 className="text-[11px] text-[#8a8a8a] uppercase"
-                style={{ fontFamily: "Cairo, sans-serif" }}
+                style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {item.size}
               </p>
@@ -187,7 +187,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
 
       {/* Footer */}
       <div className="flex items-center justify-between flex-wrap gap-3 px-5 py-4 bg-[#F8F8F8]">
-        <p className="text-[13px] text-[#1a1a1a]" style={{ fontFamily: "Cairo, sans-serif" }}>
+        <p className="text-[13px] text-[#1a1a1a]" style={{ fontFamily: "Inter, sans-serif" }}>
           Total: <span className="font-semibold">{formatPrice(order.totalLocal, currency)}</span>{" "}
           <span className="text-[#8a8a8a]">
             ({itemCount} item{itemCount !== 1 ? "s" : ""})
@@ -196,7 +196,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
         <button
           onClick={() => router.push(`/orders/${order.id}`)}
           className="px-5 py-2.5 bg-[#1a1a1a] text-white text-[11px] font-semibold tracking-[0.18em] uppercase rounded-md hover:bg-[#333] transition-all duration-300"
-          style={{ fontFamily: "Cairo, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           Details
         </button>

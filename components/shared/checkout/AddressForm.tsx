@@ -19,7 +19,7 @@ function Field({
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label htmlFor={id} className="text-[12px] text-[#5a5a5a]"
-        style={{ fontFamily: "Cairo, sans-serif" }}>
+        style={{ fontFamily: "Inter, sans-serif" }}>
         {label}
       </label>
       <input
@@ -28,7 +28,7 @@ function Field({
         className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
           text-[#1a1a1a] placeholder:text-[#bbb] outline-none
           focus:border-[#1a1a1a] transition-colors duration-200 bg-white"
-        style={{ fontFamily: "Cairo, sans-serif" }}
+        style={{ fontFamily: "Inter, sans-serif" }}
       />
     </div>
   );
@@ -200,14 +200,14 @@ export default function AddressForm({
             {/* Country — custom dropdown */}
           <div className="flex flex-col gap-1.5 relative" ref={countryRef}>
             <label className="text-[12px] text-[#5a5a5a]"
-              style={{ fontFamily: "Cairo, sans-serif" }}>Country</label>
+              style={{ fontFamily: "Inter, sans-serif" }}>Country</label>
             <button
               type="button"
               onClick={() => setCountryOpen(prev => !prev)}
               className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
                 text-left text-[#1a1a1a] outline-none focus:border-[#1a1a1a]
                 transition-colors duration-200 bg-white flex justify-between items-center"
-              style={{ fontFamily: "Cairo, sans-serif" }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             >
               <span className="text-nowrap text-clip ">{values.country || "Select country"}</span>
               <span className="text-[#aaa] text-[10px]">▾</span>
@@ -232,7 +232,7 @@ export default function AddressForm({
                         ? "font-semibold text-[#1a1a1a]"
                         : "text-[#4a4a4a]"
                       }`}
-                    style={{ fontFamily: "Cairo, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     {c}
                   </button>
@@ -244,7 +244,7 @@ export default function AddressForm({
           {/* Province — accessible combobox */}
           <div className="flex flex-col gap-1.5 relative" ref={provinceRef}>
             <label htmlFor="province" className="text-[12px] text-[#5a5a5a]"
-              style={{ fontFamily: "Cairo, sans-serif" }}>
+              style={{ fontFamily: "Inter, sans-serif" }}>
               State / Province
             </label>
             <input
@@ -274,7 +274,7 @@ export default function AddressForm({
               className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
                 text-[#1a1a1a] placeholder:text-[#bbb] outline-none
                 focus:border-[#1a1a1a] transition-colors duration-200 bg-white"
-              style={{ fontFamily: "Cairo, sans-serif" }}
+              style={{ fontFamily: "Inter, sans-serif" }}
             />
 
             {provinceOpen && suggestions.length > 0 && (
@@ -300,7 +300,7 @@ export default function AddressForm({
                         ? "font-semibold text-[#1a1a1a] bg-[#fafafa]"
                         : "text-[#4a4a4a] hover:bg-[#f5f5f5]"
                       }`}
-                    style={{ fontFamily: "Cairo, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   >
                     {p}
                   </div>
@@ -311,7 +311,7 @@ export default function AddressForm({
             {provinceOpen && suggestions.length === 0 && searchQuery.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-white border
                 border-[#e0e0e0] rounded-lg shadow-md z-20 px-4 py-3 text-[12px]
-                text-[#aaa]" style={{ fontFamily: "Cairo, sans-serif" }}>
+                text-[#aaa]" style={{ fontFamily: "Inter, sans-serif" }}>
                 No results for "{searchQuery}"
               </div>
             )}

@@ -102,8 +102,7 @@ function ReviewBubble({ review }: { review: Review }) {
                     >
                         {/* Name inside bubble */}
                         <p
-                            className={`text-[13px] lg:text-[16px] font-bold tracking-widest uppercase mb-1 ${isRight ? "text-black" : "text-white"}`}
-                            style={{ fontFamily: '"Poppins", sans-serif' }}
+                            className={`font-serif text-[13px] lg:text-[16px] font-semibold tracking-widest uppercase mb-1 ${isRight ? "text-black" : "text-white"}`}
                         >
                             {review.name}
                         </p>
@@ -135,22 +134,11 @@ function SectionHeading() {
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             className="flex flex-col items-center gap-2 mb-10 text-center"
         >
-            <span
-                className="text-[#C2583A] font-semibold"
-                style={{
-                    fontFamily: "Cairo, sans-serif",
-                    fontSize: "11px",
-                    letterSpacing: "0.24em",
-                    textTransform: "uppercase",
-                }}
-            >
+            <span className="font-sans text-muted font-semibold uppercase tracking-[0.22em] text-[11px]">
                 Customer Love
             </span>
-            <h2
-                className="text-[#1a1410] font-bold uppercase tracking-wide"
-                style={{ fontFamily: '"Poppins", sans-serif', fontSize: "clamp(22px, 4vw, 36px)" }}
-            >
-                What They're Saying
+            <h2 className="font-serif text-ink font-medium tracking-tight text-[26px] sm:text-[32px] md:text-[36px]">
+                What they're <span className="italic">saying</span>
             </h2>
         </motion.div>
     );
@@ -159,12 +147,10 @@ function SectionHeading() {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function ReviewMessagesSectionA() {
     return (
-        <section className="relative max-w-full  mx-auto overflow-hidden pt-3 pb-16 md:pb-24 " aria-label="Customer reviews">
-            <div className="relative z-10 max-w-full  px-6 md:px-20 lg:px-20 xl:px-24">
-                <SectionHeading />
-                <div className="flex flex-col gap-10 ">
-                    {REVIEWS.map(r => <ReviewBubble key={r.id} review={r} />)}
-                </div>
+        <section className="relative w-full overflow-hidden" aria-label="Customer reviews">
+            <SectionHeading />
+            <div className="flex flex-col gap-10">
+                {REVIEWS.map(r => <ReviewBubble key={r.id} review={r} />)}
             </div>
         </section>
     );

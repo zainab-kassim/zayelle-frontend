@@ -20,6 +20,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
+      {
+        protocol: 'https',
         hostname: '6gx805zq79.ufs.sh',
       },
     ],
@@ -28,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.BACKEND_API_URL}/api/:path*`,
+        destination: `${process.env.LOCAL_URL}/api/:path*`,
       },
     ];
   },
