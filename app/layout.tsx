@@ -23,9 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <CurrencyInitializer />
-        <main>
-          {children}
-        </main>
+        {children}
         <Toaster />
       </body>
     </html>
