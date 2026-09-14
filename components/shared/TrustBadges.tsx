@@ -8,7 +8,7 @@ const BADGES = [
     },
     {
         title: "Made To Order",
-        subtitle: "Custom pieces, built around you",
+        subtitle: "Tailored around you",
         icon: (
             <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M6.3 17.7l2.8-2.8M14.9 9.1l2.8-2.8" strokeLinecap="round" strokeLinejoin="round" />
         ),
@@ -22,37 +22,41 @@ const BADGES = [
     },
     {
         title: "Multi-Currency",
-        subtitle: "Pay in USD, GBP, CAD or NGN",
+        subtitle: "USD, GBP, CAD or NGN",
         icon: (
             <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 6.5v11M15 9c0-1.4-1.3-2.5-3-2.5s-3 1.1-3 2.5 1.3 2 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5" strokeLinecap="round" strokeLinejoin="round" />
         ),
     },
 ];
 
+// Icon-over-title-over-subtitle, matching the classic ecommerce USP row
+// (truck / returns / shield / sparkle strips on most fashion sites): the
+// title carries weight and color, the subtitle is short enough to always
+// hold a single line so hierarchy comes from contrast, not from bulk.
 export default function TrustBadges() {
     return (
         <section
-            className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4"
+            className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-7 gap-x-3 py-8 sm:py-9 border-y border-line"
             aria-label="Why shop with Zayelle"
         >
             {BADGES.map((badge) => (
-                <div key={badge.title} className="flex flex-col items-center text-center gap-2 px-2">
+                <div key={badge.title} className="flex flex-col items-center text-center gap-1.5 px-2">
                     <svg
-                        width="26"
-                        height="26"
+                        width="24"
+                        height="24"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#171310"
-                        strokeWidth="1.4"
+                        stroke="#17171A"
+                        strokeWidth="1.5"
                         className="mb-1 opacity-80"
                         aria-hidden="true"
                     >
                         {badge.icon}
                     </svg>
-                    <span className="font-sans text-ink font-semibold uppercase tracking-[0.08em] text-[11px] sm:text-[12px]">
+                    <span className="font-sans text-ink font-semibold uppercase tracking-[0.05em] sm:tracking-[0.08em] text-[10.5px] sm:text-[11.5px] whitespace-nowrap">
                         {badge.title}
                     </span>
-                    <span className="font-sans text-muted text-[11px] sm:text-[12px]">
+                    <span className="font-sans text-muted text-[10.5px] sm:text-[11.5px] whitespace-nowrap">
                         {badge.subtitle}
                     </span>
                 </div>
