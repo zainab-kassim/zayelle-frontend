@@ -18,7 +18,7 @@ const config: Config = {
           DEFAULT: '#1a1a1a',
           active: '#0d0d0d',
         },
-        ink: '#171310',
+        ink: '#17171A',
         muted: '#726B60',
         surface: '#F6F4F1',
         line: '#E7E3DC',
