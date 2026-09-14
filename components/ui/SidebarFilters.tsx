@@ -1,45 +1,39 @@
 // components/ProductListing/SidebarFilters.tsx
 "use client";
 
-interface SidebarFiltersProps {
-  activeFilter: string;
-  onFilterChange: (filter: string) => void;
+import FilterPanelContent, { FilterPanelContentProps, hasActiveFilters } from "@/components/ui/FilterPanelContent";
+import FilterIcon from "@/components/ui/FilterIcon";
+
+interface SidebarFiltersProps extends FilterPanelContentProps {
+  onReset: () => void;
 }
 
-const FILTERS = [
-  "ALL",
-  "FLOREAL COLLECTION",
-  "ZAYELLE LUXE WEAVE",
-  "NEW ARRIVALS",
-];
+// Desktop-only filter panel, open against the page rather than boxed in a
+// card, following the Shopify collection-template convention: one combined
+// "Filter & Sort" header with a Clear All action, then an accordion of
+// collapsible sections below it. A mobile equivalent lives in
+// MobileFilterDrawer; both render the shared FilterPanelContent.
+export default function SidebarFilters(props: SidebarFiltersProps) {
+  const { activeFilter, sortBy, selectedSizes, onReset } = props;
 
-export default function SidebarFilters({
-  activeFilter,
-  onFilterChange,
-}: SidebarFiltersProps) {
   return (
-    <aside className="hidden lg:flex flex-col flex-shrink-0 pr-4">
-      {FILTERS.map((filter) => {
-        const isActive = activeFilter === filter;
-        return (
-          <div key={filter} className="flex flex-col">
-            <button
-              onClick={() => onFilterChange(filter)}
-              className={`
-                text-left text-[14px] tracking-[0.12em] uppercase py-6 transition-all  duration-200
-                ${isActive
-                  ? "font-bold text-[#1a1a1a]"
-                  : "font-normal text-[#747474] hover:text-[#1a1a1a]"
-                }
-              `} style={{ fontFamily: '"Fraunces", serif' }}
-            >
-              {filter}
-            </button>
-            {/* Full width divider under each item */}
-            <span className={`block  w-full h-px rounded-t-3xl bg-[#d7d7d7]`}/>
-          </div>
-        );
-      })}
+    <aside className="hidden lg:block flex-shrink-0 w-[240px]">
+      <div className="flex items-center justify-between mb-1">
+        <span className="flex items-center gap-2 font-sans text-ink font-medium uppercase tracking-[0.14em] text-[12px]">
+          <FilterIcon />
+          Filter &amp; Sort
+        </span>
+        {hasActiveFilters(activeFilter, sortBy, selectedSizes) && (
+          <button
+            onClick={onReset}
+            className="font-sans text-muted font-medium uppercase tracking-[0.1em] text-[11px] border-b border-ink/40 hover:border-ink hover:text-ink transition-colors duration-200"
+          >
+            Clear All
+          </button>
+        )}
+      </div>
+
+      <FilterPanelContent {...props} />
     </aside>
   );
 }
