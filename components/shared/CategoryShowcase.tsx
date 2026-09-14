@@ -47,10 +47,10 @@ function CategoryTile({ slug, label }: CategoryTile) {
             </div>
 
             <div className="flex items-center justify-between gap-2 px-5 py-3 sm:px-6 sm:py-3.5 border-t border-line">
-                <span className="font-serif text-ink text-[15px] sm:text-[17px] font-medium tracking-tight">
+                <span className="font-serif text-ink text-[14px] sm:text-[15px] font-normal tracking-normal">
                     {label}
                 </span>
-                <span className="font-sans text-muted uppercase tracking-[0.14em] text-[10px] sm:text-[11px] whitespace-nowrap transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink border-b border-line group-hover:border-ink pb-0.5">
+                <span className="font-sans text-muted uppercase tracking-[0.14em] text-[10px] whitespace-nowrap transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink border-b border-line group-hover:border-ink pb-0.5">
                     Shop
                 </span>
             </div>
@@ -62,10 +62,10 @@ export default function CategoryShowcase() {
     return (
         <section className="w-full" aria-label="Shop by collection">
             <div className="mb-5 sm:mb-6">
-                <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] mb-1.5">
+                <span className="font-sans block text-muted font-medium uppercase tracking-[0.2em] text-[10px] sm:text-[11px] mb-2">
                     Shop by Collection
                 </span>
-                <h2 className="font-serif text-ink font-medium text-[24px] sm:text-[30px] md:text-[34px] tracking-tight">
+                <h2 className="font-serif text-ink font-normal text-[18px] sm:text-[25px] md:text-[28px] tracking-normal leading-[1.18]">
                     Find Your Fit
                 </h2>
             </div>
