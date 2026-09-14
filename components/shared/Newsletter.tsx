@@ -20,7 +20,7 @@ export default function Newsletter() {
     }
 
     return (
-        <section className="relative w-full overflow-hidden rounded-3xl bg-ink px-6 sm:px-10 py-14 sm:py-20 flex flex-col items-center text-center">
+        <section className="relative w-full overflow-hidden rounded-3xl bg-ink px-6 sm:px-10 py-12 sm:py-16 flex flex-col items-center text-center">
             {/* Soft warm glow — echoes the gradient treatment on Hero/Banner instead of a flat block */}
             <div
                 className="absolute inset-0 pointer-events-none"
@@ -31,13 +31,13 @@ export default function Newsletter() {
             />
 
             <div className="relative z-10 flex flex-col items-center">
-                <span className="font-sans text-paper/60 tracking-[0.22em] uppercase text-[11px] sm:text-[12px] font-medium mb-3">
+                <span className="font-sans text-paper/60 tracking-[0.2em] uppercase text-[10px] sm:text-[11px] font-medium mb-2.5">
                     Zayelle Circle
                 </span>
-                <h2 className="font-serif text-paper font-medium leading-tight text-[24px] sm:text-[30px] md:text-[34px] mb-3 max-w-lg">
+                <h2 className="font-serif text-paper font-normal leading-[1.18] text-[18px] sm:text-[25px] md:text-[28px] mb-2.5 max-w-lg">
                     Be first to the <span className="italic">new season</span>
                 </h2>
-                <p className="font-sans text-paper/65 text-[13px] sm:text-[14px] max-w-sm mb-8 leading-relaxed">
+                <p className="font-sans text-paper/65 text-[12px] sm:text-[13px] max-w-sm mb-7 leading-relaxed">
                     Early access to new collections, custom-order slots and styling notes, straight to your inbox.
                 </p>
 
@@ -53,7 +53,7 @@ export default function Newsletter() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="font-sans font-semibold uppercase tracking-[0.14em] text-[11px] sm:text-[12px] text-ink bg-paper rounded-full px-7 py-3.5 transition-opacity duration-200 hover:opacity-90 disabled:opacity-60"
+                        className="font-sans font-medium uppercase tracking-[0.1em] text-[11px] sm:text-[12px] text-ink bg-paper rounded-full px-7 py-3.5 transition-opacity duration-200 hover:opacity-90 disabled:opacity-60"
                     >
                         {isSubmitting ? "Joining…" : "Subscribe"}
                     </button>
