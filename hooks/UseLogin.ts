@@ -2,16 +2,10 @@ import { useForm } from '@tanstack/react-form';
 import { toast } from 'sonner';
 import { loginSchema } from '@/lib/schemas/authSchema';
 import { login } from '@/services/auth.service';
+import { getSafeRedirect } from '@/lib/safeRedirect';
+import { persistUserSession } from '@/lib/session';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-// Only ever redirect to a same-app relative path — the `redirect` query
-// param comes straight from the URL, so a crafted link (?redirect=//evil.com
-// or ?redirect=https://evil.com) must never be able to send a user off-site.
-const getSafeRedirect = (path: string | null): string => {
-    if (!path || !path.startsWith('/') || path.startsWith('//')) return '/';
-    return path;
-};
 
 export const useLogIn = () => {
     const router = useRouter();
@@ -32,8 +26,7 @@ export const useLogIn = () => {
                     value.password,
                 );
                  toast.success(`Welcome back, ${response.user.fullName}!`);
-                localStorage.setItem('fullName', response.user.fullName);
-                localStorage.setItem('email', response.user.email);
+                persistUserSession(response.user.fullName, response.user.email);
                 router.push(decodeURIComponent(redirectTo));
 
             } catch (error: any) {

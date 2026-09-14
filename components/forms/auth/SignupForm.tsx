@@ -6,20 +6,12 @@ import Loader from "@/components/ui/Loader";
 import GoogleButton from "@/components/forms/auth/GoogleButton";
 import PasswordToggle from "@/components/forms/auth/PasswordToggle";
 import AuthPageShell from "@/components/forms/auth/AuthPageShell";
-
-const INPUT_CLASS =
-    "w-full rounded-lg border border-line bg-surface px-4 py-3.5 font-sans text-[14px] text-ink placeholder:text-muted/60 outline-none transition-colors duration-200 focus:border-ink/50 focus:bg-paper";
-const LABEL_CLASS =
-    "block font-sans text-muted font-medium uppercase tracking-[0.14em] text-[10px] mb-2";
+import FieldError from "@/components/forms/auth/FieldError";
+import { INPUT_CLASS, LABEL_CLASS } from "@/components/forms/auth/fieldStyles";
 
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const { form } = useSignUp();
-
-    const FieldError = ({ errors, isTouched }: { errors: any[], isTouched: boolean }) => {
-        if (!isTouched || !errors?.[0]) return null;
-        return <p className="font-sans text-red-500 text-[12px] mt-1.5">{errors[0].message}</p>;
-    };
 
     return (
         <AuthPageShell title="Create your account" subtitle="Join Zayelle, your closet is waiting.">
@@ -44,7 +36,7 @@ export default function SignUpForm() {
 
                 {/* Full name */}
                 <div className="mb-5">
-                    <label className={LABEL_CLASS}>Full name</label>
+                    <label className={`${LABEL_CLASS} mb-2`}>Full name</label>
                     <form.Field name="fullName">
                         {(field) => (
                             <>
@@ -65,7 +57,7 @@ export default function SignUpForm() {
 
                 {/* Email */}
                 <div className="mb-5">
-                    <label className={LABEL_CLASS}>Email</label>
+                    <label className={`${LABEL_CLASS} mb-2`}>Email</label>
                     <form.Field name="email">
                         {(field) => (
                             <>
@@ -86,7 +78,7 @@ export default function SignUpForm() {
 
                 {/* Password */}
                 <div className="mb-7">
-                    <label className={LABEL_CLASS}>Password</label>
+                    <label className={`${LABEL_CLASS} mb-2`}>Password</label>
                     <form.Field name="password">
                         {(field) => {
                             const showError = !!(field.state.meta.isTouched && field.state.meta.errors?.[0]);
