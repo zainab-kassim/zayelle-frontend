@@ -31,17 +31,17 @@ export default function BestSellerBanner() {
                     <div className="flex flex-col justify-center gap-1 sm:gap-1.5 md:gap-2 px-4 sm:px-10 md:px-14 py-3 sm:py-4 md:py-6 flex-1 min-w-0">
 
                         {/* Eyebrow */}
-                        <span className="font-sans text-ink tracking-[0.12em] sm:tracking-[0.24em] uppercase text-[8px] sm:text-[11px] md:text-[12px] font-normal">
+                        <span className="font-sans text-ink tracking-[0.12em] sm:tracking-[0.24em] uppercase text-[8px] sm:text-[10px] md:text-[11px] font-normal">
                             The Edit
                         </span>
 
                         {/* Title */}
-                        <h2 className="font-serif text-ink font-medium leading-[1.15] text-[13px] sm:text-[24px] md:text-[30px] lg:text-[36px]">
+                        <h2 className="font-serif text-ink font-medium leading-[1.18] text-[14px] sm:text-[20px] md:text-[25px] lg:text-[28px]">
                             Back by <span className="italic">request</span>
                         </h2>
 
                         {/* Subtitle */}
-                        <p className="font-sans text-ink/70 tracking-[0.07em] sm:tracking-[0.14em] uppercase text-[8px] sm:text-[11px] md:text-[12px]">
+                        <p className="font-sans text-ink/70 tracking-[0.07em] sm:tracking-[0.14em] uppercase text-[8px] sm:text-[10px] md:text-[11px]">
                             Zayelle Luxe Weave
                         </p>
 
