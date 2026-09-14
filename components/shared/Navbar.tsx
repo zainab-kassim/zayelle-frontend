@@ -86,7 +86,7 @@ export default function Navbar() {
 
                     {/* LEFT — Brand */}
                     <Link href="/" className="flex-shrink-0">
-                        <span className="font-serif text-[20px] sm:text-[22px] md:text-[25px] font-semibold text-ink tracking-tight">
+                        <span className="font-serif text-[20px] sm:text-[22px] md:text-[25px] font-normal text-ink tracking-normal">
                             Zayelle
                         </span>
                     </Link>
@@ -135,7 +135,7 @@ export default function Navbar() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -10 }}
                                         transition={{ duration: 0.2 }}
-                                        className="absolute right-0 mt-3 w-[170px] sm:w-[190px] bg-white rounded-lg border border-line shadow-[0_12px_28px_rgba(23,19,16,0.1)] overflow-hidden z-50"
+                                        className="absolute right-0 mt-3 w-[170px] sm:w-[190px] bg-white rounded-lg border border-line shadow-[0_12px_28px_rgba(23,23,26,0.1)] overflow-hidden z-50"
                                     >
                                         {/* Currency Selector */}
                                         <div className="relative">
@@ -280,7 +280,7 @@ export default function Navbar() {
                             className="fixed top-0 right-0 h-screen w-72 bg-white z-40 xl:hidden shadow-lg"
                         >
                             <div className="flex items-center justify-between px-6 py-5 border-b border-line">
-                                <span className="font-serif text-[19px] font-semibold text-ink">Zayelle</span>
+                                <span className="font-serif text-[19px] font-normal text-ink">Zayelle</span>
                                 <button
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                     className="flex items-center justify-center w-7 h-7 rounded-md transition-colors duration-200 hover:bg-surface"
