@@ -74,7 +74,7 @@ export default function GoogleButton() {
         <button
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center justify-center gap-3 border border-[#E0E0E0] rounded-[8px] py-3.5 px-6 bg-white text-[15px] md:text-[16px] font-medium text-[#1a1a1a] transition-colors duration-150 hover:bg-[#EFEFEF] active:bg-[#E5E5E5] cursor-pointer"
+          className="w-full inline-flex items-center justify-center gap-3 rounded-full border border-line bg-paper px-6 py-3.5 font-sans text-[13px] font-medium text-ink transition-colors duration-200 hover:bg-surface cursor-pointer"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
             <path
