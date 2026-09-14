@@ -36,17 +36,17 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
       {/* Section Header */}
       <div className="flex items-end justify-between gap-4 mb-5 sm:mb-6">
         <div>
-          <span className="font-sans block text-muted font-semibold uppercase tracking-[0.16em] text-[11px] sm:text-[12px] mb-1.5">
+          <span className="font-sans block text-muted font-medium uppercase tracking-[0.2em] text-[10px] sm:text-[11px] mb-2">
             {eyebrow}
           </span>
-          <h2 className="font-serif text-ink font-medium tracking-tight text-[24px] sm:text-[30px] md:text-[34px]">
+          <h2 className="font-serif text-ink font-normal tracking-normal leading-[1.18] text-[18px] sm:text-[25px] md:text-[28px]">
             {title}
           </h2>
         </div>
 
         <button
           onClick={() => router.push(`/products?collection=${collection}`)}
-          className="font-sans shrink-0 uppercase text-ink cursor-pointer bg-transparent border-b border-ink/40 pb-0.5 tracking-[0.14em] text-[11px] sm:text-[12px] font-semibold hover:border-ink transition-colors duration-200"
+          className="font-sans shrink-0 uppercase text-ink cursor-pointer bg-transparent border-b border-ink/40 pb-0.5 tracking-[0.1em] text-[10px] sm:text-[11px] font-medium hover:border-ink transition-colors duration-200"
         >
           View All
         </button>
