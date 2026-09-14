@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { toast } from "sonner"; // swap for your toast library if different
 import { addToCart } from "@/services/cart.service";
 import { AddToCartPayload } from "@/types/cart";
@@ -71,24 +70,33 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
             disabled={isLoading}
             aria-label={isLoading ? "Adding to cart..." : "Add to cart"}
             className="
-        absolute right-1.5 md:right-3 top-1.5 md:top-2
-        bg-white p-1 md:p-1.5 lg:p-2 rounded-full
+        absolute right-2 top-2
+        w-7 h-7 md:w-8 md:h-8 flex-shrink-0
+        rounded-full bg-paper/95 backdrop-blur-sm border border-line text-ink
         flex items-center justify-center
+        shadow-[0_2px_6px_rgba(23,23,26,0.08)]
+        transition-all duration-200
+        hover:bg-ink hover:text-paper hover:border-ink
         disabled:opacity-70 disabled:cursor-not-allowed
-        transition-opacity duration-200
       "
         >
             {isLoading ? (
-                // Spinner — same dimensions as the icon to prevent layout shift
-                <TinySpinner size={16} />
+                // Spinner — same footprint as the icon to prevent layout shift
+                <TinySpinner size={14} />
             ) : (
-                <Image
-                    className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5"
-                    src="https://img.icons8.com/?size=100&id=96645&format=png&color=000000"
-                    alt="Add to cart"
-                    width={20}
-                    height={20}
-                />
+                <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
             )}
         </button>
     );
