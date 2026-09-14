@@ -22,7 +22,7 @@ export default function HeroSection() {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     background:
-                        "linear-gradient(0deg, rgba(23,19,16,0.85) 0%, rgba(23,19,16,0.6) 18%, rgba(23,19,16,0.32) 36%, rgba(23,19,16,0.12) 55%, transparent 78%)",
+                        "linear-gradient(0deg, rgba(23,23,26,0.85) 0%, rgba(23,23,26,0.6) 18%, rgba(23,23,26,0.32) 36%, rgba(23,23,26,0.12) 55%, transparent 78%)",
                 }}
             />
 
@@ -30,19 +30,19 @@ export default function HeroSection() {
             <div className="relative z-10 w-full flex flex-col items-start text-left max-w-2xl px-6 sm:px-10 md:px-14 pb-8 sm:pb-12 md:pb-14">
 
                 {/* Eyebrow */}
-                <span className="font-sans text-paper tracking-[0.24em] uppercase text-[11px] sm:text-[12px] font-semibold mb-3 sm:mb-4">
+                <span className="font-sans text-paper tracking-[0.2em] uppercase text-[10px] sm:text-[11px] font-medium mb-2.5 sm:mb-3">
                     New Season · Floreal Collection
                 </span>
 
                 {/* Headline */}
-                <h1 className="font-serif text-paper leading-[1.1] mb-4 sm:mb-5 text-[32px] sm:text-[44px] md:text-[56px] font-medium">
+                <h1 className="font-serif text-paper leading-[1.12] mb-3 sm:mb-4 text-[28px] sm:text-[38px] md:text-[46px] font-medium">
                     Designed for every
                     <br />
                     <span className="italic">version of you</span>
                 </h1>
 
                 {/* Subtext */}
-                <p className="font-sans text-paper/75 text-[13px] sm:text-[15px] max-w-md mb-6 sm:mb-8 leading-relaxed">
+                <p className="font-sans text-paper/75 text-[13px] sm:text-[14px] max-w-md mb-6 sm:mb-7 leading-relaxed">
                     Fashion built for how you actually live, with custom pieces
                     tailored around you, wherever you are.
                 </p>
@@ -51,11 +51,11 @@ export default function HeroSection() {
                 <Link
                     href="/products?collection=floreal-collection"
                     className="inline-flex items-center justify-center gap-2
-                        font-sans font-semibold uppercase tracking-[0.16em] text-ink no-underline
+                        font-sans font-medium uppercase tracking-[0.1em] text-ink no-underline
                         bg-paper rounded-full
-                        px-8 sm:px-10 py-3.5 sm:py-4
+                        px-8 sm:px-10 py-3 sm:py-3.5
                         text-[11px] sm:text-[12px]
-                        shadow-[0_8px_24px_rgba(23,19,16,0.3)]
+                        shadow-[0_8px_24px_rgba(23,23,26,0.3)]
                         transition-all duration-300
                         hover:bg-ink hover:text-paper
                         hover:-translate-y-0.5"
