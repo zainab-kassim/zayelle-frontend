@@ -2,21 +2,26 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { subscribeToNewsletter } from "@/services/newsletter.service";
 
 export default function Newsletter() {
     const [email, setEmail] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (isSubmitting || !email) return;
 
         setIsSubmitting(true);
-        setTimeout(() => {
-            toast.success("You're on the list. Welcome to the circle.");
+        try {
+            const { message } = await subscribeToNewsletter(email);
+            toast.success(message ?? "You're on the list. Welcome to the circle.");
             setEmail("");
+        } catch {
+            toast.error("Something went wrong. Please try again.");
+        } finally {
             setIsSubmitting(false);
-        }, 500);
+        }
     }
 
     return (
