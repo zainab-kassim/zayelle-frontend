@@ -14,29 +14,23 @@ export default function SizeSelector({
 }: SizeSelectorProps) {
   if (!sizes || sizes.length === 0) return null;
   return (
-    
     <div className="flex flex-col gap-3">
-      <p
-        className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#1a1a1a]"
-        style={{ fontFamily: "Inter, sans-serif" }}
-      >
-        Select Size
+      <p className="font-sans text-muted font-normal uppercase tracking-[0.14em] text-[10px] sm:text-[11px]">
+        Size
       </p>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row flex-wrap gap-2">
         {sizes.map((size) => {
           const isActive = selectedSize === size;
           return (
             <button
               key={size}
               onClick={() => onSizeChange(size)}
-              className={`
-                w-10 h-10 rounded-full text-[12px] font-medium tracking-wide
-                border transition-all duration-200
-                ${isActive
-                  ? "bg-[#1a1a1a] text-white border-[#1a1a1a]"
-                  : "bg-white text-[#1a1a1a] border-[#d0d0d0] hover:border-[#1a1a1a]"
-                }
-              `}
+              aria-pressed={isActive}
+              className={`min-w-12 h-12 px-3 font-sans text-[12px] font-normal tracking-wide border transition-all duration-200 ${
+                isActive
+                  ? "bg-ink text-paper border-ink"
+                  : "bg-paper text-ink border-line hover:border-ink/50"
+              }`}
             >
               {size}
             </button>

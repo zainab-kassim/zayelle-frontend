@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import SizeSelector from "../../ui/SizeSelector";
 import QuantitySelector from "../../ui/QuantitySelector";
 import { Product } from "@/types/product";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
+import { slugifyCollectionName } from "@/lib/slugify";
 import Loader from "@/components/ui/Loader";
 
 interface ProductInfoProps {
@@ -18,37 +20,71 @@ interface ProductInfoProps {
   isAddingToCart: boolean;
 }
 
-export default function ProductInfo({product,selectedSize,quantity,onSizeChange,onIncrease,onDecrease,onAddToCart,isAddingToCart,
+export default function ProductInfo({
+  product, selectedSize, quantity, onSizeChange, onIncrease, onDecrease, onAddToCart, isAddingToCart,
 }: ProductInfoProps) {
-  const { currency } = useCurrencyStore()
+  const { currency } = useCurrencyStore();
+
   return (
-    <div className="flex flex-col gap-6 w-full  lg:pt-3 xl:pt-5">
+    <div className="flex flex-col gap-4 sm:gap-6 w-full">
 
-      {/* Collection + year */}
-      <p
-        className="text-[13px] lg:text-[15px] font-semibold tracking-[0.25em] uppercase text-[#5a5a5a]"
-        style={{ fontFamily: '"Fraunces", serif' }}
-      >
-        {product.collections?.name?.toUpperCase()} • 2026
-      </p>
+      <div className="flex flex-col gap-2">
+        {/* Collection */}
+        {product.collections?.name && (
+          <Link
+            href={`/products?collection=${slugifyCollectionName(product.collections.name)}`}
+            className="font-sans text-muted font-normal uppercase tracking-[0.14em] text-[10px] sm:text-[11px] w-fit hover:text-ink transition-colors duration-200"
+          >
+            {product.collections.name}
+          </Link>
+        )}
 
-      {/* Price */}
-      <p
-        className="md:text-[23px] lg:text-[38px] xl:text-[30px] text-xl font-bold text-[#1a1a1a] leading-none"
-        style={{ fontFamily: '"Fraunces", serif' }}
-      >
+        {/* Name */}
+        <h1 className="font-serif text-ink/85 font-normal leading-[1.15] text-[20px] sm:text-[28px] md:text-[32px]">
+          {product.name}
+        </h1>
 
-        {formatPrice(product.price, currency)}
-      </p>
+        {/* Price */}
+        <p className="font-sans text-muted text-[15px] sm:text-[16px] mt-0.5">
+          {formatPrice(product.price, currency)}
+        </p>
+
+        {/* Pre-order notice */}
+        <p className="font-sans text-red-600 text-[12px] sm:text-[13px] leading-relaxed mt-1">
+          Pre-Order — all orders ship October 12.
+        </p>
+
+        {/* Shipping estimate */}
+        <div className="flex items-center gap-2 mt-0.5">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-muted flex-shrink-0"
+            aria-hidden="true"
+          >
+            <path d="M3 16V6a1 1 0 0 1 1-1h9v11" />
+            <path d="M13 10h4l4 4v2h-8" />
+            <circle cx="7.5" cy="18.5" r="1.5" />
+            <circle cx="17.5" cy="18.5" r="1.5" />
+          </svg>
+          <span className="font-sans text-muted text-[12px] sm:text-[13px]">
+            Shipping takes 7–14 days
+          </span>
+        </div>
+      </div>
 
       {/* Description */}
-      <p
-        className="text-[15px] md:text-[17px] lg:text-[18px] leading-relaxed text-[#4a4a4a] max-w-xl"
-      >
-        {product.description}
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque molestiae incidunt ab excepturi.
-        Ad ipsa aliquam soluta consequ Lorem . Fuga
-      </p>
+      {product.description && (
+        <p className="font-sans text-muted text-[12px] sm:text-[14px] leading-relaxed max-w-md border-t border-line pt-4 sm:pt-6">
+          {product.description}
+        </p>
+      )}
 
       {/* Size selector */}
       <SizeSelector
@@ -57,7 +93,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
         onSizeChange={onSizeChange}
       />
 
-      {/* Quantity selector */}
+      {/* Quantity */}
       <QuantitySelector
         quantity={quantity}
         onIncrease={onIncrease}
@@ -68,14 +104,7 @@ export default function ProductInfo({product,selectedSize,quantity,onSizeChange,
       <button
         onClick={onAddToCart}
         disabled={isAddingToCart || !selectedSize}
-        className="
-          w-full py-4 bg-[#1a1a1a] text-white
-          text-[12px] lg:text-[14px] font-semibold tracking-[0.28em]  mt-6 md:mb-0 md:mt-0 xl:mt-10 uppercase
-          rounded-md transition-all duration-300
-          flex items-center justify-center
-          hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed
-"
-        style={{ fontFamily: "Inter, sans-serif" }}
+        className="w-full h-12 bg-ink text-paper font-sans font-normal uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isAddingToCart ? <Loader /> : "Add to Cart"}
       </button>

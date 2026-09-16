@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useState, useEffect } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { getProductBySlug } from "@/services/product.service";
@@ -8,6 +9,8 @@ import { addToCart } from "@/services/cart.service";
 import { Product } from "@/types/product";
 import ProductImageViewer from "@/components/shared/product/ProductImageViewer";
 import ProductInfo from "@/components/shared/product/ProductInfo";
+import FloralCollection from "@/components/shared/FlorealCollection";
+import { slugifyCollectionName } from "@/lib/slugify";
 import { useCurrencyStore } from "@/store/currencyStore";
 import ProductDetailSkeleton from "@/components/shared/product/ProductsdetailsSection";
 import { useAsyncData } from "@/hooks/UseAsyncData";
@@ -66,29 +69,72 @@ export default function ProductSlugPage({ params }: PageProps) {
   // ── Error ──────────────────────────────────────────────────────
   if (isError || !product) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center">
-        <p
-          className="text-[14px] text-[#5a5a5a] tracking-widest uppercase"
-          style={{ fontFamily: '"Fraunces", serif' }}
-        >
-          Product not found.
+      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center gap-4 px-6 text-center">
+        <p className="font-serif text-ink text-[20px] sm:text-[24px]">
+          Product not found
         </p>
+        <p className="font-sans text-muted text-[13px] max-w-sm">
+          This item may have sold out or the link may be out of date.
+        </p>
+        <Link
+          href="/products"
+          className="font-sans font-medium uppercase tracking-[0.1em] text-[11px] text-paper bg-ink rounded-full px-7 py-3 transition-opacity duration-200 hover:opacity-90"
+        >
+          Continue Shopping
+        </Link>
       </div>
     );
   }
 
-  return (
-    <div className="w-full   px-4 md:px-12 lg:px-34 xl:px-16 py-8 bg-white">
+  const collectionSlug = product.collections?.name
+    ? slugifyCollectionName(product.collections.name)
+    : undefined;
 
-      {/* ── Desktop: 2-column layout ─────────────────────────────── */}
-      <div className="hidden lg:flex flex-row gap-10 items-start">
-        {/* Left — image viewer (55%) */}
-        <div className="w-[50%] flex-shrink-auto ">
-          <ProductImageViewer images={product.image} name={product.name} />
+  return (
+    <div className="w-full bg-paper px-4 md:px-12 lg:px-34 xl:px-16 py-6 sm:py-8 pb-16 sm:pb-24 flex flex-col gap-10 sm:gap-16">
+
+      <div>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="mb-5 sm:mb-7 flex items-center gap-1.5 flex-wrap font-sans text-[11px] uppercase tracking-[0.08em]">
+          <Link href="/" className="text-muted hover:text-ink transition-colors duration-200">Home</Link>
+          {product.collections?.name && collectionSlug && (
+            <>
+              <span className="text-muted/50">/</span>
+              <Link
+                href={`/products?collection=${collectionSlug}`}
+                className="text-muted hover:text-ink transition-colors duration-200"
+              >
+                {product.collections.name}
+              </Link>
+            </>
+          )}
+          <span className="text-muted/50">/</span>
+          <span className="text-ink normal-case tracking-normal truncate max-w-[200px]">{product.name}</span>
+        </nav>
+
+        {/* ── Desktop: 2-column layout ─────────────────────────────── */}
+        <div className="hidden lg:flex flex-row gap-10 xl:gap-14 items-start">
+          <div className="w-1/2 flex-shrink-0">
+            <ProductImageViewer images={product.image} name={product.name} />
+          </div>
+
+          <div className="flex-1 flex flex-col">
+            <ProductInfo
+              product={product}
+              selectedSize={selectedSize}
+              quantity={quantity}
+              onSizeChange={setSelectedSize}
+              onIncrease={() => setQuantity(q => q + 1)}
+              onDecrease={() => setQuantity(q => Math.max(1, q - 1))}
+              onAddToCart={handleAddToCart}
+              isAddingToCart={isAddingToCart}
+            />
+          </div>
         </div>
 
-        {/* Right — product info (45%) */}
-        <div className="flex-1 flex flex-col">
+        {/* ── Mobile: single column ────────────────────────────────── */}
+        <div className="flex lg:hidden flex-col gap-6">
+          <ProductImageViewer images={product.image} name={product.name} />
           <ProductInfo
             product={product}
             selectedSize={selectedSize}
@@ -100,23 +146,19 @@ export default function ProductSlugPage({ params }: PageProps) {
             isAddingToCart={isAddingToCart}
           />
         </div>
-
       </div>
 
-      {/* ── Mobile: single column ────────────────────────────────── */}
-      <div className="flex lg:hidden flex-col gap-6 mb-12">
-        <ProductImageViewer images={product.image} name={product.name} />
-        <ProductInfo
-          product={product}
-          selectedSize={selectedSize}
-          quantity={quantity}
-          onSizeChange={setSelectedSize}
-          onIncrease={() => setQuantity(q => q + 1)}
-          onDecrease={() => setQuantity(q => Math.max(1, q - 1))}
-          onAddToCart={handleAddToCart}
-          isAddingToCart={isAddingToCart}
+      {/* ── You Might Also Like ──────────────────────────────────── */}
+      {collectionSlug && product.collections?.name && (
+        <FloralCollection
+          collection={collectionSlug}
+          eyebrow="You Might Also Like"
+          title={`More From ${product.collections.name}`}
+          excludeSlug={product.slug}
+          fixedWidth
+          showQuickAdd={false}
         />
-      </div>
+      )}
 
     </div>
   );
