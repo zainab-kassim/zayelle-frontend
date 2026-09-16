@@ -52,16 +52,16 @@ export default function MobileFilterDrawer(props: MobileFilterDrawerProps) {
           <FilterPanelContent {...props} />
         </div>
 
-        <div className="flex items-center gap-3 px-6 py-4 border-t border-line flex-shrink-0">
+        <div className="flex items-center justify-between gap-4 px-6 py-4 border-t border-line flex-shrink-0">
           <button
             onClick={onReset}
-            className="font-sans text-muted font-medium uppercase tracking-[0.1em] text-[11px] border-b border-ink/40 hover:border-ink hover:text-ink transition-colors duration-200"
+            className="flex-shrink-0 font-sans text-muted font-medium uppercase tracking-[0.1em] text-[11px] border-b border-ink/40 hover:border-ink hover:text-ink transition-colors duration-200"
           >
             Clear All
           </button>
           <button
             onClick={onClose}
-            className="flex-1 bg-ink text-paper rounded-full py-3.5 font-sans font-medium uppercase tracking-[0.1em] text-[12px] transition-opacity duration-200 hover:opacity-90"
+            className="bg-ink text-paper rounded-full px-8 py-3.5 font-sans font-medium uppercase tracking-[0.1em] text-[12px] transition-opacity duration-200 hover:opacity-90"
           >
             Show {resultCount} {resultCount === 1 ? "Result" : "Results"}
           </button>
