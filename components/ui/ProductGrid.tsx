@@ -19,6 +19,19 @@ export default function ProductGrid({
   products,
   isLoading,
 }: ProductGridProps) {
+  if (!isLoading && products.length === 0) {
+    return (
+      <div className="w-full py-20 flex flex-col items-center text-center gap-2">
+        <p className="font-serif text-ink text-[18px] sm:text-[20px]">
+          No products found
+        </p>
+        <p className="font-sans text-muted text-[13px] max-w-sm">
+          Try adjusting your filters, or check back soon — new pieces are added regularly.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-5 gap-y-8">
       {isLoading
