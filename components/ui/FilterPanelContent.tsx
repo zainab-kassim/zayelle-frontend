@@ -46,11 +46,11 @@ function ChevronIcon({ open }: { open: boolean }) {
 // Collapsible section — the Shopify collection-template pattern (Product
 // Type / Size / Fit as accordion rows under one Filter & Sort panel), rather
 // than every facet permanently expanded.
-function AccordionSection({ title, defaultOpen = false, children }: { title: string; defaultOpen?: boolean; children: React.ReactNode }) {
+function AccordionSection({ title, defaultOpen = false, noBorder = false, children }: { title: string; defaultOpen?: boolean; noBorder?: boolean; children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-line py-3">
+    <div className={`py-3 ${noBorder ? "" : "border-b border-line"}`}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="w-full flex items-center justify-between text-left"
@@ -66,16 +66,16 @@ function AccordionSection({ title, defaultOpen = false, children }: { title: str
 
 function RadioRow({ isActive, label, onClick }: { isActive: boolean; label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-3 text-left">
+    <button onClick={onClick} className="w-full flex items-center justify-between gap-3 text-left">
+      <span className={`font-sans text-[13px] font-normal transition-colors duration-200 ${isActive ? "text-ink" : "text-muted"}`}>
+        {label}
+      </span>
       <span
         className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
           isActive ? "border-ink" : "border-line"
         }`}
       >
-        {isActive && <span className="w-1.5 h-1.5 rounded-full bg-ink" />}
-      </span>
-      <span className={`font-sans text-[13px] font-normal transition-colors duration-200 ${isActive ? "text-ink" : "text-muted"}`}>
-        {label}
+        {isActive && <span className="w-3 h-3 rounded-full bg-ink" />}
       </span>
     </button>
   );
@@ -127,7 +127,7 @@ export default function FilterPanelContent({
           pattern, built from each product's own size list rather than a
           fixed/fake set. */}
       {availableSizes.length > 0 && (
-        <AccordionSection title="Size">
+        <AccordionSection title="Size" defaultOpen noBorder>
           <div className="flex flex-wrap gap-2">
             {availableSizes.map((size) => {
               const isActive = selectedSizes.includes(size);
@@ -135,7 +135,7 @@ export default function FilterPanelContent({
                 <button
                   key={size}
                   onClick={() => onSizeToggle(size)}
-                  className={`min-w-[40px] px-2 py-2 text-center rounded-md border font-sans text-[13px] transition-colors duration-200 ${
+                  className={`min-w-[40px] px-2 py-2 text-center border font-sans text-[13px] transition-colors duration-200 ${
                     isActive
                       ? "border-ink bg-ink text-paper"
                       : "border-line text-ink hover:border-ink"
