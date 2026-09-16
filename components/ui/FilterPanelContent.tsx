@@ -14,11 +14,16 @@ export interface FilterPanelContentProps {
   onSizeToggle: (size: string) => void;
 }
 
-export const COLLECTION_FILTERS = [
-  "ALL",
-  "FLOREAL COLLECTION",
-  "ZAYELLE LUXE WEAVE",
-  "NEW ARRIVALS",
+// Single source of truth for the Collection filter — the label shown in
+// the UI paired with the backend collection slug it fetches. `slug: null`
+// means "no collection filter" (fetch everything). Previously this label
+// list and the label→slug lookup used to fetch products lived in two
+// separate files that had to be hand-kept in sync.
+export const COLLECTIONS: { label: string; slug: string | null }[] = [
+  { label: "ALL", slug: null },
+  { label: "FLOREAL COLLECTION", slug: "floreal-collection" },
+  { label: "ZAYELLE LUXE WEAVE", slug: "ember-collection" },
+  { label: "NEW ARRIVALS", slug: "new-arrivals" },
 ];
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
@@ -112,12 +117,12 @@ export default function FilterPanelContent({
 
       <AccordionSection title="Collection" defaultOpen>
         <div className="flex flex-col gap-2.5">
-          {COLLECTION_FILTERS.map((filter) => (
+          {COLLECTIONS.map(({ label }) => (
             <RadioRow
-              key={filter}
-              label={filter}
-              isActive={activeFilter === filter}
-              onClick={() => onFilterChange(filter)}
+              key={label}
+              label={label}
+              isActive={activeFilter === label}
+              onClick={() => onFilterChange(label)}
             />
           ))}
         </div>

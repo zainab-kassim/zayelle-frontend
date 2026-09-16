@@ -4,13 +4,13 @@ import { useCurrencyStore } from '@/store/currencyStore';
 import { formatPrice } from '@/lib/currency';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import AddToCartButtonPlusIcon from './AddtoCartButtonPlusIcon';
+import AddToCartButtonPlusIcon from './AddToCartButtonPlusIcon';
 
 interface ProductCardProps {
     id: number;
     image: string[];
     name: string;
-    price: string;
+    price: number;
     slug: string;
     imageHeightClassName?: string;
     imageWrapperClassName?: string;

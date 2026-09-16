@@ -1,4 +1,3 @@
-// components/product/QuantitySelector.tsx
 "use client";
 
 interface QuantitySelectorProps {

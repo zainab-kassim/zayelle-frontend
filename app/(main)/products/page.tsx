@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getProductByCollection } from "@/services/product.service";
 import { getProducts } from "@/services/product.service";
@@ -9,17 +9,9 @@ import SidebarFilters from "@/components/ui/SidebarFilters";
 import MobileFilterDrawer from "@/components/ui/MobileFilterDrawer";
 import FilterIcon from "@/components/ui/FilterIcon";
 import ProductGrid from "@/components/ui/ProductGrid";
-import { SortOption, hasActiveFilters } from "@/components/ui/FilterPanelContent";
+import { SortOption, COLLECTIONS } from "@/components/ui/FilterPanelContent";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 import { useAsyncData } from "@/hooks/UseAsyncData";
-
-
-const COLLECTION_MAP: Record<string, string> = {
-  "FLOREAL COLLECTION": "floreal-collection",
-  "ZAYELLE LUXE WEAVE": "ember-collection",
-  "NEW ARRIVALS":       "new-arrivals",
-};
 
 function sortProducts(products: Product[], sortBy: SortOption): Product[] {
   if (sortBy === "featured") return products;
@@ -35,23 +27,15 @@ function ProductsContent() {
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-  // The URL's ?collection= param re-syncs the active filter whenever it (or
-  // currency) changes, taking priority over any manual sidebar selection —
-  // same precedence the previous single fetch-effect had.
+  // The URL's ?collection= param re-syncs the active filter whenever it
+  // changes, taking priority over any manual sidebar selection.
   useEffect(() => {
     const collection = searchParams.get("collection");
+    const match = collection ? COLLECTIONS.find((c) => c.slug === collection) : null;
+    setActiveFilter(match ? match.label : "ALL");
+  }, [searchParams]);
 
-    if (collection) {
-      const filterKey = Object.keys(COLLECTION_MAP).find(
-        key => COLLECTION_MAP[key] === collection
-      );
-      if (filterKey) setActiveFilter(filterKey);
-    } else {
-      setActiveFilter("ALL");
-    }
-  }, [searchParams, currency]);
-
-  const collectionSlug = activeFilter === "ALL" ? null : COLLECTION_MAP[activeFilter];
+  const collectionSlug = COLLECTIONS.find((c) => c.label === activeFilter)?.slug ?? null;
 
   const { data: products, isLoading } = useAsyncData(
     () =>

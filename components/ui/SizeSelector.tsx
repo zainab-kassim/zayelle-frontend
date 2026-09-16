@@ -1,4 +1,3 @@
-// components/product/SizeSelector.tsx
 "use client";
 
 interface SizeSelectorProps {

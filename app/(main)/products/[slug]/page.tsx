@@ -12,7 +12,7 @@ import ProductInfo from "@/components/shared/product/ProductInfo";
 import FloralCollection from "@/components/shared/FlorealCollection";
 import { slugifyCollectionName } from "@/lib/slugify";
 import { useCurrencyStore } from "@/store/currencyStore";
-import ProductDetailSkeleton from "@/components/shared/product/ProductsdetailsSection";
+import ProductDetailSkeleton from "@/components/shared/product/ProductDetailSkeleton";
 import { useAsyncData } from "@/hooks/UseAsyncData";
 
 

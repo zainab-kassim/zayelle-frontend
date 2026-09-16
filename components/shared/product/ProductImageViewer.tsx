@@ -1,4 +1,3 @@
-// components/product/ProductImageViewer.tsx
 "use client";
 
 import { useRef, useState } from "react";
