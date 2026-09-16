@@ -12,7 +12,7 @@ export default function ForgotPasswordForm() {
     return (
         <AuthPageShell title="Forgot password?" subtitle="We'll email you a link to reset it.">
             {submitted ? (
-                <p className="font-sans text-[14px] text-ink leading-relaxed">
+                <p className="font-sans text-[14px] text-ink leading-relaxed text-center">
                     If an account exists for that email, a password reset link is on its way.
                     Check your inbox and spam folder.
                 </p>
