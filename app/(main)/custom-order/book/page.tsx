@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { bookMeeting } from "@/services/calendar-meet.service";
@@ -104,18 +105,21 @@ export default function BookPage() {
     return (
       <div className="w-full min-h-[70vh] bg-paper flex items-center justify-center px-6">
         <div className="text-center flex flex-col items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-ink flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-paper" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
-          </div>
+          <Image
+            src="https://img.icons8.com/?size=100&id=kCNfpZEhheCl&format=png&color=000000"
+            alt="Booked"
+            width={56}
+            height={56}
+          />
           <h1 className="font-serif text-ink/85 font-normal text-[22px] sm:text-[26px]">
             Consultation booked
           </h1>
-          <p className="font-sans text-muted text-[13px]">
-            {formatDate(selectedDate)} at {selectedTime}
-          </p>
-          <p className="font-sans text-muted/70 text-[12px]">A Google Meet link will be sent to your email.</p>
+          <div className="flex flex-col items-center gap-1.5">
+            <p className="font-sans text-muted text-[13px]">
+              {formatDate(selectedDate)} at {selectedTime}
+            </p>
+            <p className="font-sans text-muted/70 text-[12px]">A Google Meet link will be sent to your email.</p>
+          </div>
         </div>
       </div>
     );
