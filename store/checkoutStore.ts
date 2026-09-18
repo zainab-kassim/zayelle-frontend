@@ -41,6 +41,8 @@ export type PaymentStatus = 'success' | 'pending' | 'failed';
 export type PaymentProvider = 'paystack' | 'stripe';
 
 interface CheckoutState {
+  hasHydrated: boolean;
+  setHasHydrated: (value: boolean) => void;
   currentStep: 1 | 2 | 3;
   orderResponse: OrderResponse | null;
   shippingAddress: Address | null;
@@ -57,6 +59,9 @@ interface CheckoutState {
   setIsUsingSavedAddress: (value: boolean) => void;
   setCartItems: (items: CartItem[]) => void;
   advanceToReview: (order: OrderResponse) => void;
+  // patches the order in place — used after editing shipping info from
+  // the review step, so the address updates without leaving step 2
+  updateOrderAddress: (updates: Partial<OrderResponse['order']>) => void;
   setPaymentReference: (reference: string, provider: PaymentProvider) => void;
   setPaymentOutcome: (status: PaymentStatus, message: string) => void;
   resetCheckout: () => void;
@@ -75,6 +80,8 @@ function loadSavedAddress(): Address | null {
 export const useCheckoutStore = create<CheckoutState>()(
   persist(
     (set) => ({
+      hasHydrated: false,
+      setHasHydrated: (value) => set({ hasHydrated: value }),
       currentStep: 1,
       orderResponse: null,
       shippingAddress: null,
@@ -99,6 +106,12 @@ export const useCheckoutStore = create<CheckoutState>()(
       setSavedAddress: (address) => set({ savedAddress: address }),
       setIsUsingSavedAddress: (value) => set({ isUsingSavedAddress: value }),
       setCartItems: (items) => set({ cartItems: items }),
+
+      updateOrderAddress: (updates) => set((state) => (
+        state.orderResponse
+          ? { orderResponse: { ...state.orderResponse, order: { ...state.orderResponse.order, ...updates } } }
+          : {}
+      )),
 
       // step and its data move together in one write — they can never desync
       advanceToReview: (order) => set({
@@ -136,6 +149,13 @@ export const useCheckoutStore = create<CheckoutState>()(
         paymentReference: state.paymentReference,
         paymentProvider: state.paymentProvider,
       }),
+      // orderResponse restores from sessionStorage asynchronously — until
+      // this fires, orderResponse reads null even on a freshly reloaded
+      // page that already had an order, which used to trip the "order not
+      // found" guards in CheckoutContent
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

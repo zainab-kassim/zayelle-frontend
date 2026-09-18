@@ -14,42 +14,40 @@ const STEPS = [
 
 export default function CheckoutProgress({ currentStep }: CheckoutProgressProps) {
   return (
-    <div className="flex items-center justify-center w-full max-w-lg mx-auto mb-8">
+    <div className="flex items-center justify-center w-full max-w-xs mx-auto mb-6 sm:mb-8">
       {STEPS.map((step, idx) => {
-        const isActive    = step.number === currentStep;
+        const isActive = step.number === currentStep;
         const isCompleted = step.number < currentStep;
-        const isLast      = idx === STEPS.length - 1;
+        const isLast = idx === STEPS.length - 1;
+        const isFilled = isActive || isCompleted;
 
         return (
           <div key={step.number} className="flex items-center flex-1 last:flex-none">
-            <div className="flex flex-col items-center gap-2">
-              {/* Circle */}
+            <div className="flex flex-col items-center gap-1.5">
               <motion.div
                 animate={{
-                  background: isActive || isCompleted ? "#1a1a1a" : "#fff",
-                  borderColor: isActive || isCompleted ? "#1a1a1a" : "#d0d0d0",
-                  color: isActive || isCompleted ? "#fff" : "#aaa",
+                  backgroundColor: isFilled ? "#17171A" : "#FCFBF9",
+                  borderColor: isFilled ? "#17171A" : "#E7E3DC",
+                  color: isFilled ? "#FCFBF9" : "#726B60",
                 }}
                 transition={{ duration: 0.3 }}
-                className="w-9 h-9 rounded-full border flex items-center justify-center text-[13px] font-semibold"
+                className="w-7 h-7 rounded-full border flex items-center justify-center font-sans text-[11px] font-medium"
               >
                 {step.number}
               </motion.div>
-              {/* Label */}
               <span
-                className={`text-[12px] tracking-wide whitespace-nowrap ${
-                  isActive ? "font-semibold text-[#1a1a1a]" : "text-[#aaa] font-normal"
+                className={`font-sans text-[9px] uppercase tracking-[0.08em] whitespace-nowrap ${
+                  isActive ? "text-ink font-medium" : "text-muted font-normal"
                 }`}
               >
                 {step.label}
               </span>
             </div>
 
-            {/* Connector line */}
             {!isLast && (
-              <div className="flex-1 h-px mx-3 bg-[#e0e0e0] relative -mt-5">
+              <div className="flex-1 h-px mx-2 bg-line relative -mt-4">
                 <motion.div
-                  className="absolute inset-y-0 left-0 bg-[#1a1a1a]"
+                  className="absolute inset-y-0 left-0 bg-ink"
                   animate={{ width: isCompleted ? "100%" : "0%" }}
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                 />

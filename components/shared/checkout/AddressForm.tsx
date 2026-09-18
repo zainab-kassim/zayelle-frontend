@@ -2,7 +2,7 @@
 
 import { Address } from "@/store/checkoutStore";
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
-import { toast } from 'sonner';
+import { INPUT_CLASS, LABEL_CLASS } from "@/components/forms/auth/fieldStyles";
 
 interface AddressFormProps {
   values: Partial<Address>;
@@ -17,17 +17,13 @@ function Field({
 }) {
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
-      <label htmlFor={id} className="text-[12px] text-[#5a5a5a]"
-        style={{ fontFamily: "Inter, sans-serif" }}>
+      <label htmlFor={id} className={LABEL_CLASS}>
         {label}
       </label>
       <input
         id={id} type="text" placeholder={placeholder} value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
-          text-[#1a1a1a] placeholder:text-[#bbb] outline-none
-          focus:border-[#1a1a1a] transition-colors duration-200 bg-white"
-        style={{ fontFamily: "Inter, sans-serif" }}
+        className={INPUT_CLASS}
       />
     </div>
   );
@@ -73,7 +69,10 @@ export default function AddressForm({
   const countryRef = useRef<HTMLDivElement>(null);
 
   // ── Province combobox ──────────────────────────────────────
-  const [searchQuery, setSearchQuery] = useState("");
+  // Initialized from values.province (not just "") so a form pre-filled
+  // with an existing address — e.g. the edit-address modal — shows the
+  // right text on mount instead of an empty field.
+  const [searchQuery, setSearchQuery] = useState(values.province ?? "");
   const [provinceOpen, setProvinceOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -168,10 +167,10 @@ export default function AddressForm({
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-5 w-full">
 
       {/* Contact section */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3.5">
         <Field label="Customer Name" id="customerName" placeholder="Full name of recipient"
           value={values.customerName ?? ""} onChange={(v) => onChange("customerName", v)} />
         <Field label="Phone Number" id="phone" placeholder="(555) 123-4567"
@@ -179,11 +178,11 @@ export default function AddressForm({
       </div>
 
       {/* Shipping section */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3.5">
         <Field label="Street Address" id="street" placeholder="123 Main Street, Apt 4B"
           value={values.street ?? ""} onChange={(v) => onChange("street", v)} />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3.5">
           <Field label="Apt / Suite / Unit (Optional)" id="apt"
             placeholder="Apt, suite, unit, building, floor, etc."
             value={values.apt ?? ""} onChange={(v) => onChange("apt", v)} />
@@ -191,30 +190,25 @@ export default function AddressForm({
             value={values.postalCode ?? ""} onChange={(v) => onChange("postalCode", v)} />
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5">
 
           <Field label="City" id="city" placeholder="Ottawa"
             value={values.city ?? ""} onChange={(v) => onChange("city", v)} />
 
-            {/* Country — custom dropdown */}
+          {/* Country — custom dropdown */}
           <div className="flex flex-col gap-1.5 relative" ref={countryRef}>
-            <label className="text-[12px] text-[#5a5a5a]"
-              style={{ fontFamily: "Inter, sans-serif" }}>Country</label>
+            <label className={LABEL_CLASS}>Country</label>
             <button
               type="button"
               onClick={() => setCountryOpen(prev => !prev)}
-              className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
-                text-left text-[#1a1a1a] outline-none focus:border-[#1a1a1a]
-                transition-colors duration-200 bg-white flex justify-between items-center"
-              style={{ fontFamily: "Inter, sans-serif" }}
+              className={`${INPUT_CLASS} text-left flex justify-between items-center`}
             >
-              <span className="text-nowrap text-clip ">{values.country || "Select country"}</span>
-              <span className="text-[#aaa] text-[10px]">▾</span>
+              <span className="text-nowrap text-clip">{values.country || "Select country"}</span>
+              <span className="text-muted text-[10px]">▾</span>
             </button>
 
             {countryOpen && (
-              <div className="absolute max-h-32 scrollable overflow-y-auto top-full left-0 right-0 mt-1 bg-white border
-                border-[#e0e0e0] rounded-lg shadow-md z-20 ">
+              <div className="absolute max-h-32 overflow-y-auto top-full left-0 right-0 mt-1 bg-paper border border-line rounded-lg shadow-[0_12px_28px_rgba(23,23,26,0.1)] z-20">
                 {COUNTRIES.map(c => (
                   <button
                     key={c}
@@ -226,12 +220,9 @@ export default function AddressForm({
                       setSuggestions([]);
                       setCountryOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2.5 text-[13px] transition-colors
-                      hover:bg-[#f5f5f5] ${values.country === c
-                        ? "font-semibold text-[#1a1a1a]"
-                        : "text-[#4a4a4a]"
-                      }`}
-                    style={{ fontFamily: "Inter, sans-serif" }}
+                    className={`w-full text-left px-4 py-2.5 font-sans text-[12px] transition-colors duration-200 hover:bg-surface ${
+                      values.country === c ? "font-medium text-ink" : "text-muted"
+                    }`}
                   >
                     {c}
                   </button>
@@ -240,10 +231,9 @@ export default function AddressForm({
             )}
           </div>
 
-          {/* Province — accessible combobox */}
+          {/* Province — accessible combobox, locked until a country is picked */}
           <div className="flex flex-col gap-1.5 relative" ref={provinceRef}>
-            <label htmlFor="province" className="text-[12px] text-[#5a5a5a]"
-              style={{ fontFamily: "Inter, sans-serif" }}>
+            <label htmlFor="province" className={LABEL_CLASS}>
               State / Province
             </label>
             <input
@@ -254,34 +244,21 @@ export default function AddressForm({
               aria-expanded={provinceOpen}
               aria-autocomplete="list"
               aria-haspopup="listbox"
-              placeholder="e.g. Ontario"
+              placeholder={values.country ? "e.g. Ontario" : "Select a country first"}
               value={searchQuery}
-              onFocus={() => {
-                !values.country
-                  ? toast.warning("Please select a country first.")
-                  : openProvince();
-              }}
-              onChange={(e) => {
-                if (!values.country) {
-                  toast.warning("Please select a country first.");
-                  return;
-                }
-                handleProvinceSearch(e.target.value);
-              }}
+              disabled={!values.country}
+              onFocus={openProvince}
+              onChange={(e) => handleProvinceSearch(e.target.value)}
               onKeyDown={handleProvinceKeyDown}
               autoComplete="off"
-              className="w-full px-4 py-2.5 rounded-lg border border-[#e0e0e0] text-[13px]
-                text-[#1a1a1a] placeholder:text-[#bbb] outline-none
-                focus:border-[#1a1a1a] transition-colors duration-200 bg-white"
-              style={{ fontFamily: "Inter, sans-serif" }}
+              className={`${INPUT_CLASS} disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-surface`}
             />
 
             {provinceOpen && suggestions.length > 0 && (
               <div
                 ref={listRef}
                 role="listbox"
-                className="absolute top-full left-0 right-0 mt-1 bg-white border
-                  border-[#e0e0e0] rounded-lg shadow-md z-20 overflow-y-auto max-h-36"
+                className="absolute top-full left-0 right-0 mt-1 bg-paper border border-line rounded-lg shadow-[0_12px_28px_rgba(23,23,26,0.1)] z-20 overflow-y-auto max-h-36"
               >
                 {suggestions.map((p, idx) => (
                   <div
@@ -293,13 +270,13 @@ export default function AddressForm({
                       selectProvince(p);
                     }}
                     onMouseEnter={() => setHighlightedIndex(idx)}
-                    className={`px-4 py-2.5 text-[13px] cursor-pointer transition-colors ${idx === highlightedIndex
-                      ? "bg-[#f0f0f0] text-[#1a1a1a]"
-                      : values.province === p
-                        ? "font-semibold text-[#1a1a1a] bg-[#fafafa]"
-                        : "text-[#4a4a4a] hover:bg-[#f5f5f5]"
-                      }`}
-                    style={{ fontFamily: "Inter, sans-serif" }}
+                    className={`px-4 py-2.5 font-sans text-[12px] cursor-pointer transition-colors duration-200 ${
+                      idx === highlightedIndex
+                        ? "bg-surface text-ink"
+                        : values.province === p
+                          ? "font-medium text-ink bg-surface/60"
+                          : "text-muted hover:bg-surface"
+                    }`}
                   >
                     {p}
                   </div>
@@ -308,9 +285,7 @@ export default function AddressForm({
             )}
 
             {provinceOpen && suggestions.length === 0 && searchQuery.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border
-                border-[#e0e0e0] rounded-lg shadow-md z-20 px-4 py-3 text-[12px]
-                text-[#aaa]" style={{ fontFamily: "Inter, sans-serif" }}>
+              <div className="absolute top-full left-0 right-0 mt-1 bg-paper border border-line rounded-lg shadow-[0_12px_28px_rgba(23,23,26,0.1)] z-20 px-4 py-3 font-sans text-[11px] text-muted">
                 No results for "{searchQuery}"
               </div>
             )}

@@ -17,6 +17,41 @@ export const createOrder = async (payload: CreateOrderPayload) => {
   return response.data;
 };
 
+export interface UpdateShippingInfoPayload {
+  order_id: number;
+  street_address: string;
+  apt_no: string;
+  customerName: string;
+  customerPhonenumber: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+}
+
+export interface UpdateShippingInfoResponse {
+  message: string;
+  order: {
+    street_address: string;
+    apt_no: string;
+    customerName: string;
+    customerPhonenumber: string;
+    city: string;
+    state: string;
+    postal_code: string;
+    country: string;
+  };
+}
+
+// Updates an existing order's shipping info in place — used to edit the
+// address from the payment review step without re-creating the order.
+export const updateShippingInfo = async (
+  payload: UpdateShippingInfoPayload,
+): Promise<UpdateShippingInfoResponse> => {
+  const response = await axiosInstance.post('/order/edit-shipping-info', payload);
+  return response.data;
+};
+
 export interface OrderHistoryItem {
   id: number;
   order_id: number;

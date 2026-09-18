@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore, Address } from "@/store/checkoutStore";
 import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import SavedAddressCard from "@/components/shared/checkout/SavedAddressCard";
+import EditAddressModal from "@/components/shared/checkout/EditAddressModal";
 import ReviewOrder from "@/components/shared/ReviewOrder";
+import PageLoader from "@/components/ui/PageLoader";
 import { toast } from 'sonner';
-import { createOrder } from "@/services/order.service";
+import { createOrder, updateShippingInfo } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { getCartItems } from "@/services/cart.service";
 import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment, CancelStripeCheckout, CancelPaystackCheckout } from "@/services/payment.service";
@@ -21,9 +24,40 @@ const EMPTY_ADDRESS: Address = {
   province: "", country: "",
 };
 
+// Failed/pending icons drawn to match the weight of the icons8 checkmark
+// used for a successful outcome (and reused from the booking-consultation
+// confirmation screen), so all three outcome states read as one family.
+function OutcomeIcon({ status }: { status: "success" | "pending" | "failed" }) {
+  if (status === "success") {
+    return (
+      <Image
+        src="https://img.icons8.com/?size=100&id=kCNfpZEhheCl&format=png&color=000000"
+        alt="Success"
+        width={44}
+        height={44}
+      />
+    );
+  }
+  if (status === "failed") {
+    return (
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" className="text-ink" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m15 9-6 6M9 9l6 6" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" className="text-ink" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 7v5l3.5 2" />
+    </svg>
+  );
+}
+
 export default function CheckoutContent() {
   const router = useRouter();
   const {
+    hasHydrated,
     currentStep,
     orderResponse,
     savedAddress,
@@ -37,6 +71,7 @@ export default function CheckoutContent() {
     paymentProvider,
     setPaymentReference,
     setPaymentOutcome,
+    updateOrderAddress,
     resetCheckout,
   } = useCheckoutStore();
   const [formValues, setFormValues] = useState<Partial<Address>>(EMPTY_ADDRESS);
@@ -44,6 +79,7 @@ export default function CheckoutContent() {
   const [ispaying, setIspaying] = useState(false)
   const [isInitializingPayment, setIsInitializingPayment] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const { currency } = useCurrencyStore();
 
 
@@ -216,6 +252,25 @@ export default function CheckoutContent() {
     if (!address) return; // validation failed, toast already shown, don't proceed
     setIspaying(true);
     try {
+      // an order already exists for this checkout (e.g. the user got back to
+      // step 1 via browser back/refresh) — update its shipping info instead
+      // of creating a second order for the same cart
+      if (orderResponse) {
+        const { order } = await updateShippingInfo({
+          order_id: orderResponse.order.id,
+          street_address: address.street,
+          apt_no: address.apt,
+          customerName: address.customerName,
+          customerPhonenumber: address.phone,
+          city: address.city,
+          state: address.province,
+          postal_code: address.postalCode,
+          country: address.country,
+        });
+        advanceToReview({ ...orderResponse, order: { ...orderResponse.order, ...order } });
+        return;
+      }
+
       const response = await createOrder({
         cart_id: cartItems[0].cart_id,
         street_address: address.street,
@@ -239,7 +294,7 @@ export default function CheckoutContent() {
 
   const handlePaystackPayment = async () => {
     if (!orderResponse) return (
-      toast.error('Order not found, Please try agai')
+      toast.error('Order not found. Please try again.')
     )
     try {
       const response = await InitializePaystackPayment(orderResponse.order.id);
@@ -257,7 +312,7 @@ export default function CheckoutContent() {
 
   const handleStripePayment = async () => {
     if (!orderResponse) return (
-      toast.error('Order not found, Please try agai')
+      toast.error('Order not found. Please try again.')
     )
     try {
       const response = await InitializeStripePayment(orderResponse.order.id);
@@ -275,6 +330,14 @@ export default function CheckoutContent() {
 
   const handlePayment = async () => {
     if (isInitializingPayment) return; // block duplicate submits
+    // the checkout store rehydrates orderResponse from sessionStorage
+    // asynchronously — on a fresh reload this can still read null for a
+    // moment even though a real order exists, so wait it out instead of
+    // treating that gap as a missing order
+    if (!hasHydrated) {
+      toast.info("Still loading your order, try again in a moment.");
+      return;
+    }
     setIsInitializingPayment(true);
     try {
       if (currency === "NGN") {
@@ -299,7 +362,7 @@ export default function CheckoutContent() {
 
 
   return (
-    <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
+    <main className="w-full min-h-screen bg-paper px-4 md:px-12 lg:px-34 xl:px-16 py-8 sm:py-10 pb-16 sm:pb-24">
       {/* Progress */}
       <CheckoutProgress currentStep={currentStep} />
 
@@ -309,12 +372,10 @@ export default function CheckoutContent() {
           <motion.div key="verifying"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="border border-[#e8e8e8] rounded-2xl p-16 text-center flex flex-col items-center gap-4"
+            className="border border-line rounded-2xl p-12 sm:p-16 text-center flex flex-col items-center gap-5"
           >
-            <div className="w-14 h-14 rounded-full bg-[#1a1a1a] flex items-center justify-center">
-              <Loader />
-            </div>
-            <p className="text-[13px] text-[#5a5a5a]" style={{ fontFamily: "Inter, sans-serif" }}>
+            <PageLoader size={44} label={isCanceling ? "Canceling checkout" : "Confirming your payment"} />
+            <p className="font-sans text-muted text-[12px]">
               {isCanceling ? "Canceling checkout…" : "Confirming your payment…"}
             </p>
           </motion.div>
@@ -328,7 +389,7 @@ export default function CheckoutContent() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               >
-                <div className={`border-[#e8e8e8] ${!savedAddress && 'max-w-4xl mx-auto'} border-[0.5px] rounded-2xl`}>
+                <div className={`border-line ${!savedAddress && 'max-w-4xl mx-auto'} border rounded-2xl bg-paper`}>
 
                   {/*
                * flex-col-reverse → saved address on top on mobile
@@ -337,15 +398,15 @@ export default function CheckoutContent() {
                   <div className="flex flex-col-reverse lg:flex-row">
 
                     {/* Left — form (70%) */}
-                    <div className={` ${!savedAddress ? 'w-full' : ' flex-1'} p-6 sm:p-8 lg:border-r  border-[#e8e8e8]`}>
-                      <div className="flex flex-row  items-center gap-3 mb-6">
-                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mt-0.5">
-                          <circle cx="11" cy="7" r="4" stroke="#1a1a1a" strokeWidth="1.5" />
+                    <div className={`${!savedAddress ? 'w-full' : 'flex-1'} p-5 sm:p-6 lg:border-r border-line`}>
+                      <div className="flex flex-row items-center gap-2 mb-5">
+                        <svg width="15" height="15" viewBox="0 0 22 22" fill="none" className="text-ink flex-shrink-0" aria-hidden="true">
+                          <circle cx="11" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
                           <path d="M3 19C3 15.134 6.134 12 10 12H12C15.866 12 19 15.134 19 19"
-                            stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" />
+                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                         </svg>
-                        <h2 className="text-[16px] font-semibold text-[#1a1a1a]">
-                          Shipping & Contact Information
+                        <h2 className="font-sans text-ink font-medium uppercase tracking-[0.08em] text-[11px]">
+                          Shipping &amp; Contact Information
                         </h2>
                       </div>
 
@@ -357,8 +418,7 @@ export default function CheckoutContent() {
 
                     {/* Right — saved address (30%) */}
                     {savedAddress && (
-                      <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-6 sm:p-8
-                  bg-white border-b lg:border-b-0 lg:border-t-0 border-[#e8e8e8]">
+                      <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 p-5 sm:p-6 bg-paper border-b lg:border-b-0 border-line">
                         <SavedAddressCard
                           address={savedAddress}
                           isSelected={usingSaved}
@@ -372,15 +432,12 @@ export default function CheckoutContent() {
                   {/* Footer nav */}
                   <div
                     ref={footerRef}
-                    className="flex items-center justify-between lg:justify-between
-                  flex-col lg:flex-row gap-4 px-6 sm:px-8 py-5 border-t border-[#e8e8e8]"
+                    className="flex items-center justify-between lg:justify-between flex-col lg:flex-row gap-3 px-5 sm:px-6 py-4 border-t border-line"
                   >
                     {/* Back to Cart — hidden on mobile/tablet */}
                     <button
                       onClick={() => router.push("/cart")}
-                      className="hidden lg:flex items-center gap-2 text-[13px] text-[#5a5a5a]
-                    hover:text-[#1a1a1a] transition-colors duration-200"
-                      style={{ fontFamily: "Inter, sans-serif" }}
+                      className="hidden lg:inline-block font-sans text-muted text-[11px] uppercase tracking-[0.08em] border-b border-ink/40 hover:border-ink hover:text-ink transition-colors duration-200 pb-0.5"
                     >
                       Back to Cart
                     </button>
@@ -388,13 +445,9 @@ export default function CheckoutContent() {
                     {/* Continue to Review — full width + centered on mobile */}
                     <button disabled={!cartItems || cartItems.length === 0 || ispaying}
                       onClick={handleConfirmOrder}
-                      className='w-full lg:w-auto disabled:bg-[#cccccc] flex items-center justify-center gap-2
-                    px-8 py-3.5 bg-[#1a1a1a] text-white text-[12px] font-semibold
-                    tracking-[0.2em] uppercase rounded-lg hover:bg-[#333]
-                    transition-all duration-300'
-                      style={{ fontFamily: "Inter, sans-serif" }}
+                      className="w-full lg:w-auto lg:min-w-[160px] h-11 px-7 disabled:opacity-40 flex items-center justify-center gap-2 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90 disabled:cursor-not-allowed"
                     >
-                      {ispaying ? <Loader /> : "Confirm order"}
+                      {ispaying ? <Loader /> : "Confirm Order"}
                     </button>
                   </div>
 
@@ -410,6 +463,7 @@ export default function CheckoutContent() {
                   isPaying={ispaying}
                   isLoading={isInitializingPayment}
                   onPayment={handlePayment}
+                  onEditAddress={() => setIsEditAddressOpen(true)}
                 />
               </motion.div>
             )}
@@ -418,52 +472,41 @@ export default function CheckoutContent() {
               <motion.div key="step-3"
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
-                className="border border-[#e8e8e8] rounded-2xl p-10 text-center"
+                className="border border-line rounded-2xl p-8 sm:p-10 text-center max-w-md mx-auto flex flex-col items-center"
               >
-                {paymentStatus === "failed" ? (
-                  <div className="w-14 h-14 rounded-full bg-red-100 flex items-center
-                justify-center text-red-500 text-2xl mx-auto mb-4">✕</div>
-                ) : (
-                  <div className={`w-14 h-14 rounded-full flex items-center
-                justify-center text-2xl mx-auto mb-4 ${paymentStatus === "success" ? "bg-green-100 text-green-500" : "bg-yellow-100 text-yellow-600"
-                    }`}>
-                    {paymentStatus === "success" ? "✓" : "⏳"}
-                  </div>
-                )}
+                <div className="mb-3">
+                  <OutcomeIcon status={paymentStatus === "failed" ? "failed" : paymentStatus === "success" ? "success" : "pending"} />
+                </div>
 
-                <p className="text-[18px] font-semibold text-[#1a1a1a]"
-                  style={{ fontFamily: '"Fraunces", serif' }}>
-                  {paymentStatus === "success" && "Confirmation"}
+                <h1 className="font-serif text-ink/85 font-normal text-[17px] sm:text-[19px]">
+                  {paymentStatus === "success" && "Order Confirmed"}
                   {paymentStatus === "pending" && "Payment Processing"}
                   {paymentStatus === "failed" && "Payment Unsuccessful"}
-                </p>
-                <p className="text-[13px] text-[#8a8a8a] mt-2"
-                  style={{ fontFamily: "Inter, sans-serif" }}>
-                  {paymentMessage || "Your order has been confirmed."}
-                </p>
-                {paymentStatus === "success" && orderResponse?.order?.id && (
-                  <p className="text-[12px] text-[#8a8a8a] mt-1"
-                    style={{ fontFamily: "Inter, sans-serif" }}>
-                    Order #{orderResponse.order.id}
+                </h1>
+
+                <div className="flex flex-col items-center gap-1 mt-2">
+                  <p className="font-sans text-muted text-[12px]">
+                    {paymentMessage || "Your order has been confirmed."}
                   </p>
-                )}
+                  {paymentStatus === "success" && orderResponse?.order?.id && (
+                    <p className="font-sans text-muted/70 text-[11px]">
+                      Order #{orderResponse.order.id}
+                    </p>
+                  )}
+                </div>
 
                 {paymentStatus === "pending" && (
                   isCheckingStatus ? (
-                    <div className="flex flex-col items-center gap-3 mt-6">
-                      <div className="w-10 h-10 rounded-full bg-[#1a1a1a] flex items-center justify-center">
-                        <Loader />
-                      </div>
-                      <p className="text-[12px] text-[#8a8a8a]" style={{ fontFamily: "Inter, sans-serif" }}>
+                    <div className="flex flex-col items-center gap-3.5 mt-6">
+                      <PageLoader size={32} label="Checking status" />
+                      <p className="font-sans text-muted text-[11px]">
                         Checking status…
                       </p>
                     </div>
                   ) : (
                     <button
                       onClick={handleCheckStatus}
-                      className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
-                    tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
-                      style={{ fontFamily: "Inter, sans-serif" }}
+                      className="mt-5 h-11 px-7 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90"
                     >
                       Check Status
                     </button>
@@ -473,9 +516,7 @@ export default function CheckoutContent() {
                 {paymentStatus === "failed" && (
                   <button
                     onClick={handleStartNewCheckout}
-                    className="mt-6 px-8 py-3 bg-[#1a1a1a] text-white text-[12px] font-semibold
-                  tracking-[0.2em] uppercase rounded-lg hover:bg-[#333] transition-all duration-300"
-                    style={{ fontFamily: "Inter, sans-serif" }}
+                    className="mt-5 h-11 px-7 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90"
                   >
                     Start New Checkout
                   </button>
@@ -485,6 +526,16 @@ export default function CheckoutContent() {
           </>
         )}
       </AnimatePresence>
+
+      {orderResponse && (
+        <EditAddressModal
+          isOpen={isEditAddressOpen}
+          onClose={() => setIsEditAddressOpen(false)}
+          orderId={orderResponse.order.id}
+          currentAddress={orderResponse.order}
+          onSaved={updateOrderAddress}
+        />
+      )}
 
     </main>
   );

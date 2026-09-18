@@ -6,13 +6,10 @@ import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import Loader from "@/components/ui/Loader";
 
-
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface OrderDetails{
-  id:number;
+interface OrderDetails {
+  id: number;
   street_address: string;
-  totalLocal:number;
+  totalLocal: number;
   apt_no: string;
   city: string;
   state: string;
@@ -31,60 +28,47 @@ interface ReviewOrderProps {
   OrderDetails: OrderDetails;
   isPaying: boolean;
   onPayment: () => void;
+  onEditAddress: () => void;
   isLoading?: boolean;
 }
 
-// ─── Item row ─────────────────────────────────────────────────────────────────
-function ReviewItem({ item }: { item: CartItem }) {
+function ReviewItem({ item, currency }: { item: CartItem; currency: string }) {
   const product = item.product;
   return (
-    <div className="flex flex-row items-center gap-4 py-4 border-b border-[#f0f0f0] last:border-0">
-      {/* Image */}
-      <div
-        className="flex-shrink-0 w-[90px] h-[100px] sm:w-[110px] sm:h-[120px] rounded-xl flex items-center justify-center overflow-hidden"
-        style={{ background: "#F8F8F8" }}
-      >
-        {product.image![0] && (
+    <div className="flex flex-row items-center gap-4 py-4 border-b border-line last:border-0">
+      <div className="flex-shrink-0 w-[76px] h-[86px] bg-surface rounded-lg flex items-center justify-center overflow-hidden">
+        {product.image?.[0] && (
           <Image
-            src={product.image![0]}
+            src={product.image[0]}
             alt={product.name}
-            width={90}
-            height={100}
-            className="object-contain w-[80%] h-[80%]"
+            width={76}
+            height={86}
+            className="object-contain w-[75%] h-[75%]"
           />
         )}
       </div>
 
-      {/* Info */}
-      <div className="flex flex-col gap-1">
-        <p
-          className="text-[13px] sm:text-[14px] font-bold uppercase tracking-wide text-[#1a1a1a]"
-          style={{ fontFamily: '"Fraunces", serif' }}
-        >
+      <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+        <p className="font-serif text-ink/80 text-[14px] leading-snug truncate">
           {product.name}
         </p>
-        <p
-          className="text-[11px] text-[#8a8a8a] uppercase tracking-widest"
-          style={{ fontFamily: "Inter, sans-serif" }}
-        >
-          {item.size} / {product.name.split(" ").pop()}
-        </p>
-        <p
-          className="text-[12px] text-[#5a5a5a] mt-1"
-          style={{ fontFamily: "Inter, sans-serif" }}
-        >
-          QTY: {item.quantity}
+        <p className="font-sans text-muted text-[12px]">
+          Size {item.size} &middot; Qty {item.quantity}
         </p>
       </div>
+
+      <p className="font-sans text-ink/80 text-[13px] flex-shrink-0">
+        {formatPrice(item.unitprice * item.quantity, currency)}
+      </p>
     </div>
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
 export default function ReviewOrder({
   items,
   OrderDetails,
   onPayment,
+  onEditAddress,
   isPaying,
   isLoading = false,
 }: ReviewOrderProps) {
@@ -95,156 +79,99 @@ export default function ReviewOrder({
     OrderDetails.country,
     OrderDetails.postal_code,
   ].filter(Boolean);
-   const currency = useCurrencyStore((state) => state.currency);
+  const currency = useCurrencyStore((state) => state.currency);
+  const paymentProvider = currency === "NGN" ? "Paystack" : "Stripe";
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col lg:flex-row gap-7 lg:gap-10 items-start">
 
-      {/* Section title */}
-      <p
-        className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#1a1a1a]"
-        style={{ fontFamily: '"Fraunces", serif' }}
-      >
-        Your Items
-      </p>
+      {/* ── Left column ─────────────────────────────────────────── */}
+      <div className="flex flex-col gap-7 flex-1 w-full">
 
-      {/* Desktop: side-by-side | Mobile: stacked */}
-      <div className="flex flex-col lg:flex-row gap-4 items-start">
-
-        {/* ── Left column ─────────────────────────────────────────── */}
-        <div className="flex flex-col gap-4 flex-1 w-full">
-
-          {/* Items card */}
-          <div
-            className="rounded-2xl p-5 border border-[#f0f0f0]"
-            style={{ background: "#F8F8F8" }}
-          >
-            {items.map((item) => (
-              <ReviewItem key={item.id} item={item} />
-            ))}
-          </div>
-
-          {/* Delivery address card */}
-          <div
-            className="rounded-2xl p-5 border border-[#f0f0f0]"
-            style={{ background: "#F8F8F8" }}
-          >
-            {/* Delivery address */}
-            <div className="flex flex-col gap-1 pb-4 border-b border-[#e8e8e8]">
-              <p
-                className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-2"
-                style={{ fontFamily: '"Fraunces", serif' }}
-              >
-                Delivery Address
-              </p>
-              {formattedAddress.map((line, i) => (
-                <p
-                  key={i}
-                  className="text-[12px] uppercase text-[#5a5a5a]"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  {line}
-                </p>
-              ))}
-            </div>
-
-            {/* Contact */}
-            <div className="flex flex-col gap-1 pt-4">
-              <p
-                className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-2"
-                style={{ fontFamily: '"Fraunces", serif' }}
-              >
-                Contact
-              </p>
-              <p
-                className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Inter, sans-serif" }}
-              >
-                {OrderDetails.customerName}
-              </p>
-              <p
-                className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Inter, sans-serif" }}
-              >
-                {OrderDetails.customerPhonenumber}
-              </p>
-              <p
-                className="text-[12px] text-[#5a5a5a]"
-                style={{ fontFamily: "Inter, sans-serif" }}
-              >
-                {OrderDetails.user_id.email}
-              </p>
-            </div>
-          </div>
-
+        {/* Items — flat list, no card wrapper */}
+        <div>
+          <p className="font-sans text-muted font-normal uppercase tracking-[0.12em] text-[11px] mb-2">
+            Order Items
+          </p>
+          {items.map((item) => (
+            <ReviewItem key={item.id} item={item} currency={currency} />
+          ))}
         </div>
 
-        {/* ── Right column — Order summary ─────────────────────────── */}
-        <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0">
-          <div
-            className="rounded-2xl p-5 border border-[#f0f0f0]"
-            style={{ background: "#F8F8F8" }}
-          >
-            <p
-              className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a] mb-5"
-              style={{ fontFamily: '"Fraunces", serif' }}
-            >
-              Order Summary
+        {/* Shipping To — address + contact merged into one compact card */}
+        <div className="rounded-2xl p-5 border border-line bg-surface">
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-sans text-muted font-normal uppercase tracking-[0.12em] text-[11px]">
+              Shipping To
             </p>
-
-            {/* Subtotal */}
-            <div className="flex justify-between items-center mb-3">
-              <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Inter, sans-serif" }}>
-                Subtotal
-              </p>
-              <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Inter, sans-serif" }}>
-                {formatPrice(OrderDetails.totalLocal, currency)}
-              </p>
-            </div>
-
-            {/* Shipping */}
-            <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#e8e8e8]">
-              <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Inter, sans-serif" }}>
-                Shipping Fee
-              </p>
-              <p className="text-[13px] text-[#1a1a1a]"
-                style={{ fontFamily: "Inter, sans-serif" }}>
-                {formatPrice(500, currency)}
-              </p>
-            </div>
-
-            {/* Total */}
-            <div className="flex justify-between items-center mb-5">
-              <p className="text-[14px] text-[#1a1a1a]"
-                style={{ fontFamily: '"Fraunces", serif' }}>
-                Total
-              </p>
-              <p className="text-[15px] font-bold text-[#1a1a1a]"
-                style={{ fontFamily: '"Fraunces", serif' }}>
-                {formatPrice(OrderDetails.totalLocal, currency)}
-              </p>
-            </div>
-
-            {/* Confirm button */}
             <button
-              onClick={onPayment}
-              disabled={isLoading || !items || isPaying || items.length === 0}
-              className="w-full py-3.5 bg-[#1a1a1a] text-white text-[12px]
-                font-semibold tracking-[0.22em] uppercase rounded-md
-                flex items-center justify-center
-                hover:bg-[#333] transition-all duration-300
-                disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ fontFamily: "Inter, sans-serif" }}
+              onClick={onEditAddress}
+              className="font-sans text-ink text-[11px] uppercase tracking-[0.08em] border-b border-ink/40 hover:border-ink transition-colors duration-200"
             >
-              {isLoading ? <Loader /> : "Proceed to Payment"}
+              Edit
             </button>
           </div>
+          <p className="font-sans text-ink font-medium text-[13px]">
+            {OrderDetails.customerName}
+          </p>
+          {formattedAddress.map((line, i) => (
+            <p key={i} className="font-sans text-muted text-[13px]">
+              {line}
+            </p>
+          ))}
+          <div className="h-px bg-line my-3" />
+          <p className="font-sans text-muted text-[13px]">
+            {OrderDetails.customerPhonenumber}
+          </p>
+          <p className="font-sans text-muted text-[13px]">
+            {OrderDetails.user_id.email}
+          </p>
         </div>
 
       </div>
+
+      {/* ── Right column — Order summary ─────────────────────────── */}
+      <div className="w-full lg:w-[320px] xl:w-[360px] flex-shrink-0 lg:sticky lg:top-24">
+        <div className="rounded-2xl p-6 border border-line bg-surface">
+          <p className="font-sans text-muted font-normal uppercase tracking-[0.12em] text-[11px] mb-5">
+            Order Summary
+          </p>
+
+          <div className="flex justify-between items-center mb-3.5">
+            <p className="font-sans text-muted text-[13px]">Subtotal</p>
+            <p className="font-sans text-ink/80 font-normal text-[14px]">
+              {formatPrice(OrderDetails.totalLocal, currency)}
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center mb-5 pb-5 border-t border-line pt-4">
+            <p className="font-sans text-ink text-[13px]">Total</p>
+            <p className="font-sans text-ink font-medium text-[16px]">
+              {formatPrice(OrderDetails.totalLocal, currency)}
+            </p>
+          </div>
+
+          <button
+            onClick={onPayment}
+            disabled={isLoading || !items || isPaying || items.length === 0}
+            className="w-full h-12 bg-ink text-paper font-sans font-normal uppercase tracking-[0.1em] text-[11.5px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {isLoading ? <Loader /> : "Proceed to Payment"}
+          </button>
+
+          <p className="font-sans text-muted/70 text-[11px] text-center mt-3">
+            You'll be redirected to {paymentProvider} to complete payment.
+          </p>
+
+          <div className="flex items-center justify-center gap-1.5 mt-4 pt-4 border-t border-line">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted" aria-hidden="true">
+              <path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3ZM9 12l2 2 4-4" />
+            </svg>
+            <span className="font-sans text-muted text-[11px]">Secure checkout, encrypted payments</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
