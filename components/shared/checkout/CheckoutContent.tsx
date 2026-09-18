@@ -9,7 +9,7 @@ import CheckoutProgress from "@/components/shared/checkout/CheckoutProgress";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import SavedAddressCard from "@/components/shared/checkout/SavedAddressCard";
 import EditAddressModal from "@/components/shared/checkout/EditAddressModal";
-import ReviewOrder from "@/components/shared/ReviewOrder";
+import ReviewOrder from "@/components/shared/checkout/ReviewOrder";
 import PageLoader from "@/components/ui/PageLoader";
 import { toast } from 'sonner';
 import { createOrder, updateShippingInfo } from "@/services/order.service";
