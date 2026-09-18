@@ -1,8 +1,6 @@
 import { formatPrice } from "@/lib/currency";
 
-// flat shipping fee shown for display only — same hardcoded value used in
-// ReviewOrder.tsx at checkout. It's already folded into `total` from order
-// creation, so it must NOT be added again here.
+// display only — already folded into `total`, don't add it again
 const SHIPPING_FEE = 500;
 
 interface OrderSummaryCardProps {

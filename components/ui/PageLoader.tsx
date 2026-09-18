@@ -4,13 +4,8 @@ interface PageLoaderProps {
     className?: string;
 }
 
-// Three concentric rings, each spinning at its own speed/direction, in the
-// site's own ink/muted/line tones — a quieter, monochrome take on the
-// classic "orbiting rings" spinner, sized for a route/page-level loading
-// state (Suspense fallback) rather than an inline button spinner. Colors
-// come from currentColor + the line/muted/ink text-color tokens (same
-// pattern the footer's fill="currentColor" icons use) instead of hardcoded
-// hex, so a token change here can't drift out of sync with the palette.
+// three concentric rings for page-level loading (not an inline button spinner);
+// uses currentColor + text tokens so it stays in sync with palette changes
 export default function PageLoader({ label = "Loading", size = 64, className = "" }: PageLoaderProps) {
     return (
         <span role="status" aria-live="polite" className={`inline-block ${className}`}>

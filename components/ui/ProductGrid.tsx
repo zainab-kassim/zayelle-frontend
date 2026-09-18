@@ -9,10 +9,7 @@ interface ProductGridProps {
   isLoading: boolean;
 }
 
-// One grid for every breakpoint — 2 columns on phones, 3 from tablet up, 4
-// on wide desktop — replacing the old split between a desktop-only grid and
-// a completely different mobile "stacked collection rows" component. Same
-// smaller image frames as the rest of this listing-page pass.
+// one grid for every breakpoint: 2 cols phone, 3 tablet, 4 desktop
 const IMAGE_HEIGHT = "h-[190px] sm:h-[210px] xl:h-[250px]";
 
 export default function ProductGrid({

@@ -17,8 +17,7 @@ const CATEGORIES: CategoryTile[] = [
 ];
 
 function CategoryTile({ slug, label }: CategoryTile) {
-    // Uses the collection's own first product image, so the tile always
-    // reflects what's actually in that collection.
+    // uses the collection's own first product image
     const { data: image, isLoading } = useAsyncData<string | null>(
         () => getProductByCollection(slug).then((res) => res.products[0]?.image?.[0] ?? null),
         [slug],

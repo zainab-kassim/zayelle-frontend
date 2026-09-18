@@ -17,16 +17,11 @@ interface FloralCollectionProps {
   mobileImageWrapperClassName?: string;
   desktopImageHeightClassName?: string;
   desktopImageWrapperClassName?: string;
-  // Hides one product from the grid — used on the product detail page's
-  // "You Might Also Like" so the item being viewed doesn't recommend itself.
+  // excludes the current product from "You Might Also Like"
   excludeSlug?: string;
-  // Renders every card at a fixed width in a single horizontally-scrollable
-  // row (scrollbar hidden) instead of stretching 3 cards across the full
-  // container — used on the product detail page so a short results list
-  // doesn't get artificially stretched into wide columns.
+  // fixed-width scrollable row instead of stretched columns (used on PDP)
   fixedWidth?: boolean;
-  // Hides the quick-add icon on each card — used on the product detail
-  // page, which already has its own size/quantity/Add to Cart flow.
+  // hides quick-add (PDP already has its own size/quantity/Add to Cart)
   showQuickAdd?: boolean;
 }
 
@@ -65,9 +60,7 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
           <h2
             className={
               fixedWidth
-                // Product detail page's "You Might Also Like" — sits right under
-                // the product's own (already toned-down) title/price, so the
-                // homepage's full section-header size reads too heavy here.
+                // smaller on PDP so it doesn't outweigh the product title above it
                 ? "font-serif text-ink/80 font-normal tracking-normal leading-[1.18] text-[14px] sm:text-[20px] md:text-[22px]"
                 : "font-serif text-ink font-normal tracking-normal leading-[1.18] text-[18px] sm:text-[25px] md:text-[28px]"
             }
@@ -87,9 +80,7 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
       </div>
 
       {fixedWidth ? (
-        /* Single fixed-width row, every breakpoint — scrolls horizontally
-           past the container's edge (scrollbar hidden) instead of
-           stretching a short list into wide columns. */
+        /* fixed-width row, scrolls horizontally instead of stretching */
         <div
           className="flex flex-row gap-5 no-scrollbar"
           style={{

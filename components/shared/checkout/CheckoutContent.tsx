@@ -1,4 +1,3 @@
-// app/checkout/page.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -62,8 +61,7 @@ export default function CheckoutContent() {
   // Stripe sends the browser here (cancel_url) when the user backs out of Checkout
   const [isCanceling, setIsCanceling] = useState(searchParams.get("canceled") === "1");
 
-  // step 3 is the single point of truth for a payment result — every outcome routes there
-  // this handles Paystack's redirect callback (?reference=/?trxref=)
+  // handles Paystack's redirect callback (?reference=/?trxref=)
   const verifyPaystackPaymentReference = async (reference: string) => {
     try {
       const result = await VerifyPaystackPayment(reference);
@@ -75,7 +73,7 @@ export default function CheckoutContent() {
         setPaymentOutcome("failed", result.message || "Payment could not be confirmed.");
       }
     } catch (error: any) {
-      // our own check failed, not necessarily the payment — let the user re-check rather than declaring it failed
+      // our check failed, not necessarily the payment — let the user re-check
       setPaymentOutcome(
         "pending",
         error?.response?.data?.message || "We couldn't confirm your payment status. Please check again."

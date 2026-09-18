@@ -14,11 +14,8 @@ export interface FilterPanelContentProps {
   onSizeToggle: (size: string) => void;
 }
 
-// Single source of truth for the Collection filter — the label shown in
-// the UI paired with the backend collection slug it fetches. `slug: null`
-// means "no collection filter" (fetch everything). Previously this label
-// list and the label→slug lookup used to fetch products lived in two
-// separate files that had to be hand-kept in sync.
+// label shown in the UI paired with the collection slug it fetches
+// (slug: null = no filter, fetch everything)
 export const COLLECTIONS: { label: string; slug: string | null }[] = [
   { label: "ALL", slug: null },
   { label: "FLOREAL COLLECTION", slug: "floreal-collection" },
@@ -48,9 +45,7 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
-// Collapsible section — the Shopify collection-template pattern (Product
-// Type / Size / Fit as accordion rows under one Filter & Sort panel), rather
-// than every facet permanently expanded.
+// collapsible filter section (Shopify-style accordion)
 function AccordionSection({ title, defaultOpen = false, noBorder = false, children }: { title: string; defaultOpen?: boolean; noBorder?: boolean; children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -86,9 +81,7 @@ function RadioRow({ isActive, label, onClick }: { isActive: boolean; label: stri
   );
 }
 
-// Shared Sort / Collection / Size accordion, rendered inside the desktop
-// sidebar and the mobile filter drawer alike — one source of truth for the
-// actual filtering controls, just two different shells around it.
+// shared Sort/Collection/Size accordion, used by both the desktop sidebar and mobile drawer
 export default function FilterPanelContent({
   activeFilter,
   onFilterChange,
@@ -100,8 +93,6 @@ export default function FilterPanelContent({
 }: FilterPanelContentProps) {
   return (
     <div>
-      {/* Sort By and Collection open expanded by default; Size stays
-          collapsed until someone actually wants it. */}
       <AccordionSection title="Sort By" defaultOpen>
         <div className="flex flex-col gap-2.5">
           {SORT_OPTIONS.map(({ value, label }) => (
@@ -128,9 +119,7 @@ export default function FilterPanelContent({
         </div>
       </AccordionSection>
 
-      {/* Size — bordered selectable boxes, the standard ecommerce size-grid
-          pattern, built from each product's own size list rather than a
-          fixed/fake set. */}
+      {/* sizes built from each product's own size list, not a fixed set */}
       {availableSizes.length > 0 && (
         <AccordionSection title="Size" defaultOpen noBorder>
           <div className="flex flex-wrap gap-2">

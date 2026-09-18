@@ -55,9 +55,7 @@ interface OrderHistoryCardProps {
 
 export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
   const router = useRouter();
-  // item prices and totalLocal are converted using the rate stored on the
-  // order itself (locked in at checkout), so format them in the order's own
-  // currency — not whatever currency the user has selected right now
+  // prices are converted at checkout's rate, so format in the order's own currency
   const currency = order.currency;
   const filterStatus = getOrderFilterStatus(order.status);
   const badge = ORDER_STATUS_BADGE[filterStatus];

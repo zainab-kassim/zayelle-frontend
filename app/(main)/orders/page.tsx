@@ -22,9 +22,7 @@ export default function Orders() {
   }, []);
 
   return (
-    // same scroll pattern as the cart page: min-h-screen (page flows normally),
-    // items-start (children aren't stretched to match each other), and just
-    // max-h + overflow-y-auto on the scrollable column itself
+    // same scroll pattern as the cart page
     <main className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         <div className="flex items-stretch gap-6 w-full lg:w-auto">

@@ -1,4 +1,3 @@
-// components/checkout/ReviewOrder.tsx
 "use client";
 
 import Image from "next/image";

@@ -11,9 +11,7 @@ interface MobileFilterDrawerProps extends FilterPanelContentProps {
   resultCount: number;
 }
 
-// Slide-up sheet holding the same Collection/Sort/Size content as the
-// desktop sidebar — the standard mobile-ecommerce pattern for a filter
-// panel that doesn't fit as a persistent column at phone width.
+// mobile equivalent of the sidebar filter panel
 export default function MobileFilterDrawer(props: MobileFilterDrawerProps) {
   const { isOpen, onClose, onReset, resultCount } = props;
 

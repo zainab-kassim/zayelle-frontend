@@ -5,9 +5,7 @@ interface PasswordToggleProps {
     onToggle: () => void;
 }
 
-// Thin-line eye / eye-off SVG, matching the site's own icon language
-// (TrustBadges, footer socials, quick-add button) — replaces the old
-// static icons8.com PNGs.
+// eye / eye-off SVG, matches the site's icon style (replaces old icons8 PNGs)
 export default function PasswordToggle({ show, onToggle }: PasswordToggleProps) {
     return (
         <button

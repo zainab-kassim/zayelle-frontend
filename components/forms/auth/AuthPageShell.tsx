@@ -6,13 +6,8 @@ interface AuthPageShellProps {
     children: React.ReactNode;
 }
 
-// Shared centered form block for every auth screen (login, signup,
-// forgot/reset password) — no card or shadow, no decorative image, just
-// the landing page's own type scale and tokens (font-serif heading,
-// muted subtitle, bg-paper). Rendered inside the site's own Navbar/Footer
-// (app/auth/layout.tsx), the same way Celestique/Ashluxe keep their site
-// chrome around a plain sign-in form, so it no longer needs its own
-// standalone brand header.
+// shared centered form block for every auth screen — no card/shadow,
+// just the site's own type scale (renders inside the normal Navbar/Footer)
 export default function AuthPageShell({ title, subtitle, children }: AuthPageShellProps) {
     return (
         <div className="w-full bg-paper flex justify-center px-6 sm:px-10 py-14 sm:py-20">

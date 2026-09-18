@@ -35,9 +35,7 @@ export default function OrderDetailsPage() {
       });
   }, [id]);
 
-  // the customer name is on the order record (order.customerName, set above);
-  // the account email isn't on the order — it's stashed in localStorage at
-  // login/signup (see hooks/UseLogin.ts, hooks/UseSignup.ts)
+  // email isn't on the order record, pull it from localStorage instead
   useEffect(() => {
     setCustomerEmail(localStorage.getItem("email") ?? "");
   }, []);
@@ -81,9 +79,7 @@ export default function OrderDetailsPage() {
     order.country,
   ].filter(Boolean);
 
-  // no per-step timestamps from the backend yet — caps at "In Transit" (step 3)
-  // since "Out for Delivery" shouldn't fill in until a dashboard drives real
-  // tracking steps
+  // no per-step timestamps yet, so this caps at "In Transit" (step 3)
   const trackingCompletedCount = filterStatus === "cancelled" ? 1 : TRACKING_STEP_COUNT - 1;
   const trackingColor = filterStatus === "cancelled" ? "#dc2626" : "#1a1a1a";
 

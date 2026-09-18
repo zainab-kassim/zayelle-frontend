@@ -1,4 +1,3 @@
-// components/ProductListing/SidebarFilters.tsx
 "use client";
 
 import FilterPanelContent, { FilterPanelContentProps, hasActiveFilters } from "@/components/ui/FilterPanelContent";
@@ -8,11 +7,7 @@ interface SidebarFiltersProps extends FilterPanelContentProps {
   onReset: () => void;
 }
 
-// Desktop-only filter panel, open against the page rather than boxed in a
-// card, following the Shopify collection-template convention: one combined
-// "Filter & Sort" header with a Clear All action, then an accordion of
-// collapsible sections below it. A mobile equivalent lives in
-// MobileFilterDrawer; both render the shared FilterPanelContent.
+// desktop-only filter panel; MobileFilterDrawer is the mobile equivalent
 export default function SidebarFilters(props: SidebarFiltersProps) {
   const { activeFilter, sortBy, selectedSizes, onReset } = props;
 

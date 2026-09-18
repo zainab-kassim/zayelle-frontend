@@ -16,9 +16,7 @@ const ACCOUNT_LINKS = [
     { label: 'Sign In', href: '/auth/login' },
 ];
 
-// Monochrome brand-mark glyphs (single-path SVGs, fill="currentColor") so
-// every icon renders at identical weight/size and inherits the footer's
-// ink/paper palette instead of shipping four mismatched colored PNG badges.
+// single-path SVGs so every icon inherits the footer's ink/paper palette
 function TikTokIcon() {
     return (
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-4 h-4">

@@ -29,10 +29,7 @@ const BADGES = [
     },
 ];
 
-// Icon-over-title-over-subtitle, matching the classic ecommerce USP row
-// (truck / returns / shield / sparkle strips on most fashion sites): the
-// title carries weight and color, the subtitle is short enough to always
-// hold a single line so hierarchy comes from contrast, not from bulk.
+// icon-over-title-over-subtitle USP row, classic fashion-site pattern
 export default function TrustBadges() {
     return (
         <section

@@ -6,7 +6,6 @@ import PageLoader from "@/components/ui/PageLoader";
 
 export default function page() {
   useEffect(() => {
-    // In your Login.tsx useEffect
     if (window.location.search.includes('session=expired')) {
       toast.error('Session timed out. Please login again.');
     }

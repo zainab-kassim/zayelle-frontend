@@ -27,8 +27,7 @@ function ProductsContent() {
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-  // The URL's ?collection= param re-syncs the active filter whenever it
-  // changes, taking priority over any manual sidebar selection.
+  // URL's ?collection= param takes priority over manual sidebar selection
   useEffect(() => {
     const collection = searchParams.get("collection");
     const match = collection ? COLLECTIONS.find((c) => c.slug === collection) : null;
@@ -46,8 +45,7 @@ function ProductsContent() {
     [] as Product[]
   );
 
-  // Sizes offered in the filter reflect whatever's actually in the current
-  // collection, not a fixed/fake list.
+  // sizes reflect the current collection, not a fixed list
   const availableSizes = useMemo(
     () => Array.from(new Set(products.flatMap((p) => p.size))).sort(),
     [products]
@@ -91,13 +89,9 @@ function ProductsContent() {
         <SidebarFilters {...filterPanelProps} onReset={handleReset} />
 
         <div className="flex-1 min-w-0">
-          {/* Toolbar — product count, plus the mobile filter trigger (the
-              sidebar is desktop-only from lg: up). */}
+          {/* product count + mobile filter trigger (sidebar is desktop-only) */}
           <div className="flex items-center justify-between mb-4">
-            {/* Always rendered, even while loading (with a non-breaking
-                placeholder) — hiding it entirely collapsed this row's height
-                to zero and threw off the alignment with the sidebar next to
-                it. */}
+            {/* keep rendered while loading — hiding it collapses row height */}
             <p className="font-sans text-muted font-medium text-[11px] uppercase tracking-[0.1em]">
               {isLoading
                 ? " "

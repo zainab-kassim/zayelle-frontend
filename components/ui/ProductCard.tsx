@@ -42,10 +42,7 @@ export default function ProductCard({
             {/* Image area */}
             <div className={imageWrapperClassName}>
                 <div className={`relative w-full bg-surface overflow-hidden ${imageHeightClassName}`}>
-                    {/* Inset so the garment sits with breathing room instead of
-                        filling the frame edge-to-edge — the source photos carry
-                        inconsistent padding, this keeps the display size uniform
-                        regardless. */}
+                    {/* inset keeps display size uniform despite inconsistent source padding */}
                     <div className={`absolute ${imageInsetClassName}`}>
                         <Image
                             src={image[0]}
@@ -55,8 +52,7 @@ export default function ProductCard({
                         />
                     </div>
 
-                    {/* New badge — only for products actually in the
-                        new-arrivals collection, not decorative. */}
+                    {/* only for actual new-arrivals, not decorative */}
                     {isNew && (
                         <span className="absolute top-2 left-2 bg-paper text-ink border border-line rounded-full px-2.5 py-1 font-sans text-[9px] font-medium uppercase tracking-[0.08em]">
                             New

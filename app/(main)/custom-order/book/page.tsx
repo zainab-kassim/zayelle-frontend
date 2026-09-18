@@ -72,9 +72,7 @@ export default function BookPage() {
   };
 
   async function handleConfirm() {
-    // Check if user is logged in — both must be present, since either one
-    // missing would otherwise sail past this gate and hit the API with a
-    // null name or email.
+    // both must be present or a null name/email reaches the API
     const Username = localStorage.getItem('fullName');
     const UserEmail = localStorage.getItem('email');
     if (!Username || !UserEmail) {
