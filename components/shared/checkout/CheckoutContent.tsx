@@ -207,6 +207,13 @@ export default function CheckoutContent() {
     resetCheckout();
   };
 
+  // a shorter step can otherwise leave the page scrolled down from the
+  // previous, taller step, so the new step opens mid-scroll instead of at
+  // its own top
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
+
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
