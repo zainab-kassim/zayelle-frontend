@@ -28,7 +28,7 @@ export default function OrderSummary({ subtotal, onCheckout, isCheckingOut = fal
         </span>
       </div>
 
-      <p className="font-sans text-muted text-[11.5px] border-t border-line pt-4">
+      <p className="font-sans text-muted text-[10.5px] border-t border-line pt-4">
         Shipping will be calculated at checkout.
       </p>
 
