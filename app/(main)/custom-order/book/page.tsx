@@ -12,8 +12,19 @@ const ALL_TIMES = [
 ];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const DAY_INITIALS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+function ArrowIcon({ direction }: { direction: "left" | "right" }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={direction === "left" ? "M15 18l-6-6 6-6" : "M9 6l6 6-6 6"} />
+    </svg>
+  );
+}
 
+function formatDate(date: Date) {
+  return `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}`;
+}
 
 export default function BookPage() {
   const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -22,7 +33,7 @@ export default function BookPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   function changeMonth(dir: number) {
     let m = viewMonth + dir, y = viewYear;
@@ -30,8 +41,6 @@ export default function BookPage() {
     if (m < 0) { m = 11; y--; }
     setViewMonth(m); setViewYear(y);
   }
-
-
 
   const firstDow = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -62,10 +71,12 @@ export default function BookPage() {
   };
 
   async function handleConfirm() {
-    // Check if user is logged in
+    // Check if user is logged in — both must be present, since either one
+    // missing would otherwise sail past this gate and hit the API with a
+    // null name or email.
     const Username = localStorage.getItem('fullName');
     const UserEmail = localStorage.getItem('email');
-    if (!Username && !UserEmail) {
+    if (!Username || !UserEmail) {
       toast.error("Please log in to book a consultation.");
       router.push('/auth/signup?redirect=/custom-order/book');
       return;
@@ -77,7 +88,7 @@ export default function BookPage() {
     }
 
     try {
-      const result = await bookMeeting(Username!, selectedDate, selectedTime, UserEmail!);
+      const result = await bookMeeting(Username, selectedDate, selectedTime, UserEmail);
       if (result.status === 'conflict') {
         toast.custom(() => <ConflictToast />);
       } else {
@@ -91,64 +102,75 @@ export default function BookPage() {
 
   if (confirmed && selectedDate && selectedTime) {
     return (
-      <div className="w-full min-h-screen  bg-white flex items-center justify-center px-4">
+      <div className="w-full min-h-[70vh] bg-paper flex items-center justify-center px-6">
         <div className="text-center flex flex-col items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-green-500 text-2xl">✓</div>
-          <h2 className="text-xl font-semibold text-[#1a1a1a]" style={{ fontFamily: '"Fraunces", serif' }}>
-            Consultation booked!
-          </h2>
-          <p className="text-sm text-[#5a5a5a]">
-            {DAYS[selectedDate.getDay()]}, {MONTHS[selectedDate.getMonth()]} {selectedDate.getDate()} at {selectedTime}
+          <div className="w-14 h-14 rounded-full bg-ink flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-paper" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          </div>
+          <h1 className="font-serif text-ink/85 font-normal text-[22px] sm:text-[26px]">
+            Consultation booked
+          </h1>
+          <p className="font-sans text-muted text-[13px]">
+            {formatDate(selectedDate)} at {selectedTime}
           </p>
-          <p className="text-xs text-[#aaa]">A Google Meet link will be sent to your email.</p>
+          <p className="font-sans text-muted/70 text-[12px]">A Google Meet link will be sent to your email.</p>
         </div>
       </div>
     );
   }
 
+  const availableTimes = getAvailableTimes();
 
   return (
-    <div className="w-full min-h-screen flex items-start justify-center px-4 py-10">
-      <div className="w-full max-w-4xl">
+    <div className="w-full bg-paper px-4 md:px-12 lg:px-34 xl:px-16 py-8 sm:py-10 pb-16 sm:pb-24">
+      <div className="w-full max-w-3xl mx-auto flex flex-col gap-8 sm:gap-10">
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 text-xs font-medium px-3 py-1 rounded-full mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-            Google Meet
-          </span>
-          <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-1" style={{ fontFamily: '"Fraunces", serif' }}>
-            Book a custom order call
+        <div className="text-center flex flex-col items-center gap-2.5">
+          <h1 className="font-serif text-ink/85 font-normal leading-[1.15] text-balance text-[22px] sm:text-[28px]">
+            Book your consultation call
           </h1>
-          <p className="text-sm text-[#5a5a5a]">30-minute session · We'll discuss your order details and measurements</p>
+          <p className="font-sans text-muted text-[13px] sm:text-[14px] max-w-md">
+            30 minutes to go over your order details and measurements.
+          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted" aria-hidden="true">
+              <path d="M15 10l5-3v10l-5-3" />
+              <rect x="3" y="6" width="12" height="12" rx="2" />
+            </svg>
+            <span className="font-sans text-muted text-[12px]">Hosted on Google Meet</span>
+          </div>
         </div>
 
-        {/* Two-column card */}
-        <div style={{
-          backdropFilter: 'blur(10px)',
-          border: '0.6px solid rgba(0, 0, 0, 0.1)',
-          boxShadow: '-1px 3px 10px rgba(0, 0, 0, 0.12)',
-        }}
-          className="flex flex-col lg:flex-row border border-[#e0e0e0] rounded-2xl overflow-hidden">
+        {/* Calendar + time picker */}
+        <div className="flex flex-col lg:flex-row bg-paper border border-line rounded-2xl overflow-hidden">
 
           {/* Left — calendar */}
-          <div className="flex-1 p-8 lg:border-r border-[#e0e0e0]">
-            <div className="flex items-center justify-between mb-4">
+          <div className="flex-1 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-line">
+            <div className="flex items-center justify-between mb-5">
               <button
                 onClick={() => changeMonth(-1)}
-                className="w-8 h-8 rounded-lg border border-[#e0e0e0] bg-white flex items-center justify-center text-[#5a5a5a] hover:bg-gray-50 transition-colors"
-              >‹</button>
-              <span className="text-[15px] font-medium text-[#1a1a1a]">{MONTHS[viewMonth]} {viewYear}</span>
+                aria-label="Previous month"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-paper border border-line text-ink transition-all duration-200 hover:bg-ink hover:text-paper hover:border-ink"
+              >
+                <ArrowIcon direction="left" />
+              </button>
+              <span className="font-sans text-ink font-medium text-[13px] sm:text-[14px]">{MONTHS[viewMonth]} {viewYear}</span>
               <button
                 onClick={() => changeMonth(1)}
-                className="w-8 h-8 rounded-lg border border-[#e0e0e0] bg-white flex items-center justify-center text-[#5a5a5a] hover:bg-gray-50 transition-colors"
-              >›</button>
+                aria-label="Next month"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-paper border border-line text-ink transition-all duration-200 hover:bg-ink hover:text-paper hover:border-ink"
+              >
+                <ArrowIcon direction="right" />
+              </button>
             </div>
 
             {/* Day headers */}
             <div className="grid grid-cols-7 mb-2">
-              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                <div key={d} className="text-center text-[10px] font-semibold tracking-widest uppercase text-[#aaa] py-1">{d}</div>
+              {DAY_INITIALS.map(d => (
+                <div key={d} className="text-center font-sans text-[10px] font-medium tracking-[0.1em] uppercase text-muted py-1">{d}</div>
               ))}
             </div>
 
@@ -160,7 +182,6 @@ export default function BookPage() {
                 const isPast = date < today;
                 const isToday = date.getTime() === today.getTime();
                 const isSel = selectedDate?.toDateString() === date.toDateString();
-                const isWknd = date.getDay() === 0 || date.getDay() === 6;
 
                 return (
                   <div key={d} className="aspect-square flex items-center justify-center">
@@ -168,16 +189,14 @@ export default function BookPage() {
                       onClick={() => !isPast && handleDayClick(d)}
                       disabled={isPast}
                       className={[
-                        "w-[80%] h-[80%] rounded-full flex items-center justify-center text-[9px] md:text-[13px] transition-all duration-150",
+                        "w-[80%] h-[80%] rounded-full flex items-center justify-center font-sans text-[11px] sm:text-[13px] border transition-all duration-200",
                         isSel
-                          ? "bg-[#1a1a1a] text-white font-medium border border-[#1a1a1a] -translate-y-px"
-                          : isToday
-                            ? "bg-white text-blue-500 font-medium border border-blue-400 shadow-[0_2px_6px_rgba(0,0,0,0.07),0_1px_2px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.11)] hover:-translate-y-px"
-                            : isPast
-                              ? "bg-white text-[#ccc] border border-[#f0f0f0] shadow-none cursor-not-allowed"
-                              : isWknd
-                                ? "bg-white text-[#999] border border-[#e0e0e0] shadow-[0_2px_6px_rgba(0,0,0,0.07),0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#bbb] hover:shadow-[0_4px_12px_rgba(0,0,0,0.11)] hover:-translate-y-px"
-                                : "bg-white text-[#1a1a1a] border border-[#e0e0e0] shadow-[0_2px_6px_rgba(0,0,0,0.07),0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#bbb] hover:shadow-[0_4px_12px_rgba(0,0,0,0.11)] hover:-translate-y-px",
+                          ? "bg-ink text-paper border-ink font-medium"
+                          : isPast
+                            ? "text-muted/40 border-transparent cursor-not-allowed"
+                            : isToday
+                              ? "text-ink border-ink/50 hover:border-ink"
+                              : "text-ink border-line hover:border-ink/50",
                       ].join(" ")}
                     >
                       {d}
@@ -189,44 +208,43 @@ export default function BookPage() {
           </div>
 
           {/* Right — time picker */}
-          <div className="w-full lg:w-[240px] p-8 flex flex-col flex-shrink-0">
-            <p className="text-sm font-medium text-[#1a1a1a] mb-1">Pick a time</p>
-            <p className="text-xs text-[#5a5a5a] mb-4 min-h-[18px]">
-              {selectedDate
-                ? `${DAYS[selectedDate.getDay()]}, ${MONTHS[selectedDate.getMonth()]} ${selectedDate.getDate()}`
-                : ""}
+          <div className="w-full lg:w-[240px] p-6 sm:p-8 flex flex-col flex-shrink-0">
+            <p className="font-sans text-muted font-medium uppercase tracking-[0.14em] text-[10px] sm:text-[11px] mb-1">
+              Pick a time
+            </p>
+            <p className="font-sans text-ink text-[13px] mb-4 min-h-[18px]">
+              {selectedDate ? formatDate(selectedDate) : ""}
             </p>
 
             <div className="flex flex-col gap-2 flex-1">
-              {selectedDate?(
-                  getAvailableTimes().length > 0 ? (
-                getAvailableTimes().map(t => (
-                  <button
-                    key={t}
-                    onClick={() => setSelectedTime(t)}
-                    className={`w-full px-4 py-2.5 rounded-lg text-sm text-left border transition-all ${selectedTime === t
-                        ? "bg-[#1a1a1a] text-white"
-                        : "bg-white text-[#1a1a1a] border-[#e0e0e0] hover:border-[#bbb]"
-                      }`}
-                  >
-                    {t}
-                  </button>
-                ))
+              {selectedDate ? (
+                availableTimes.length > 0 ? (
+                  availableTimes.map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setSelectedTime(t)}
+                      className={`w-full px-4 py-2.5 text-left font-sans text-[13px] border transition-all duration-200 ${selectedTime === t
+                        ? "bg-ink text-paper border-ink"
+                        : "bg-paper text-ink border-line hover:border-ink/50"
+                        }`}
+                    >
+                      {t}
+                    </button>
+                  ))
+                ) : (
+                  <p className="font-sans text-muted text-[13px]">No available times for today. Please select another date.</p>
+                )
               ) : (
-                <p className="text-[13px] text-[#bbb]">No available times for today. Please select another date.</p>
-              )
-) : (
-              <p className="text-[13px] text-[#bbb]">Select a date to see available times.</p>
-)}
+                <p className="font-sans text-muted text-[13px]">Select a date to see available times.</p>
+              )}
             </div>
 
             <button
               onClick={handleConfirm}
               disabled={!selectedDate || !selectedTime}
-              className="w-full mt-6 py-3.5 bg-[#1a1a1a] text-white rounded-md text-[11px] font-semibold tracking-[0.22em] uppercase transition-all duration-300 hover:bg-[#333] disabled:opacity-40 disabled:cursor-not-allowed border-none"
-              style={{ fontFamily: "Inter, sans-serif" }}
+              className="w-full h-12 mt-6 bg-ink text-paper font-sans font-medium uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Book meeting
+              Book Consultation
             </button>
           </div>
         </div>
