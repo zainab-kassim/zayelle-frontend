@@ -43,7 +43,7 @@ export default function ProductCartCard({
             {/* Product info */}
             <div className="flex flex-col flex-1 min-w-0 gap-1.5">
                 <Link href={`/products/${CartItem.product.slug}`}>
-                    <p className="font-serif text-ink/85 text-[14px] sm:text-[16px] leading-snug truncate">
+                    <p className="font-serif text-ink/80 font-normal text-[13px] sm:text-[14px] leading-snug truncate">
                         {CartItem.product.name}
                     </p>
                 </Link>
@@ -53,7 +53,7 @@ export default function ProductCartCard({
                     {CartItem.product.color && ` · ${CartItem.product.color}`}
                 </p>
 
-                <p className="font-sans text-ink text-[13px] sm:text-[14px]">
+                <p className="font-sans text-ink/80 font-normal text-[13px] sm:text-[14px]">
                     {formatPrice(totalItemPrice, currency)}
                 </p>
 
