@@ -369,16 +369,18 @@ export default function CheckoutContent() {
       {/* Step content */}
       <AnimatePresence mode="wait">
         {isVerifyingPayment || isCanceling ? (
-          <motion.div key="verifying"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="border border-line rounded-2xl p-12 sm:p-16 text-center flex flex-col items-center gap-5"
-          >
-            <PageLoader size={44} label={isCanceling ? "Canceling checkout" : "Confirming your payment"} />
-            <p className="font-sans text-muted text-[12px]">
-              {isCanceling ? "Canceling checkout…" : "Confirming your payment…"}
-            </p>
-          </motion.div>
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <motion.div key="verifying"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="border border-line rounded-2xl p-12 sm:p-16 text-center flex flex-col items-center gap-5"
+            >
+              <PageLoader size={44} label={isCanceling ? "Canceling checkout" : "Confirming your payment"} />
+              <p className="font-sans text-muted text-[12px]">
+                {isCanceling ? "Canceling checkout…" : "Confirming your payment…"}
+              </p>
+            </motion.div>
+          </div>
         ) : (
           <>
             {currentStep === 1 && (
@@ -469,59 +471,61 @@ export default function CheckoutContent() {
             )}
 
             {currentStep === 3 && (
-              <motion.div key="step-3"
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
-                className="border border-line rounded-2xl p-8 sm:p-10 text-center max-w-md mx-auto flex flex-col items-center"
-              >
-                <div className="mb-3">
-                  <OutcomeIcon status={paymentStatus === "failed" ? "failed" : paymentStatus === "success" ? "success" : "pending"} />
-                </div>
+              <div className="min-h-[60vh] flex items-center justify-center">
+                <motion.div key="step-3"
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
+                  className="border border-line rounded-2xl p-8 sm:p-10 text-center max-w-md mx-auto flex flex-col items-center"
+                >
+                  <div className="mb-3">
+                    <OutcomeIcon status={paymentStatus === "failed" ? "failed" : paymentStatus === "success" ? "success" : "pending"} />
+                  </div>
 
-                <h1 className="font-serif text-ink/85 font-normal text-[17px] sm:text-[19px]">
-                  {paymentStatus === "success" && "Order Confirmed"}
-                  {paymentStatus === "pending" && "Payment Processing"}
-                  {paymentStatus === "failed" && "Payment Unsuccessful"}
-                </h1>
+                  <h1 className="font-serif text-ink/85 font-normal text-[17px] sm:text-[19px]">
+                    {paymentStatus === "success" && "Order Confirmed"}
+                    {paymentStatus === "pending" && "Payment Processing"}
+                    {paymentStatus === "failed" && "Payment Unsuccessful"}
+                  </h1>
 
-                <div className="flex flex-col items-center gap-1 mt-2">
-                  <p className="font-sans text-muted text-[12px]">
-                    {paymentMessage || "Your order has been confirmed."}
-                  </p>
-                  {paymentStatus === "success" && orderResponse?.order?.id && (
-                    <p className="font-sans text-muted/70 text-[11px]">
-                      Order #{orderResponse.order.id}
+                  <div className="flex flex-col items-center gap-1 mt-2">
+                    <p className="font-sans text-muted text-[12px]">
+                      {paymentMessage || "Your order has been confirmed."}
                     </p>
-                  )}
-                </div>
-
-                {paymentStatus === "pending" && (
-                  isCheckingStatus ? (
-                    <div className="flex flex-col items-center gap-3.5 mt-6">
-                      <PageLoader size={32} label="Checking status" />
-                      <p className="font-sans text-muted text-[11px]">
-                        Checking status…
+                    {paymentStatus === "success" && orderResponse?.order?.id && (
+                      <p className="font-sans text-muted/70 text-[11px]">
+                        Order #{orderResponse.order.id}
                       </p>
-                    </div>
-                  ) : (
+                    )}
+                  </div>
+
+                  {paymentStatus === "pending" && (
+                    isCheckingStatus ? (
+                      <div className="flex flex-col items-center gap-3.5 mt-6">
+                        <PageLoader size={32} label="Checking status" />
+                        <p className="font-sans text-muted text-[11px]">
+                          Checking status…
+                        </p>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={handleCheckStatus}
+                        className="mt-5 h-11 px-7 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90"
+                      >
+                        Check Status
+                      </button>
+                    )
+                  )}
+
+                  {paymentStatus === "failed" && (
                     <button
-                      onClick={handleCheckStatus}
+                      onClick={handleStartNewCheckout}
                       className="mt-5 h-11 px-7 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90"
                     >
-                      Check Status
+                      Start New Checkout
                     </button>
-                  )
-                )}
-
-                {paymentStatus === "failed" && (
-                  <button
-                    onClick={handleStartNewCheckout}
-                    className="mt-5 h-11 px-7 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[10.5px] transition-opacity duration-200 hover:opacity-90"
-                  >
-                    Start New Checkout
-                  </button>
-                )}
-              </motion.div>
+                  )}
+                </motion.div>
+              </div>
             )}
           </>
         )}
