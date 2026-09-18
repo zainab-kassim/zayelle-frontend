@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { AxiosError } from "axios";
 import { getOrderDetails, OrderHistoryOrder } from "@/services/order.service";
 import { getOrderFilterStatus } from "@/lib/orderStatus";
 import OrderHeaderStats from "@/components/shared/orders/OrderHeaderStats";
@@ -31,7 +32,14 @@ export default function OrderDetailsPage() {
       })
       .catch((err) => {
         console.error("Failed to fetch order details:", err);
-        setError("Order not found.");
+        const status = (err as AxiosError)?.response?.status;
+        if (status === 401) {
+          setError("Please log in to view this order.");
+        } else if (status === 404) {
+          setError("Order not found.");
+        } else {
+          setError("Something went wrong loading this order. Please try again.");
+        }
       });
   }, [id]);
 
