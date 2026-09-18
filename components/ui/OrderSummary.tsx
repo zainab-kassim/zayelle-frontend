@@ -12,56 +12,30 @@ interface OrderSummaryProps {
 }
 
 export default function OrderSummary({ subtotal, onCheckout, isCheckingOut = false }: OrderSummaryProps) {
-   const currency = useCurrencyStore((state) => state.currency);
-   const cartItems = useCheckoutStore((state) => state.cartItems);
+  const currency = useCurrencyStore((state) => state.currency);
+  const cartItems = useCheckoutStore((state) => state.cartItems);
 
   return (
-    <div
-      className="rounded-xl p-6 flex flex-col gap-4"
-      style={{ background: "#F2F2F2" }}
-    >
-      {/* Title */}
-      <h2
-        className="text-[13px] font-bold uppercase text-[#1a1a1a]"
- 
-      >
+    <div className="bg-surface rounded-2xl p-6 flex flex-col gap-4">
+      <h2 className="font-sans text-muted font-normal uppercase tracking-[0.14em] text-[11px]">
         Order Summary
       </h2>
 
-      {/* Subtotal */}
       <div className="flex flex-row items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <span
-            className="text-[16px] text-[#1a1a1a]"
-          
-          >
-            Subtotal
-          </span>
-        </div>
-        <span
-          className="text-[16px] font-semibold text-[#1a1a1a]"
-        >
+        <span className="font-sans text-muted text-[13px]">Subtotal</span>
+        <span className="font-sans text-ink/80 font-normal text-[14px]">
           {formatPrice(subtotal, currency)}
         </span>
       </div>
 
-      {/* Shipping */}
-      <p
-        className="text-[11px] text-[#8a8a8a] tracking-wide"
-        style={{ fontFamily: "Inter, sans-serif" }}
-      >
-        Shipping Will Be Calculated At Checkout
+      <p className="font-sans text-muted text-[11.5px] border-t border-line pt-4">
+        Shipping will be calculated at checkout.
       </p>
 
-      {/* Checkout button */}
-      <button disabled={!cartItems || cartItems.length === 0 || isCheckingOut}
+      <button
+        disabled={!cartItems || cartItems.length === 0 || isCheckingOut}
         onClick={onCheckout}
-        className='w-full py-3.5 disabled:bg-[#cccccc] bg-[#1a1a1a] text-white
-          text-[11px] font-semibold tracking-[0.22em] uppercase
-          rounded-md transition-all duration-300
-          flex items-center justify-center
-          hover:bg-[#333]'
-        style={{ fontFamily: "Inter, sans-serif" }}
+        className="w-full h-12 bg-ink text-paper font-sans font-medium uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
       >
         {isCheckingOut ? <Loader /> : "Checkout"}
       </button>

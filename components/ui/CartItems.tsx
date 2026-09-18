@@ -9,25 +9,11 @@ interface CartItemsProps {
   onDelete: (id: number) => void;
 }
 
-
 export default function CartItems({
   CartItems,
   onUpdateQuantity,
   onDelete,
 }: CartItemsProps) {
-  if (CartItems.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-16">
-        <p
-          className="text-[13px] text-[#aaa] tracking-widest uppercase"
-          style={{ fontFamily: '"Fraunces", serif' }}
-        >
-          Your cart is empty.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col">
       {CartItems.map((item) => (
@@ -41,7 +27,6 @@ export default function CartItems({
             onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))
           }
           onDelete={onDelete}
-
         />
       ))}
     </div>

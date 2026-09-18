@@ -10,7 +10,7 @@ export interface CartProduct {
   name: string;
   slug: string;
   image: string[];
-  color: string;
+  color?: string;
   description: string;
 }
 

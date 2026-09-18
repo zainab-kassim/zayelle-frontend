@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import CartItems from "@/components/ui/CartItems";
 import { getCartItems } from "@/services/cart.service";
 import OrderSummary from "@/components/ui/OrderSummary";
@@ -41,13 +42,19 @@ export default function CartPage() {
   // ── Error ──────────────────────────────────────────────────────
   if (isError) {
     return (
-      <div className="w-full min-h-screen flex items-center justify-center">
-        <p
-          className="text-[14px] text-[#5a5a5a] tracking-widest uppercase"
-          style={{ fontFamily: '"Fraunces", serif' }}
-        >
-          Cart not found.
+      <div className="w-full bg-paper min-h-[60vh] flex flex-col items-center justify-center gap-4 px-6 text-center">
+        <p className="font-serif text-ink text-[20px] sm:text-[24px]">
+          We couldn't load your cart
         </p>
+        <p className="font-sans text-muted text-[13px] max-w-sm">
+          Something went wrong on our end. In the meantime, take a look at what's new.
+        </p>
+        <Link
+          href="/products"
+          className="font-sans font-medium uppercase tracking-[0.1em] text-[12px] text-paper bg-ink h-12 px-8 inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-90"
+        >
+          Shop All
+        </Link>
       </div>
     );
   }
@@ -91,10 +98,35 @@ export default function CartPage() {
     0
   );
 
+  // ── Empty ──────────────────────────────────────────────────────
+  if (cartItems.length === 0) {
+    return (
+      <div className="w-full bg-paper min-h-[60vh] flex flex-col items-center justify-center gap-4 px-6 text-center">
+        <p className="font-serif text-ink text-[20px] sm:text-[24px]">
+          Your cart is empty
+        </p>
+        <p className="font-sans text-muted text-[13px] max-w-sm">
+          Looks like you haven't added anything yet.
+        </p>
+        <Link
+          href="/products"
+          className="font-sans font-medium uppercase tracking-[0.1em] text-[12px] text-paper bg-ink h-12 px-8 inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-90"
+        >
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full min-h-screen bg-white px-4 sm:px-8 lg:px-14 py-10">
+    <div className="w-full bg-paper px-4 md:px-12 lg:px-34 xl:px-16 py-8 sm:py-10 pb-16 sm:pb-24">
+
+      <h1 className="font-serif text-ink/80 font-normal text-[17px] sm:text-[20px] mb-6 sm:mb-8">
+        Your Cart <span className="text-muted text-[13px] sm:text-[14px]">({cartItems.length} {cartItems.length === 1 ? "Item" : "Items"})</span>
+      </h1>
+
       {/* ── Main layout ────────────────────────────────────────── */}
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
 
         {/* Left — cart items */}
         <div className="flex-1 w-full lg:overflow-y-auto lg:max-h-[calc(100vh-70px)]"
