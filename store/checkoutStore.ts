@@ -45,9 +45,7 @@ interface CheckoutState {
   setHasHydrated: (value: boolean) => void;
   currentStep: 1 | 2 | 3;
   orderResponse: OrderResponse | null;
-  shippingAddress: Address | null;
   savedAddress: Address | null;
-  isUsingSavedAddress: boolean;
   cartItems: CartItem[];
   paymentStatus: PaymentStatus | null;
   paymentMessage: string;
@@ -55,8 +53,6 @@ interface CheckoutState {
   paymentProvider: PaymentProvider | null;
 
   setShippingAddress: (address: Address) => void;
-  setSavedAddress: (address: Address | null) => void;
-  setIsUsingSavedAddress: (value: boolean) => void;
   setCartItems: (items: CartItem[]) => void;
   advanceToReview: (order: OrderResponse) => void;
   // patches the order in place — used after editing shipping info from
@@ -84,9 +80,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       setHasHydrated: (value) => set({ hasHydrated: value }),
       currentStep: 1,
       orderResponse: null,
-      shippingAddress: null,
       savedAddress: loadSavedAddress(),
-      isUsingSavedAddress: false,
       cartItems: [],
       paymentStatus: null,
       paymentMessage: '',
@@ -94,17 +88,12 @@ export const useCheckoutStore = create<CheckoutState>()(
       paymentProvider: null,
 
       setShippingAddress: (address) => {
-        set({
-          shippingAddress: address,
-          savedAddress: address,
-        });
+        set({ savedAddress: address });
         try {
           localStorage.setItem('zayelle_saved_address', JSON.stringify(address));
         } catch {}
       },
 
-      setSavedAddress: (address) => set({ savedAddress: address }),
-      setIsUsingSavedAddress: (value) => set({ isUsingSavedAddress: value }),
       setCartItems: (items) => set({ cartItems: items }),
 
       updateOrderAddress: (updates) => set((state) => (
