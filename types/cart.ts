@@ -1,5 +1,3 @@
-// types/cart.ts
-
 export interface AddToCartPayload {
   productid: number;
   quantity: number;

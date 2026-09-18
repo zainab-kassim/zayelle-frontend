@@ -21,9 +21,6 @@ export const useSignUp = () => {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            // isLoading logic
-            // form.state.isSubmitting — already provided by TanStack Form during submission
-
             try {
                 const response = await signUp(
                     value.fullName,

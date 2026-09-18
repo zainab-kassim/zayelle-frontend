@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 
-// Centralizes the repeated "fetch on mount/dep-change, track isLoading,
-// swallow-or-log the error" pattern used by list-fetching components.
-// Not meant for calls that need to branch on a specific error (status code,
-// error type, etc.) — those should keep their own try/catch.
+// Shared fetch/isLoading/error pattern for list-fetching components.
+// Skip this if you need to branch on a specific error type.
 export function useAsyncData<T>(
     fetcher: () => Promise<T>,
     deps: unknown[],
@@ -23,7 +21,11 @@ export function useAsyncData<T>(
                 if (!cancelled) setData(result);
             })
             .catch((err) => {
-                if (!cancelled) setError(err);
+                if (!cancelled) {
+                    setError(err);
+                    // clear stale data so a failed fetch doesn't leave old results on screen
+                    setData(fallback);
+                }
             })
             .finally(() => {
                 if (!cancelled) setIsLoading(false);

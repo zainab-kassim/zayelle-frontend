@@ -1,4 +1,3 @@
-// services/order.service.ts
 import axiosInstance from '@/lib/axiosInstance';
 
 export interface CreateOrderPayload {

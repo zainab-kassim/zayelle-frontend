@@ -1,4 +1,3 @@
-// store/checkoutStore.ts
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { CartItem } from '@/types/cart';

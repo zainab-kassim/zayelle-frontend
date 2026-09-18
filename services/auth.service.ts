@@ -1,8 +1,5 @@
 import axiosInstance from '@/lib/axiosInstance';
 
-// ── Authentication Services ──
-
-//login service
 export const login = async (email: string, password: string) => {
   const response = await axiosInstance.post('/auth/login', {
     email,
@@ -12,14 +9,12 @@ export const login = async (email: string, password: string) => {
   return response.data;
 };
 
-//logout service
 export const logout = async () => {
   const response = await axiosInstance.post('/auth/logout');
   return response.data;
 };
 
 
-//signup service
 export const signUp = async (
   fullName: string,
   email: string,
@@ -34,9 +29,7 @@ export const signUp = async (
   return response.data;
 };
 
-//google sign-in service — sends the Google access token to the backend for
-//verification; the backend logs the user in (or creates the account) and
-//sets our own auth cookies
+// backend verifies the Google token, then logs in/creates the account and sets our cookies
 export const signInWithGoogle = async (googleAccessToken: string) => {
   const response = await axiosInstance.post('/auth/google', {
     googleAccessToken,
@@ -45,13 +38,11 @@ export const signInWithGoogle = async (googleAccessToken: string) => {
   return response.data;
 };
 
-//request a password reset link
 export const requestPasswordReset = async (email: string) => {
   const response = await axiosInstance.post('/auth/forgot-password', { email });
   return response.data;
 };
 
-//set a new password using the token from the reset email
 export const resetPassword = async (token: string, password: string) => {
   const response = await axiosInstance.post('/auth/reset-password', {
     token,

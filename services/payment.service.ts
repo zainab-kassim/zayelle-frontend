@@ -34,9 +34,7 @@ export const VerifyStripePayment = async (session_id: string) => {
   return response.data;
 };
 
-// called when the user backs out of Stripe Checkout (lands on cancel_url) —
-// cancels the pending order and restores inventory right away instead of
-// waiting for the checkout.session.expired webhook
+// user backed out of Stripe Checkout — cancel now instead of waiting for the expired webhook
 export const CancelStripeCheckout = async (order_id: number) => {
   const response = await axiosInstance.post(
     "/payment/stripe/cancel-checkout",
@@ -46,9 +44,8 @@ export const CancelStripeCheckout = async (order_id: number) => {
   return response.data;
 };
 
-// called when the user clicks Cancel/X on Paystack (lands on cancel_action) —
-// restores inventory if Paystack already reports the transaction abandoned/failed,
-// otherwise leaves it for the delayed charge.abandoned webhook
+// user hit Cancel/X on Paystack — restores inventory if already abandoned/failed,
+// otherwise leaves it for the delayed webhook
 export const CancelPaystackCheckout = async (order_id: number) => {
   const response = await axiosInstance.post(
     "/payment/paystack/cancel-checkout",
