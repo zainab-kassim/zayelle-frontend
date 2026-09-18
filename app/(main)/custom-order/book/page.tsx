@@ -244,7 +244,7 @@ export default function BookPage() {
             <button
               onClick={handleConfirm}
               disabled={!selectedDate || !selectedTime}
-              className="w-full h-12 mt-6 bg-ink text-paper font-sans font-medium uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full h-12 mt-6 bg-ink text-paper font-sans font-normal uppercase tracking-[0.08em] text-[11px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Book Consultation
             </button>
