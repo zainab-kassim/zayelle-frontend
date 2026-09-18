@@ -475,24 +475,24 @@ export default function CheckoutContent() {
                 <motion.div key="step-3"
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}
-                  className="border border-line rounded-2xl p-8 sm:p-10 text-center max-w-md mx-auto flex flex-col items-center"
+                  className="border border-line rounded-2xl p-10 sm:p-16 text-center w-full max-w-lg mx-auto flex flex-col items-center"
                 >
-                  <div className="mb-3">
+                  <div className="mb-5">
                     <OutcomeIcon status={paymentStatus === "failed" ? "failed" : paymentStatus === "success" ? "success" : "pending"} />
                   </div>
 
-                  <h1 className="font-serif text-ink/85 font-normal text-[17px] sm:text-[19px]">
+                  <h1 className="font-serif text-ink/85 font-normal text-[20px] sm:text-[23px]">
                     {paymentStatus === "success" && "Order Confirmed"}
                     {paymentStatus === "pending" && "Payment Processing"}
                     {paymentStatus === "failed" && "Payment Unsuccessful"}
                   </h1>
 
-                  <div className="flex flex-col items-center gap-1 mt-2">
-                    <p className="font-sans text-muted text-[12px]">
+                  <div className="flex flex-col items-center gap-1.5 mt-3">
+                    <p className="font-sans text-muted text-[13px]">
                       {paymentMessage || "Your order has been confirmed."}
                     </p>
                     {paymentStatus === "success" && orderResponse?.order?.id && (
-                      <p className="font-sans text-muted/70 text-[11px]">
+                      <p className="font-sans text-muted/70 text-[11.5px]">
                         Order #{orderResponse.order.id}
                       </p>
                     )}
