@@ -8,6 +8,13 @@ import {
 
 const PAGE_SIZE = 5;
 
+// fetchOrders/fetchNextPage can overlap — rapidly switching filter tabs (or
+// React Strict Mode double-invoking the mount effect) fires a second fetch
+// before the first resolves. Whichever response lands last used to win
+// regardless of which request it was; this discards any response that's no
+// longer the most recent one in flight.
+let latestRequestId = 0;
+
 type OrderFilterStatus = NonNullable<GetOrderHistoryParams['status']>;
 
 interface OrderStore {
@@ -44,6 +51,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   // clears `orders` up front so a filter switch doesn't leave the previous
   // tab's cards on screen while the new page is in flight
   fetchOrders: async () => {
+    const requestId = ++latestRequestId;
     set({ isLoading: true, orders: [] });
     const { activeFilter } = get();
     const response = await getOrderHistory({
@@ -51,6 +59,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       page: 1,
       limit: PAGE_SIZE,
     });
+    if (requestId !== latestRequestId) return; // a newer fetch superseded this one
     set({
       orders: response.orders,
       counts: response.counts,
@@ -64,12 +73,14 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   fetchNextPage: async () => {
     const { activeFilter, page, totalPages, isLoading } = get();
     if (isLoading || page >= totalPages) return;
+    const requestId = ++latestRequestId;
     set({ isLoading: true });
     const response = await getOrderHistory({
       status: activeFilter,
       page: page + 1,
       limit: PAGE_SIZE,
     });
+    if (requestId !== latestRequestId) return;
     set((state) => ({
       orders: [...state.orders, ...response.orders],
       counts: response.counts,
