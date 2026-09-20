@@ -15,54 +15,19 @@ body {
 }
 
 
-.stretch-bar-loader {
-  --stretch-color-1: #1a1a1a;
-  --stretch-color-2: #8a8a8a;
-  display: block;
-  transform-origin: center;
-  background: var(--stretch-color-1);
-  animation: stretchBar 1.2s ease-in-out infinite;
-}
-
-@keyframes stretchBar {
-  0%,
-  100% {
-    transform: scaleX(0.1);
-    background: var(--stretch-color-2);
-  }
-  50% {
-    transform: scaleX(1);
-    background: var(--stretch-color-1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stretch-bar-loader {
-    animation: stretchBarReduced 1.6s ease-in-out infinite;
-  }
-}
-
-@keyframes stretchBarReduced {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
 .loader {
+  --loader-color: #fff;
+  --loader-color-dim: #ffffff33;
   width: 15px;
   aspect-ratio: 1;
   border-radius: 50%;
   animation: l5 1s infinite linear alternate;
 }
 @keyframes l5 {
-    0%  {box-shadow: 20px 0 #fff, -20px 0 #ffffff33;background: #fff }
-    33% {box-shadow: 20px 0 #fff, -20px 0 #ffffff33;background: #ffffff33}
-    66% {box-shadow: 20px 0 #ffffff33,-20px 0 #fff; background: #ffffff33}
-    100%{box-shadow: 20px 0 #ffffff33,-20px 0 #fff; background: #fff }
+    0%  {box-shadow: 20px 0 var(--loader-color), -20px 0 var(--loader-color-dim); background: var(--loader-color) }
+    33% {box-shadow: 20px 0 var(--loader-color), -20px 0 var(--loader-color-dim); background: var(--loader-color-dim)}
+    66% {box-shadow: 20px 0 var(--loader-color-dim), -20px 0 var(--loader-color); background: var(--loader-color-dim)}
+    100%{box-shadow: 20px 0 var(--loader-color-dim), -20px 0 var(--loader-color); background: var(--loader-color) }
 }
 
 /* PageLoader — three rings spinning at their own speed/direction; see
