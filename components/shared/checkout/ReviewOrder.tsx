@@ -81,6 +81,11 @@ export default function ReviewOrder({
   ].filter(Boolean);
   const currency = useCurrencyStore((state) => state.currency);
   const paymentProvider = currency === "NGN" ? "Paystack" : "Stripe";
+  // items are already priced in the selected currency (see cart service),
+  // same as totalLocal — so this diff is exactly the shipping fee, without
+  // needing the fee itself sent back from the order
+  const subtotal = items.reduce((sum, item) => sum + item.unitprice * item.quantity, 0);
+  const shipping = Math.max(0, OrderDetails.totalLocal - subtotal);
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-7 lg:gap-10 items-start">
@@ -140,7 +145,14 @@ export default function ReviewOrder({
           <div className="flex justify-between items-center mb-3.5">
             <p className="font-sans text-muted text-[13px]">Subtotal</p>
             <p className="font-sans text-ink/80 font-normal text-[14px]">
-              {formatPrice(OrderDetails.totalLocal, currency)}
+              {formatPrice(subtotal, currency)}
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center mb-3.5">
+            <p className="font-sans text-muted text-[13px]">Shipping</p>
+            <p className="font-sans text-ink/80 font-normal text-[14px]">
+              {shipping > 0 ? formatPrice(shipping, currency) : "Free"}
             </p>
           </div>
 

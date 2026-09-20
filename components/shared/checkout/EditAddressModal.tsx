@@ -16,6 +16,8 @@ interface OrderAddressFields {
   state: string;
   postal_code: string;
   country: string;
+  // present when the destination (and its shipping fee) changed
+  totalLocal?: number;
 }
 
 interface EditAddressModalProps {
