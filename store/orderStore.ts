@@ -6,7 +6,7 @@ import {
   GetOrderHistoryParams,
 } from '@/services/order.service';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 type OrderFilterStatus = NonNullable<GetOrderHistoryParams['status']>;
 
@@ -30,16 +30,21 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   activeFilter: 'success',
   page: 1,
   totalPages: 1,
-  isLoading: false,
+  // starts true — the orders page always calls fetchOrders() on mount, so
+  // this avoids a one-frame flash of the empty state before that fetch
+  // has even started
+  isLoading: true,
 
   setActiveFilter: (status) => {
     set({ activeFilter: status });
     get().fetchOrders();
   },
 
-  // replaces the list — used for the initial load and whenever the filter changes
+  // replaces the list — used for the initial load and whenever the filter changes.
+  // clears `orders` up front so a filter switch doesn't leave the previous
+  // tab's cards on screen while the new page is in flight
   fetchOrders: async () => {
-    set({ isLoading: true });
+    set({ isLoading: true, orders: [] });
     const { activeFilter } = get();
     const response = await getOrderHistory({
       status: activeFilter,

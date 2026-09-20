@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ORDER_FILTER_TABS, OrderFilterStatus } from "@/lib/orderStatus";
 
 interface OrderStatusFilterProps {
@@ -15,7 +16,7 @@ export default function OrderStatusFilter({
 }: OrderStatusFilterProps) {
   return (
     <div
-      className="flex flex-row lg:flex-col gap-3 w-full min-w-0 pr-4 lg:pr-0 lg:w-[220px] lg:flex-shrink-0 overflow-x-auto lg:overflow-visible no-scrollbar"
+      className="flex items-center gap-6 sm:gap-8 border-b border-line overflow-x-auto no-scrollbar"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
       {ORDER_FILTER_TABS.map((tab) => {
@@ -24,21 +25,19 @@ export default function OrderStatusFilter({
           <button
             key={tab.key}
             onClick={() => onChange(tab.key)}
-            className={`flex items-center justify-between gap-4 px-5 py-3.5 rounded-full whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
-              isActive
-                ? "bg-[#1a1a1a] text-white"
-                : "bg-white border border-[#e8e8e8] text-[#1a1a1a] hover:border-[#1a1a1a]"
+            className={`relative flex items-center gap-1.5 pb-3.5 whitespace-nowrap font-sans text-[12px] sm:text-[14px] transition-colors duration-200 ${
+              isActive ? "text-ink/80" : "text-muted hover:text-ink/80"
             }`}
-            style={{ fontFamily: "Inter, sans-serif" }}
           >
-            <span className="text-[13px] font-medium">{tab.label}</span>
-            <span
-              className={`flex items-center justify-center w-6 h-6 rounded-full text-[11px] font-semibold ${
-                isActive ? "bg-white text-[#1a1a1a]" : "bg-[#f0f0f0] text-[#1a1a1a]"
-              }`}
-            >
-              {counts[tab.key]}
-            </span>
+            {tab.label}
+            <span className={isActive ? "text-muted" : "text-muted/70"}>({counts[tab.key]})</span>
+            {isActive && (
+              <motion.span
+                layoutId="order-status-underline"
+                className="absolute left-0 right-0 -bottom-px h-[1.5px] bg-ink"
+                transition={{ type: "spring", stiffness: 500, damping: 38 }}
+              />
+            )}
           </button>
         );
       })}
