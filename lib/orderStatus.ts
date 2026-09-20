@@ -1,5 +1,17 @@
 export type OrderFilterStatus = 'success' | 'pending' | 'cancelled';
 
+export function formatOrderCode(id: number): string {
+  return `ZKT-87${id}`;
+}
+
+export function formatOrderDate(date: string | Date): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
 // order.status from the backend can be 'success' | 'pending' | 'failed' | 'canceled' | 'abandoned' —
 // the UI only distinguishes 3 buckets, so anything that isn't success/pending reads as cancelled
 export function getOrderFilterStatus(status: string): OrderFilterStatus {

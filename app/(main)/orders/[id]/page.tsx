@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AxiosError } from "axios";
 import { getOrderDetails, OrderHistoryOrder } from "@/services/order.service";
-import { getOrderFilterStatus } from "@/lib/orderStatus";
+import { getOrderFilterStatus, formatOrderCode, formatOrderDate } from "@/lib/orderStatus";
 import OrderHeaderStats from "@/components/shared/orders/OrderHeaderStats";
 import OrderTracking, { TRACKING_STEP_COUNT } from "@/components/shared/orders/OrderTracking";
 import PersonalInfoCard from "@/components/shared/orders/PersonalInfoCard";
@@ -86,24 +86,14 @@ export default function OrderDetailsPage() {
     return <OrderDetailSkeleton />;
   }
 
-  // same order code format used in OrderHistoryCard: `ZKT-87${order.id}`
-  const orderCode = `ZKT-87${order.id}`;
+  const orderCode = formatOrderCode(order.id);
   const filterStatus = getOrderFilterStatus(order.status);
   const itemCount = order.order_items.length;
   const currency = order.currency;
-  const placedDate = new Date(order.created_at).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-  // same 14-day estimate used in OrderHistoryCard's formatEstimatedArrival
+  const placedDate = formatOrderDate(order.created_at);
   const estimatedDeliveryDate = new Date(order.created_at);
   estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 14);
-  const estimatedDate = estimatedDeliveryDate.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const estimatedDate = formatOrderDate(estimatedDeliveryDate);
   const subtotal = order.order_items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const addressLines = [
     [order.street_address, order.apt_no].filter(Boolean).join(", "),

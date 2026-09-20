@@ -5,21 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { OrderHistoryOrder } from "@/services/order.service";
 import { formatPrice } from "@/lib/currency";
-import { getOrderFilterStatus } from "@/lib/orderStatus";
+import { getOrderFilterStatus, formatOrderCode, formatOrderDate } from "@/lib/orderStatus";
 import OrderStatusBadge from "./OrderStatusBadge";
-
-function BagPlaceholder() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-line" aria-hidden="true">
-      <path d="M6 8h12l-1 12H7L6 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function formatPlacedDate(createdAt: string) {
-  return new Date(createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
+import BagPlaceholder from "./BagPlaceholder";
 
 interface OrderHistoryCardProps {
   order: OrderHistoryOrder;
@@ -28,7 +16,7 @@ interface OrderHistoryCardProps {
 export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
   const currency = order.currency;
   const filterStatus = getOrderFilterStatus(order.status);
-  const orderCode = `ZKT-87${order.id}`;
+  const orderCode = formatOrderCode(order.id);
   const itemCount = order.order_items.length;
   const firstItem = order.order_items[0];
   const extraCount = itemCount - 1;
@@ -71,7 +59,7 @@ export default function OrderHistoryCard({ order }: OrderHistoryCardProps) {
             {extraCount > 0 && <span className="text-muted"> +{extraCount} more</span>}
           </p>
           <p className="font-sans text-muted text-[11px] sm:text-[13px] mt-0.5">
-            {formatPlacedDate(order.created_at)} &middot; {formatPrice(order.totalLocal, currency)}
+            {formatOrderDate(order.created_at)} &middot; {formatPrice(order.totalLocal, currency)}
           </p>
         </div>
 
