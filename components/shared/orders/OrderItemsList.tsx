@@ -1,6 +1,55 @@
 import Image from "next/image";
+import Link from "next/link";
 import { OrderHistoryItem } from "@/services/order.service";
 import { formatPrice } from "@/lib/currency";
+
+function BagPlaceholder() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-line" aria-hidden="true">
+      <path d="M6 8h12l-1 12H7L6 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ItemRow({ item, currency }: { item: OrderHistoryItem; currency: string }) {
+  const image = item.product_id?.image?.[0];
+  const slug = item.product_id?.slug;
+
+  return (
+    <Link
+      href={slug ? `/products/${slug}` : "#"}
+      className={`group flex items-center gap-4 py-4 -mx-2 px-2 rounded-lg border-b border-line last:border-0 transition-colors duration-200 ${
+        slug ? "hover:bg-surface/60" : "pointer-events-none"
+      }`}
+    >
+      <div className="flex-shrink-0 w-[76px] h-[86px] sm:w-[86px] sm:h-[96px] bg-surface rounded-lg flex items-center justify-center overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={item.product_id.name}
+            width={86}
+            height={96}
+            className="object-contain w-[85%] h-[85%] transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <BagPlaceholder />
+        )}
+      </div>
+      <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+        <p className="font-serif text-ink/80 text-[14px] sm:text-[15px] leading-snug truncate group-hover:text-ink transition-colors duration-200">
+          {item.product_id?.name ?? "Item"}
+        </p>
+        <p className="font-sans text-muted text-[12px] sm:text-[13px]">
+          Size {item.size} &middot; Qty {item.quantity}
+        </p>
+      </div>
+      <p className="font-sans text-ink/65 font-normal text-[13px] sm:text-[14px] flex-shrink-0">
+        {formatPrice(item.price * item.quantity, currency)}
+      </p>
+    </Link>
+  );
+}
 
 interface OrderItemsListProps {
   items: OrderHistoryItem[];
@@ -9,107 +58,17 @@ interface OrderItemsListProps {
 
 export default function OrderItemsList({ items, currency }: OrderItemsListProps) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="rounded-2xl border border-[#f0f0f0] overflow-hidden">
-        {/* Desktop header row */}
-        <div
-          className="hidden sm:flex items-center justify-between pl-5 pr-10 sm:pr-14 py-3 bg-[#F8F8F8] text-[13px] text-[#8a8a8a] uppercase tracking-widest"
-          style={{ fontFamily: "Inter, sans-serif" }}
-        >
-          <span>Product</span>
-          <div className="flex items-center gap-6">
-            <span className="w-12 text-center">Size</span>
-            <span className="w-16 text-center">Quantity</span>
-            <span className="w-20 text-center">Price</span>
-          </div>
-        </div>
-
-        {items.map((item) => (
-          <div key={item.id} className="border-t border-[#f0f0f0] first:border-t-0">
-            {/* Mobile — image with name/size/price/qty stacked below, like the cart page */}
-            <div className="flex sm:hidden flex-row items-center gap-4 px-5 py-4">
-              <div className="flex-shrink-0 w-[100px] h-[112px] rounded-lg overflow-hidden bg-[#F8F8F8] flex items-center justify-center">
-                {item.product_id.image?.[0] && (
-                  <Image
-                    src={item.product_id.image[0]}
-                    alt={item.product_id.name}
-                    width={100}
-                    height={112}
-                    className="object-contain w-[90%] h-[90%]"
-                  />
-                )}
-              </div>
-              <div className="flex flex-col flex-1 min-w-0">
-                <p
-                  className="text-[13px] font-medium text-[#1a1a1a] uppercase tracking-wide truncate"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  {item.product_id.name}
-                </p>
-                <p
-                  className="text-[11px] text-[#8a8a8a] uppercase tracking-widest"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  {item.size}
-                </p>
-                <p
-                  className="text-[13px] font-medium text-[#1a1a1a] mt-1"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  {formatPrice(item.price, currency)}
-                </p>
-                <p
-                  className="text-[11px] text-[#8a8a8a] mt-1"
-                  style={{ fontFamily: "Inter, sans-serif" }}
-                >
-                  Qty: {item.quantity}
-                </p>
-              </div>
-            </div>
-
-            {/* Desktop — table-style row */}
-            <div className="hidden sm:flex items-center justify-between gap-3 pl-5 pr-10 sm:pr-14 py-4">
-              <div className="flex items-center gap-4 min-w-0">
-                <div className="flex-shrink-0 w-[84px] h-[94px] rounded-lg overflow-hidden bg-[#F8F8F8] flex items-center justify-center">
-                  {item.product_id.image?.[0] && (
-                    <Image
-                      src={item.product_id.image[0]}
-                      alt={item.product_id.name}
-                      width={84}
-                      height={94}
-                      className="object-contain w-[90%] h-[90%]"
-                    />
-                  )}
-                </div>
-                <div className="flex flex-col gap-0.5 min-w-0">
-                  <p
-                    className="text-[15px] font-medium text-[#1a1a1a] truncate"
-                    style={{ fontFamily: "Inter, sans-serif" }}
-                  >
-                    {item.product_id.name}
-                  </p>
-                  <p
-                    className="text-[13px] text-[#8a8a8a] uppercase"
-                    style={{ fontFamily: "Inter, sans-serif" }}
-                  >
-                    SKU: {item.product_id.slug}
-                  </p>
-                </div>
-              </div>
-              <div
-                className="flex items-center gap-6 text-[14px] text-[#5a5a5a]"
-                style={{ fontFamily: "Inter, sans-serif" }}
-              >
-                <span className="uppercase w-12 text-center">{item.size}</span>
-                <span className="w-16 text-center">Qty {item.quantity}</span>
-                <span className="text-[15px] font-medium text-[#1a1a1a] w-20 text-center">
-                  {formatPrice(item.price, currency)}
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      <p className="font-sans text-muted font-normal uppercase tracking-[0.12em] text-[11px] mb-1">
+        Items in This Order
+      </p>
+      {items.length === 0 ? (
+        <p className="font-sans text-muted text-[13px] py-4">
+          Items will appear here once your payment is confirmed.
+        </p>
+      ) : (
+        items.map((item) => <ItemRow key={item.id} item={item} currency={currency} />)
+      )}
     </div>
   );
 }

@@ -1,67 +1,62 @@
 import { formatPrice } from "@/lib/currency";
 
-// display only — already folded into `total`, don't add it again
-const SHIPPING_FEE = 500;
-
 interface OrderSummaryCardProps {
   subtotal: number;
   total: number;
   currency: string;
+  // omit when the estimate is already shown elsewhere on the page (e.g.
+  // OrderHeaderStats) — avoids showing the same date twice
+  estimatedDate?: string;
+  // pending orders have no order_items yet, so subtotal/shipping can't be
+  // broken out — show only the real charged total rather than a breakdown
+  // that wouldn't add up
+  hasItems?: boolean;
 }
 
-export default function OrderSummaryCard({ subtotal, total, currency }: OrderSummaryCardProps) {
+export default function OrderSummaryCard({
+  subtotal,
+  total,
+  currency,
+  estimatedDate,
+  hasItems = true,
+}: OrderSummaryCardProps) {
+  // derived, never hardcoded — a fixed shipping figure will drift from
+  // whatever was actually charged and stop reconciling with the total
+  const shipping = Math.max(0, total - subtotal);
+
   return (
-    <div className="h-full rounded-2xl p-5 border border-[#f0f0f0]" style={{ background: "#F8F8F8" }}>
-      <p
-        className="text-[11px] sm:text-[13px] font-medium tracking-[0.2em] uppercase text-[#1a1a1a] mb-4"
-        style={{ fontFamily: "Inter, sans-serif" }}
-      >
+    <div className="rounded-2xl p-6 bg-surface">
+      <p className="font-sans text-muted font-normal uppercase tracking-[0.12em] text-[11px] mb-5">
         Order Summary
       </p>
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <span
-            className="text-[13px] sm:text-[15px] text-[#5a5a5a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            Subtotal
-          </span>
-          <span
-            className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            {formatPrice(subtotal, currency)}
-          </span>
-        </div>
-        <div className="flex justify-between items-center pb-3 border-b border-[#e8e8e8]">
-          <span
-            className="text-[13px] sm:text-[15px] text-[#5a5a5a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            Shipping
-          </span>
-          <span
-            className="text-[13px] sm:text-[15px] text-[#1a1a1a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            {formatPrice(SHIPPING_FEE, currency)}
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span
-            className="text-[13px] sm:text-[15px] font-medium text-[#1a1a1a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            Total Amount
-          </span>
-          <span
-            className="text-[14px] sm:text-[16px] font-semibold text-[#1a1a1a]"
-            style={{ fontFamily: "Inter, sans-serif" }}
-          >
-            {formatPrice(total, currency)}
-          </span>
-        </div>
+
+      {hasItems && (
+        <>
+          <div className="flex justify-between items-center mb-3.5">
+            <p className="font-sans text-muted text-[13px]">Subtotal</p>
+            <p className="font-sans text-ink/65 font-normal text-[14px]">{formatPrice(subtotal, currency)}</p>
+          </div>
+
+          <div className="flex justify-between items-center mb-3.5">
+            <p className="font-sans text-muted text-[13px]">Shipping</p>
+            <p className="font-sans text-ink/65 font-normal text-[14px]">
+              {shipping > 0 ? formatPrice(shipping, currency) : "Free"}
+            </p>
+          </div>
+        </>
+      )}
+
+      <div className="flex justify-between items-center pt-4 border-t border-line">
+        <p className="font-sans text-ink/65 font-normal text-[13px]">Total</p>
+        <p className="font-sans text-ink/85 font-normal text-[16px]">{formatPrice(total, currency)}</p>
       </div>
+
+      {estimatedDate && (
+        <div className="flex justify-between items-center mt-5 pt-4 border-t border-line">
+          <p className="font-sans text-muted uppercase tracking-[0.08em] text-[11px]">Estimated Delivery</p>
+          <p className="font-sans text-ink/65 font-normal text-[13px]">{estimatedDate}</p>
+        </div>
+      )}
     </div>
   );
 }

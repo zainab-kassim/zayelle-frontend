@@ -10,24 +10,21 @@ export function getOrderFilterStatus(status: string): OrderFilterStatus {
 
 export const ORDER_STATUS_BADGE: Record<
   OrderFilterStatus,
-  { label: string; dot: string; bg: string; text: string }
+  { label: string; dot: string; text: string }
 > = {
   success: {
     label: 'Successful',
     dot: 'bg-green-500',
-    bg: 'bg-green-50',
     text: 'text-green-600',
   },
   pending: {
     label: 'Pending',
     dot: 'bg-orange-500',
-    bg: 'bg-orange-50',
     text: 'text-orange-600',
   },
   cancelled: {
     label: 'Cancelled',
     dot: 'bg-red-500',
-    bg: 'bg-red-50',
     text: 'text-red-600',
   },
 };
