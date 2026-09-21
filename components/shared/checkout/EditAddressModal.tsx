@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import { Address } from "@/store/checkoutStore";
 import { updateShippingInfo } from "@/services/order.service";
+import { useCurrencyStore } from "@/store/currencyStore";
+import { syncCurrencyToCountry } from "@/lib/currency";
 import Loader from "@/components/ui/Loader";
 
 interface OrderAddressFields {
@@ -16,8 +18,9 @@ interface OrderAddressFields {
   state: string;
   postal_code: string;
   country: string;
-  // present when the destination (and its shipping fee) changed
+  // present when the destination (and its shipping fee/currency) changed
   totalLocal?: number;
+  currency?: string;
 }
 
 interface EditAddressModalProps {
@@ -49,6 +52,8 @@ export default function EditAddressModal({
 }: EditAddressModalProps) {
   const [formValues, setFormValues] = useState<Partial<Address>>(() => orderToFormValues(currentAddress));
   const [isSaving, setIsSaving] = useState(false);
+  const currency = useCurrencyStore((state) => state.currency);
+  const setCurrency = useCurrencyStore((state) => state.setCurrency);
 
   // re-sync whenever the modal is (re)opened with a fresh address
   useEffect(() => {
@@ -77,6 +82,12 @@ export default function EditAddressModal({
 
     setIsSaving(true);
     try {
+      // switch currency now, right before the request goes out, so the
+      // x-currency header on this call already reflects the new country —
+      // deferred until Save (not on dropdown selection) so cancelling the
+      // modal never leaves a stray currency switch behind
+      syncCurrencyToCountry(country, currency, setCurrency);
+
       const payload = {
         order_id: orderId,
         street_address: street,
@@ -129,7 +140,7 @@ export default function EditAddressModal({
           </div>
 
           <div className="px-6 py-6">
-            <AddressForm values={formValues} onChange={handleFieldChange} />
+            <AddressForm values={formValues} onChange={handleFieldChange} deferCurrencySync />
           </div>
 
           <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-line">

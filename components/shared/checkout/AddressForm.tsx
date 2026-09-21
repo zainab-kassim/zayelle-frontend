@@ -3,10 +3,16 @@
 import { Address } from "@/store/checkoutStore";
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
 import { INPUT_CLASS, LABEL_CLASS } from "@/components/forms/auth/fieldStyles";
+import { useCurrencyStore } from "@/store/currencyStore";
+import { syncCurrencyToCountry } from "@/lib/currency";
 
 interface AddressFormProps {
   values: Partial<Address>;
   onChange: (field: keyof Address, value: string) => void;
+  // the edit-address modal has its own Save/Cancel step — switching currency
+  // the moment a country is picked there would stick even if the user then
+  // cancels, so it defers the sync until Save is actually clicked instead
+  deferCurrencySync?: boolean;
 }
 
 function Field({
@@ -62,11 +68,26 @@ const REGIONS: Record<string, string[]> = {
 };
 
 export default function AddressForm({
-  values, onChange
+  values, onChange, deferCurrencySync = false,
 }: AddressFormProps) {
+  const currency = useCurrencyStore((state) => state.currency);
+  const setCurrency = useCurrencyStore((state) => state.setCurrency);
+
   // ── Country dropdown ───────────────────────────────────────
   const [countryOpen, setCountryOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement>(null);
+
+  const selectCountry = (c: string) => {
+    onChange("country", c);
+    onChange("province", "");
+    setSearchQuery("");
+    setSuggestions([]);
+    setCountryOpen(false);
+
+    if (!deferCurrencySync) {
+      syncCurrencyToCountry(c, currency, setCurrency);
+    }
+  };
 
   // ── Province combobox ──────────────────────────────────────
   // Initialized from values.province (not just "") so a form pre-filled
@@ -213,13 +234,7 @@ export default function AddressForm({
                   <button
                     key={c}
                     type="button"
-                    onClick={() => {
-                      onChange("country", c);
-                      onChange("province", "");
-                      setSearchQuery("");
-                      setSuggestions([]);
-                      setCountryOpen(false);
-                    }}
+                    onClick={() => selectCountry(c)}
                     className={`w-full text-left px-4 py-2.5 font-sans text-[12px] transition-colors duration-200 hover:bg-surface ${
                       values.country === c ? "font-medium text-ink" : "text-muted"
                     }`}

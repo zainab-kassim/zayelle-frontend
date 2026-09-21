@@ -40,8 +40,9 @@ export interface UpdateShippingInfoResponse {
     state: string;
     postal_code: string;
     country: string;
-    // only present when the destination (and its shipping fee) changed
+    // only present when the destination (and its shipping fee/currency) changed
     totalLocal?: number;
+    currency?: string;
   };
 }
 

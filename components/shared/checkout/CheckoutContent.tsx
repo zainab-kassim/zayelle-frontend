@@ -14,6 +14,7 @@ import PageLoader from "@/components/ui/PageLoader";
 import { toast } from 'sonner';
 import { createOrder, updateShippingInfo } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
+import { syncCurrencyToCountry } from "@/lib/currency";
 import { getCartItems } from "@/services/cart.service";
 import { InitializePaystackPayment, VerifyPaystackPayment, InitializeStripePayment, VerifyStripePayment, CancelStripeCheckout, CancelPaystackCheckout } from "@/services/payment.service";
 import Loader from "@/components/ui/Loader";
@@ -80,7 +81,7 @@ export default function CheckoutContent() {
   const [isInitializingPayment, setIsInitializingPayment] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
-  const { currency } = useCurrencyStore();
+  const { currency, setCurrency } = useCurrencyStore();
 
 
   const subtotal = cartItems.reduce(
@@ -214,6 +215,9 @@ export default function CheckoutContent() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep]);
 
+  // item prices come back already converted to the current currency — if
+  // currency changes later (e.g. syncing to a newly-picked shipping
+  // country), these need refetching or they'd stay priced in the old one
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -224,7 +228,7 @@ export default function CheckoutContent() {
       }
     }
     fetchCartItems();
-  }, []);
+  }, [currency]);
 
   // email isn't collected in the address form — it comes from the logged-in
   // account (stashed in localStorage at login/signup)
@@ -361,6 +365,12 @@ export default function CheckoutContent() {
     const newValue = !usingSaved;
     setUsingSaved(newValue);
     if (newValue) {
+      // saved address skips AddressForm's country picker entirely, so this
+      // is the other place a shipping destination gets chosen — keep
+      // currency in sync here too, same as picking a country there does
+      if (savedAddress?.country) {
+        syncCurrencyToCountry(savedAddress.country, currency, setCurrency);
+      }
       setTimeout(() => {
         footerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
