@@ -18,7 +18,7 @@ export default function ErrorState({ error, reset }: ErrorStateProps) {
   return (
     <main className="w-full bg-paper flex items-center justify-center px-4 py-20 sm:py-24">
       <div className="w-full max-w-md flex flex-col items-center text-center">
-        <p className="font-serif italic text-ink/80 font-normal text-[40px] sm:text-[52px] leading-none mb-6">
+        <p className="font-serif italic text-ink/80 font-normal text-[40px] sm:text-[52px] leading-none mb-4">
           Uh Oh
         </p>
 
