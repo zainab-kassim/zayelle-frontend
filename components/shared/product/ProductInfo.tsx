@@ -51,7 +51,7 @@ export default function ProductInfo({
 
         {/* Pre-order notice */}
         <p className="font-sans text-red-600 text-[12px] sm:text-[13px] leading-relaxed mt-1">
-          Pre-Order — all orders ship October 12.
+          Pre-Order: all orders ship October 12.
         </p>
 
         {/* Shipping estimate */}

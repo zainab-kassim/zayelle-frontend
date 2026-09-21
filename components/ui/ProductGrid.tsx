@@ -23,7 +23,7 @@ export default function ProductGrid({
           No products found
         </p>
         <p className="font-sans text-muted text-[13px] max-w-sm">
-          Try adjusting your filters, or check back soon — new pieces are added regularly.
+          Try adjusting your filters, or check back soon. New pieces are added regularly.
         </p>
       </div>
     );

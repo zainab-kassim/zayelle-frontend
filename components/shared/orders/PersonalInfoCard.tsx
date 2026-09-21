@@ -37,9 +37,9 @@ export default function PersonalInfoCard({
               Personal Info
             </p>
           </div>
-          <InfoRow label="Name" value={name || "—"} />
-          <InfoRow label="Email" value={email || "—"} />
-          <InfoRow label="Phone" value={phone || "—"} />
+          <InfoRow label="Name" value={name || "N/A"} />
+          <InfoRow label="Email" value={email || "N/A"} />
+          <InfoRow label="Phone" value={phone || "N/A"} />
         </div>
 
         <hr className="sm:hidden border-t border-line my-0.5" />
@@ -60,7 +60,7 @@ export default function PersonalInfoCard({
               </p>
             ))}
           </div>
-          <InfoRow label="Postal Code" value={postalCode || "—"} />
+          <InfoRow label="Postal Code" value={postalCode || "N/A"} />
         </div>
       </div>
     </div>
