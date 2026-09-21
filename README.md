@@ -52,7 +52,7 @@ public/               Static assets (favicon, OG image, product images)
 ### Prerequisites
 
 - Node.js 20+
-- The [backend API](../zayelle-Backend) running locally or a deployed instance to point at
+- The [backend API](https://github.com/zainab-kassim/zayelle-Backend) running locally or a deployed instance to point at
 
 ### Install
 
