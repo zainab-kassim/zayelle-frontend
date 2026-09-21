@@ -209,7 +209,7 @@ export default function AddressForm({
           value={values.street ?? ""} onChange={(v) => onChange("street", v)} />
 
         <div className="grid grid-cols-2 gap-3.5">
-          <Field label="Apt / Suite / Unit (Optional)" id="apt"
+          <Field label="Apt (Optional)" id="apt"
             placeholder="Apt, suite, unit, building, floor, etc."
             value={values.apt ?? ""} onChange={(v) => onChange("apt", v)} />
           <Field label="Postal Code" id="postalCode" placeholder="K1V 7P9"
