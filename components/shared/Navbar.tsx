@@ -9,6 +9,7 @@ import { useCurrencyStore } from '@/store/currencyStore';
 import { logout } from '@/services/auth.service';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
+import * as Sentry from '@sentry/nextjs';
 
 const SUPPORTED_CURRENCIES = ['USD', 'GBP', 'CAD', 'NGN'];
 
@@ -68,7 +69,7 @@ export default function Navbar() {
         try {
             await logout();
         } catch (error) {
-            console.error('Logout error:', error);
+            Sentry.captureException(error);
         } finally {
             localStorage.removeItem('fullName');
             localStorage.removeItem('email');

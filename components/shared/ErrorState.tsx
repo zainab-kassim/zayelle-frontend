@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import * as Sentry from "@sentry/nextjs";
 
 interface ErrorStateProps {
   error: Error & { digest?: string };
@@ -10,9 +11,9 @@ interface ErrorStateProps {
 
 export default function ErrorState({ error, reset }: ErrorStateProps) {
   useEffect(() => {
-    // surfaced to server logs via the error's digest — never shown to the
-    // customer, who just sees a generic, reassuring message below
-    console.error(error);
+    // client-thrown errors have no server log of their own — report to
+    // Sentry so they're visible, the customer just sees the message below
+    Sentry.captureException(error);
   }, [error]);
 
   return (

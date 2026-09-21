@@ -12,6 +12,7 @@ import EditAddressModal from "@/components/shared/checkout/EditAddressModal";
 import ReviewOrder from "@/components/shared/checkout/ReviewOrder";
 import PageLoader from "@/components/ui/PageLoader";
 import { toast } from 'sonner';
+import * as Sentry from "@sentry/nextjs";
 import { createOrder, updateShippingInfo } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { syncCurrencyToCountry } from "@/lib/currency";
@@ -316,7 +317,7 @@ export default function CheckoutContent() {
       }
       window.location.href = response.auth_url;
     } catch (error: any) {
-      console.log(error)
+      Sentry.captureException(error);
       toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };
@@ -334,7 +335,7 @@ export default function CheckoutContent() {
       }
       window.location.href = response.url;
     } catch (error: any) {
-      console.log(error)
+      Sentry.captureException(error);
       toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };

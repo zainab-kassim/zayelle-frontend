@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { AxiosError } from "axios";
+import * as Sentry from "@sentry/nextjs";
 import { getOrderDetails, OrderHistoryOrder } from "@/services/order.service";
 import { getOrderFilterStatus, formatOrderCode, formatOrderDate } from "@/lib/orderStatus";
 import OrderHeaderStats from "@/components/shared/orders/OrderHeaderStats";
@@ -46,7 +47,7 @@ export default function OrderDetailsPage() {
         setCustomerName(response.order.customerName ?? "");
       })
       .catch((err) => {
-        console.error("Failed to fetch order details:", err);
+        Sentry.captureException(err);
         const status = (err as AxiosError)?.response?.status;
         if (status === 401) {
           setError("Please log in to view this order.");

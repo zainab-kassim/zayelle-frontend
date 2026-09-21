@@ -3,6 +3,7 @@
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import * as Sentry from '@sentry/nextjs';
 import { toast } from 'sonner';
 import { signInWithGoogle } from '@/services/auth.service';
 import { persistUserSession } from '@/lib/session';
@@ -25,7 +26,7 @@ export default function GoogleButton() {
   const initClient = () => {
     if (tokenClient.current || !window.google) return;
     if (!CLIENT_ID) {
-      console.error('NEXT_PUBLIC_GOOGLE_CLIENT_ID is not set');
+      Sentry.captureMessage('NEXT_PUBLIC_GOOGLE_CLIENT_ID is not set', 'error');
       return;
     }
 

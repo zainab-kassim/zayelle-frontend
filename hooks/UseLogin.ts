@@ -36,7 +36,6 @@ export const useLogIn = () => {
 
                     if (status === 400) {
                         toast.error(message || "Invalid form data");
-                        console.log("Validation error details:", error.response?.data);
                     } else if (status === 401) {
                         // same generic message for wrong password, unknown email, or a Google-only account
                         toast.error(message || "Invalid email or password");

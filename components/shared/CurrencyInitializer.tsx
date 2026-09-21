@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useCurrencyStore } from '@/store/currencyStore';
 import axiosInstance from '@/lib/axiosInstance';
+import * as Sentry from '@sentry/nextjs';
 
 export default function CurrencyInitializer() {
   const setCurrency = useCurrencyStore((state) => state.setCurrency);
@@ -17,7 +18,7 @@ export default function CurrencyInitializer() {
         setCurrency(res.data.currency);
       })
       .catch((error) => {
-        console.error('Failed to fetch default currency:', error);
+        Sentry.captureException(error);
       });
   }, [setCurrency]);
 

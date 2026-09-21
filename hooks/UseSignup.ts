@@ -39,7 +39,6 @@ export const useSignUp = () => {
 
                     if (status === 400) {
                         toast.error(message || "Invalid form data")
-                        console.log("Validation error details:", error.response?.data)
                     } else if (status === 409) {
                         toast.error("Account already exists")
                     } else if (status === 500) {

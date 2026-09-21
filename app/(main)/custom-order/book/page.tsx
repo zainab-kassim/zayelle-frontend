@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
+import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/navigation";
 import { bookMeeting } from "@/services/calendar-meet.service";
 import { ConflictToast } from "@/components/ui/ConflictToast";
@@ -94,7 +95,7 @@ export default function BookPage() {
         setConfirmed(true);
       }
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
       toast.error("Something went wrong. Please try again.");
     }
   }
