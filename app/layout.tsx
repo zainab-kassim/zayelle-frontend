@@ -4,8 +4,31 @@ import './globals.css';
 import CurrencyInitializer from '@/components/shared/CurrencyInitializer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://byzayelle.com'),
   title: 'Zayelle',
   description: 'Zayelle Fashion E-Commerce',
+  openGraph: {
+    title: 'Zayelle',
+    description: 'Zayelle Fashion E-Commerce',
+    url: 'https://byzayelle.com',
+    siteName: 'Zayelle',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Zayelle',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Zayelle',
+    description: 'Zayelle Fashion E-Commerce',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function RootLayout({
