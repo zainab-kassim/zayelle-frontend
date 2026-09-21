@@ -2,6 +2,7 @@
 
 import { Address } from "@/store/checkoutStore";
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
+import { toast } from "sonner";
 import { INPUT_CLASS, LABEL_CLASS } from "@/components/forms/auth/fieldStyles";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { syncCurrencyToCountry } from "@/lib/currency";
@@ -125,7 +126,11 @@ export default function AddressForm({
   }, [highlightedIndex]);
 
   const openProvince = () => {
-    if (!values.country) return;
+    if (!values.country) {
+      toast.error("Please select a country first", { id: "province-needs-country" });
+      provinceInput.current?.blur();
+      return;
+    }
 
     const regions = REGIONS[values.country] ?? [];
     setSearchQuery("");
@@ -261,12 +266,12 @@ export default function AddressForm({
               aria-haspopup="listbox"
               placeholder={values.country ? "e.g. Ontario" : "Select a country first"}
               value={searchQuery}
-              disabled={!values.country}
+              readOnly={!values.country}
               onFocus={openProvince}
               onChange={(e) => handleProvinceSearch(e.target.value)}
               onKeyDown={handleProvinceKeyDown}
               autoComplete="off"
-              className={`${INPUT_CLASS} disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-surface`}
+              className={`${INPUT_CLASS} ${!values.country ? "opacity-50 cursor-not-allowed bg-surface" : ""}`}
             />
 
             {provinceOpen && suggestions.length > 0 && (
