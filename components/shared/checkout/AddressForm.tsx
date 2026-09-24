@@ -2,7 +2,7 @@
 
 import { Address } from "@/store/checkoutStore";
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import { INPUT_CLASS, LABEL_CLASS } from "@/components/forms/auth/fieldStyles";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { syncCurrencyToCountry } from "@/lib/currency";
@@ -127,7 +127,7 @@ export default function AddressForm({
 
   const openProvince = () => {
     if (!values.country) {
-      toast.error("Please select a country first", { id: "province-needs-country" });
+      showToast.error("Please select a country first", { id: "province-needs-country" });
       provinceInput.current?.blur();
       return;
     }

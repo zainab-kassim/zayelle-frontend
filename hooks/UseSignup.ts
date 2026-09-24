@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { toast } from 'sonner';
+import { showToast } from '@/lib/toast';
 import { signUpSchema } from '@/lib/schemas/authSchema';
 import { signUp } from '@/services/auth.service';
 import { getSafeRedirect } from '@/lib/safeRedirect';
@@ -27,7 +27,7 @@ export const useSignUp = () => {
                     value.email,
                     value.password
                 );
-                toast.success(`Welcome, ${response.user.fullName}!`);
+                showToast.success(`Welcome, ${response.user.fullName}!`);
                 persistUserSession(response.user.fullName, response.user.email);
 
                 router.push(redirectTo);
@@ -38,13 +38,13 @@ export const useSignUp = () => {
                     const message = error.response?.data?.message
 
                     if (status === 400) {
-                        toast.error(message || "Invalid form data")
+                        showToast.error(message || "Invalid form data")
                     } else if (status === 409) {
-                        toast.error("Account already exists")
+                        showToast.error("Account already exists")
                     } else if (status === 500) {
-                        toast.error("Server error, please try again later")
+                        showToast.error("Server error, please try again later")
                     } else {
-                        toast.error("Something went wrong")
+                        showToast.error("Something went wrong")
                     }
                 }
             }

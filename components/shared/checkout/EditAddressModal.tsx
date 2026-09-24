@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import AddressForm from "@/components/shared/checkout/AddressForm";
 import { Address } from "@/store/checkoutStore";
 import { updateShippingInfo } from "@/services/order.service";
@@ -76,7 +76,7 @@ export default function EditAddressModal({
   const handleSave = async () => {
     const { customerName, phone, street, city, province, country, postalCode } = formValues;
     if (!customerName || !phone || !street || !city || !province || !country || !postalCode) {
-      toast.error("Please fill in all required fields.");
+      showToast.error("Please fill in all required fields.");
       return;
     }
 
@@ -101,10 +101,10 @@ export default function EditAddressModal({
       };
       const { order } = await updateShippingInfo(payload);
       onSaved(order);
-      toast.success("Shipping address updated");
+      showToast.success("Shipping address updated");
       onClose();
     } catch {
-      toast.error("Failed to update address. Please try again.");
+      showToast.error("Failed to update address. Please try again.");
     } finally {
       setIsSaving(false);
     }

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useCurrencyStore } from "@/store/currencyStore";
 import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
 import { deleteCartItem, updateCartQuantity } from "@/services/cart.service";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import { useCheckoutStore } from "@/store/checkoutStore";
 import { CartItem } from "@/types/cart";
 import { useAsyncData } from "@/hooks/UseAsyncData";
@@ -72,7 +72,7 @@ export default function CartPage() {
       await deleteCartItem(id);
       setCartItems(cartItems.filter((item) => item.id !== id));
     } catch (err) {
-      toast.error("Failed to remove item");
+      showToast.error("Failed to remove item");
     }
   };
 
@@ -87,7 +87,7 @@ export default function CartPage() {
       resetCheckout();
       router.push("/checkout");
     } catch (err) {
-      toast.error("Failed to update order");
+      showToast.error("Failed to update order");
     } finally {
       setIsCheckingOut(false);
     }

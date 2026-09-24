@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import { subscribeToNewsletter } from "@/services/newsletter.service";
 
 export default function Newsletter() {
@@ -15,10 +15,10 @@ export default function Newsletter() {
         setIsSubmitting(true);
         try {
             const { message } = await subscribeToNewsletter(email);
-            toast.success(message ?? "You're on the list. Welcome to the circle.");
+            showToast.success(message ?? "You're on the list. Welcome to the circle.");
             setEmail("");
         } catch {
-            toast.error("Something went wrong. Please try again.");
+            showToast.error("Something went wrong. Please try again.");
         } finally {
             setIsSubmitting(false);
         }

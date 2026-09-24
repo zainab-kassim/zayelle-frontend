@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCurrencyStore } from '@/store/currencyStore';
 import { logout } from '@/services/auth.service';
-import { toast } from 'sonner';
+import { showToast } from '@/lib/toast';
 import { usePathname } from 'next/navigation';
 import * as Sentry from '@sentry/nextjs';
 
@@ -75,7 +75,7 @@ export default function Navbar() {
             localStorage.removeItem('email');
             setFullName('');
             setIsDropdownOpen(false);
-            toast.success('Logged out successfully');
+            showToast.success('Logged out successfully');
             router.push('/');
         }
     }

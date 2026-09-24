@@ -12,6 +12,7 @@ import EditAddressModal from "@/components/shared/checkout/EditAddressModal";
 import ReviewOrder from "@/components/shared/checkout/ReviewOrder";
 import PageLoader from "@/components/ui/PageLoader";
 import { toast } from 'sonner';
+import { showToast } from '@/lib/toast';
 import * as Sentry from "@sentry/nextjs";
 import { createOrder, updateShippingInfo } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
@@ -249,7 +250,7 @@ export default function CheckoutContent() {
     if (!usingSaved) {
       const { customerName, phone, street, city, province, country, postalCode } = formValues;
       if (!customerName || !phone || !street || !city || !province || !country || !postalCode) {
-        toast.error("Please fill in all required fields before continuing.");
+        showToast.error("Please fill in all required fields before continuing.");
         return null;
       }
     }
@@ -296,9 +297,9 @@ export default function CheckoutContent() {
       });
       advanceToReview(response);
 
-      toast.success("Order created successfully");
+      showToast.success("Order created successfully");
     } catch (error) {
-      toast.error("Failed to place order. Please try again.");
+      showToast.error("Failed to place order. Please try again.");
     } finally {
       setIspaying(false);
     }
@@ -306,7 +307,7 @@ export default function CheckoutContent() {
 
   const handlePaystackPayment = async () => {
     if (!orderResponse) return (
-      toast.error('Order not found. Please try again.')
+      showToast.error('Order not found. Please try again.')
     )
     try {
       const response = await InitializePaystackPayment(orderResponse.order.id);
@@ -318,13 +319,13 @@ export default function CheckoutContent() {
       window.location.href = response.auth_url;
     } catch (error: any) {
       Sentry.captureException(error);
-      toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
+      showToast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };
 
   const handleStripePayment = async () => {
     if (!orderResponse) return (
-      toast.error('Order not found. Please try again.')
+      showToast.error('Order not found. Please try again.')
     )
     try {
       const response = await InitializeStripePayment(orderResponse.order.id);
@@ -336,7 +337,7 @@ export default function CheckoutContent() {
       window.location.href = response.url;
     } catch (error: any) {
       Sentry.captureException(error);
-      toast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
+      showToast.error(error?.response?.data?.message || "Failed to initialize payment. Please try again.");
     }
   };
 

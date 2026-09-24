@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner"; // swap for your toast library if different
+import { showToast } from "@/lib/toast";
 import { addToCart } from "@/services/cart.service";
 import { AddToCartPayload } from "@/types/cart";
 import TinySpinner from "@/components/ui/TinySpinner";
@@ -30,13 +30,13 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
 
         try {
             await addToCart(payload);
-            toast.success("Added to cart successfully");
+            showToast.success("Added to cart successfully");
         } catch (error) {
             const axiosError = error as AxiosError;
             if (axiosError?.response?.status === 401) {
-                toast.error("Please log in to add items to your cart");
+                showToast.error("Please log in to add items to your cart");
             } else {
-                toast.error("Failed to add item to cart");
+                showToast.error("Failed to add item to cart");
             }
         } finally {
             setIsLoading(false);

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import * as Sentry from "@sentry/nextjs";
 import { useRouter } from "next/navigation";
 import { bookMeeting } from "@/services/calendar-meet.service";
@@ -77,13 +78,13 @@ export default function BookPage() {
     const Username = localStorage.getItem('fullName');
     const UserEmail = localStorage.getItem('email');
     if (!Username || !UserEmail) {
-      toast.error("Please log in to book a consultation.");
+      showToast.error("Please log in to book a consultation.");
       router.push('/auth/signup?redirect=/custom-order/book');
       return;
     }
 
     if (!selectedDate || !selectedTime) {
-      toast.error("Please select a date and time.");
+      showToast.error("Please select a date and time.");
       return;
     }
 
@@ -96,7 +97,7 @@ export default function BookPage() {
       }
     } catch (error) {
       Sentry.captureException(error);
-      toast.error("Something went wrong. Please try again.");
+      showToast.error("Something went wrong. Please try again.");
     }
   }
 

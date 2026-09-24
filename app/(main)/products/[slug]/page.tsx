@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 import { AxiosError } from "axios";
 import { getProductBySlug } from "@/services/product.service";
 import { addToCart } from "@/services/cart.service";
@@ -46,13 +46,13 @@ export default function ProductSlugPage({ params }: PageProps) {
     setIsAddingToCart(true);
     try {
       await addToCart({ productid: (product.id), quantity, size: selectedSize });
-      toast.success("Added to cart successfully");
+      showToast.success("Added to cart successfully");
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError?.response?.status === 401) {
-        toast.error("Please log in to add items to your cart");
+        showToast.error("Please log in to add items to your cart");
       } else {
-        toast.error("Failed to add item to cart");
+        showToast.error("Failed to add item to cart");
       }
     } finally {
       setIsAddingToCart(false);

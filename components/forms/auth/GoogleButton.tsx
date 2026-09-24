@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import * as Sentry from '@sentry/nextjs';
-import { toast } from 'sonner';
+import { showToast } from '@/lib/toast';
 import { signInWithGoogle } from '@/services/auth.service';
 import { persistUserSession } from '@/lib/session';
 
@@ -36,16 +36,16 @@ export default function GoogleButton() {
       callback: async (response: { access_token?: string; error?: string }) => {
         // Google runs this when the popup finishes
         if (!response.access_token) {
-          toast.error('Google sign-in was cancelled.');
+          showToast.error('Google sign-in was cancelled.');
           return;
         }
         try {
           const res = await signInWithGoogle(response.access_token);
           persistUserSession(res.user.fullName, res.user.email);
-          toast.success(`Welcome, ${res.user.fullName}!`);
+          showToast.success(`Welcome, ${res.user.fullName}!`);
           router.push('/');
         } catch {
-          toast.error('Google sign-in failed. Please try again.');
+          showToast.error('Google sign-in failed. Please try again.');
         }
       },
     });
@@ -58,7 +58,7 @@ export default function GoogleButton() {
 
   const handleClick = () => {
     if (!tokenClient.current) {
-      toast.error('Google sign-in is still loading. Try again in a moment.');
+      showToast.error('Google sign-in is still loading. Try again in a moment.');
       return;
     }
     tokenClient.current.requestAccessToken(); // opens the Google popup
