@@ -86,12 +86,6 @@ export default function CheckoutContent() {
   const { currency, setCurrency } = useCurrencyStore();
 
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.unitprice * item.quantity,
-    0
-  );
-
-
   const footerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(

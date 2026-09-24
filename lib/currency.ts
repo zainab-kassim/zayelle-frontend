@@ -10,7 +10,7 @@ export function formatPrice(amount: number | string, currencyCode: string, local
 // shipping fees and pricing are keyed to the destination's own currency
 // (see backend order.controller.ts), so checkout currency has to follow
 // whichever country is actually being shipped to, not float independently
-export const COUNTRY_CURRENCY: Record<string, string> = {
+const COUNTRY_CURRENCY: Record<string, string> = {
   'United States': 'USD',
   'United Kingdom': 'GBP',
   Canada: 'CAD',

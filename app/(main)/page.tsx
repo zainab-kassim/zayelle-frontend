@@ -3,7 +3,6 @@ import TrustBadges from '@/components/shared/TrustBadges';
 import DressSpotlight from '@/components/shared/DressSpotlight';
 import CategoryShowcase from '@/components/shared/CategoryShowcase';
 import FloralCollection from '@/components/shared/FlorealCollection';
-// import Banner from '@/components/shared/Banner';
 import Newsletter from '@/components/shared/Newsletter';
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
         eyebrow="Fresh In"
         title="Floreal Collection"
       />
-      {/* <Banner /> */}
       <FloralCollection
         collection="ember-collection"
         eyebrow="Back By Request"

@@ -22,8 +22,3 @@ export interface CartItem {
   unitprice: number;
   created_at: string;
 }
-
-export interface CartResponse {
-  message: string;
-  cartitems: CartItem[];
-}
