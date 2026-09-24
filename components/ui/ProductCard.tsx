@@ -73,7 +73,7 @@ export default function ProductCard({
                 <div className={`font-sans uppercase text-muted truncate ${nameClassName}`}>
                     {name}
                 </div>
-                <div className={`font-sans font-medium text-ink ${priceClassName}`}>
+                <div className={`font-sans font-normal text-ink ${priceClassName}`}>
                     {formatPrice(price, currency)}
                 </div>
             </div>
