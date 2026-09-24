@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import CartItems from "@/components/ui/CartItems";
+import CartItems from "@/components/shared/cart/CartItems";
 import { getCartItems } from "@/services/cart.service";
-import OrderSummary from "@/components/ui/OrderSummary";
+import OrderSummary from "@/components/shared/cart/OrderSummary";
 import { useRouter } from "next/navigation";
 import { useCurrencyStore } from "@/store/currencyStore";
-import CartPageSkeleton from "@/components/ui/CartCardSkeleton";
+import CartPageSkeleton from "@/components/shared/cart/CartCardSkeleton";
 import { deleteCartItem, updateCartQuantity } from "@/services/cart.service";
 import { showToast } from "@/lib/toast";
 import { useCheckoutStore } from "@/store/checkoutStore";

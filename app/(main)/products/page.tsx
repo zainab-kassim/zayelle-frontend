@@ -5,11 +5,11 @@ import { useCurrencyStore } from "@/store/currencyStore";
 import { getProductByCollection } from "@/services/product.service";
 import { getProducts } from "@/services/product.service";
 import { Product } from "@/types/product";
-import SidebarFilters from "@/components/ui/SidebarFilters";
-import MobileFilterDrawer from "@/components/ui/MobileFilterDrawer";
-import FilterIcon from "@/components/ui/FilterIcon";
+import SidebarFilters from "@/components/shared/product-filters/SidebarFilters";
+import MobileFilterDrawer from "@/components/shared/product-filters/MobileFilterDrawer";
+import FilterIcon from "@/components/shared/product-filters/FilterIcon";
 import ProductGrid from "@/components/ui/ProductGrid";
-import { SortOption, COLLECTIONS } from "@/components/ui/FilterPanelContent";
+import { SortOption, COLLECTIONS } from "@/components/shared/product-filters/FilterPanelContent";
 import { useSearchParams } from "next/navigation";
 import { useAsyncData } from "@/hooks/UseAsyncData";
 

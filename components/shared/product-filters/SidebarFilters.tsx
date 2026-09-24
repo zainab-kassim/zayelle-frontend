@@ -1,7 +1,7 @@
 "use client";
 
-import FilterPanelContent, { FilterPanelContentProps, hasActiveFilters } from "@/components/ui/FilterPanelContent";
-import FilterIcon from "@/components/ui/FilterIcon";
+import FilterPanelContent, { FilterPanelContentProps, hasActiveFilters } from "./FilterPanelContent";
+import FilterIcon from "./FilterIcon";
 
 interface SidebarFiltersProps extends FilterPanelContentProps {
   onReset: () => void;

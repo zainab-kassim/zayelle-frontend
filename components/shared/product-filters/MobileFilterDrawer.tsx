@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import FilterPanelContent, { FilterPanelContentProps } from "@/components/ui/FilterPanelContent";
-import FilterIcon from "@/components/ui/FilterIcon";
+import FilterPanelContent, { FilterPanelContentProps } from "./FilterPanelContent";
+import FilterIcon from "./FilterIcon";
 import CloseIcon from "@/components/ui/CloseIcon";
 
 interface MobileFilterDrawerProps extends FilterPanelContentProps {

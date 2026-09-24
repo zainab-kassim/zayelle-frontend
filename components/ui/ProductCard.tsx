@@ -4,7 +4,7 @@ import { useCurrencyStore } from '@/store/currencyStore';
 import { formatPrice } from '@/lib/currency';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import AddToCartButtonPlusIcon from './AddToCartButtonPlusIcon';
+import AddToCartButtonPlusIcon from '@/components/shared/cart/AddToCartButtonPlusIcon';
 
 interface ProductCardProps {
     id: number;
