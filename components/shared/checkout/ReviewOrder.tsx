@@ -4,6 +4,7 @@ import Image from "next/image";
 import { CartItem } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
+import { computeSubtotal } from "@/lib/cart";
 import Loader from "@/components/ui/Loader";
 
 interface OrderDetails {
@@ -84,7 +85,7 @@ export default function ReviewOrder({
   // items are already priced in the selected currency (see cart service),
   // same as totalLocal — so this diff is exactly the shipping fee, without
   // needing the fee itself sent back from the order
-  const subtotal = items.reduce((sum, item) => sum + item.unitprice * item.quantity, 0);
+  const subtotal = computeSubtotal(items);
   const shipping = Math.max(0, OrderDetails.totalLocal - subtotal);
 
   return (

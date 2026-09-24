@@ -8,6 +8,7 @@ import { updateShippingInfo } from "@/services/order.service";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { syncCurrencyToCountry } from "@/lib/currency";
 import Loader from "@/components/ui/Loader";
+import CloseIcon from "@/components/ui/CloseIcon";
 
 interface OrderAddressFields {
   street_address: string;
@@ -133,9 +134,7 @@ export default function EditAddressModal({
               aria-label="Close"
               className="text-muted hover:text-ink transition-colors duration-200"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
+              <CloseIcon />
             </button>
           </div>
 

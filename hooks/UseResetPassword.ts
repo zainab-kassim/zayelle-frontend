@@ -1,8 +1,8 @@
 import { useForm } from '@tanstack/react-form';
 import { showToast } from '@/lib/toast';
+import { handleAuthError } from '@/lib/handleAuthError';
 import { resetPasswordSchema } from '@/lib/schemas/authSchema';
 import { resetPassword } from '@/services/auth.service';
-import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export const useResetPassword = () => {
@@ -22,18 +22,11 @@ export const useResetPassword = () => {
                 await resetPassword(token, value.password);
                 showToast.success('Password updated. Please log in.');
                 router.push('/auth/login');
-            } catch (error: any) {
-                if (axios.isAxiosError(error)) {
-                    const status = error.response?.status;
-                    const message = error.response?.data?.message;
-                    if (status === 400) {
-                        showToast.error(message || 'This reset link is invalid or has expired.');
-                    } else if (status === 429) {
-                        showToast.error('Too many requests. Please try again shortly.');
-                    } else {
-                        showToast.error('Something went wrong. Please try again.');
-                    }
-                }
+            } catch (error) {
+                handleAuthError(error, {
+                    400: { message: 'This reset link is invalid or has expired.', useServerMessage: true },
+                    429: { message: 'Too many requests. Please try again shortly.' },
+                }, 'Something went wrong. Please try again.');
             }
         },
     });

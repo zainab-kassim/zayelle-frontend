@@ -1,9 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { showToast } from '@/lib/toast';
+import { handleAuthError } from '@/lib/handleAuthError';
 import { useState } from 'react';
 import { forgotPasswordSchema } from '@/lib/schemas/authSchema';
 import { requestPasswordReset } from '@/services/auth.service';
-import axios from 'axios';
 
 export const useForgotPassword = () => {
     const [submitted, setSubmitted] = useState(false);
@@ -18,14 +18,10 @@ export const useForgotPassword = () => {
                 showToast.success(
                     "If an account exists for that email, we've sent a reset link."
                 );
-            } catch (error: any) {
-                if (axios.isAxiosError(error)) {
-                    if (error.response?.status === 429) {
-                        showToast.error('Too many requests. Please try again shortly.');
-                    } else {
-                        showToast.error('Something went wrong. Please try again.');
-                    }
-                }
+            } catch (error) {
+                handleAuthError(error, {
+                    429: { message: 'Too many requests. Please try again shortly.' },
+                }, 'Something went wrong. Please try again.');
             }
         },
     });

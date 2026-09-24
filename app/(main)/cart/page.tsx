@@ -13,6 +13,7 @@ import { showToast } from "@/lib/toast";
 import { useCheckoutStore } from "@/store/checkoutStore";
 import { CartItem } from "@/types/cart";
 import { useAsyncData } from "@/hooks/UseAsyncData";
+import { computeSubtotal } from "@/lib/cart";
 
 export default function CartPage() {
   const { cartItems, setCartItems, resetCheckout } = useCheckoutStore();
@@ -93,10 +94,7 @@ export default function CartPage() {
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.unitprice * item.quantity,
-    0
-  );
+  const subtotal = computeSubtotal(cartItems);
 
   // ── Empty ──────────────────────────────────────────────────────
   if (cartItems.length === 0) {
