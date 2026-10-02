@@ -509,6 +509,11 @@ export default function CheckoutContent() {
                         Order #{orderResponse.order.id}
                       </p>
                     )}
+                    {paymentStatus === "success" && (
+                      <p className="font-sans text-red-600 text-[12px] sm:text-[13px] leading-relaxed mt-1">
+                        Pre-Order: all orders ship December 7.
+                      </p>
+                    )}
                   </div>
 
                   {paymentStatus === "pending" && (

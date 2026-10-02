@@ -24,6 +24,7 @@ export default function ProductInfo({
   product, selectedSize, quantity, onSizeChange, onIncrease, onDecrease, onAddToCart, isAddingToCart,
 }: ProductInfoProps) {
   const { currency } = useCurrencyStore();
+  const displayPrice = product.size_prices?.[selectedSize] ?? product.price;
 
   return (
     <div className="flex flex-col gap-4 sm:gap-6 w-full">
@@ -46,12 +47,12 @@ export default function ProductInfo({
 
         {/* Price */}
         <p className="font-sans text-muted text-[15px] sm:text-[16px] mt-0.5">
-          {formatPrice(product.price, currency)}
+          {formatPrice(displayPrice, currency)}
         </p>
 
         {/* Pre-order notice */}
         <p className="font-sans text-red-600 text-[12px] sm:text-[13px] leading-relaxed mt-1">
-          Pre-Order: all orders ship October 12.
+          Pre-Order: all orders ship December 7.
         </p>
 
         {/* Shipping estimate */}

@@ -3,6 +3,7 @@ export interface Product {
   image: string[];
   name: string;
   price: number; // API returns a number, not a string
+  size_prices?: Record<string, number> | null; // per-size price override, falls back to price
   slug: string;
   size: string[];
   description: string;
