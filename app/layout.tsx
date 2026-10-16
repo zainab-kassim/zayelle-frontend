@@ -43,6 +43,22 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
           rel="stylesheet"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'ByZayelle',
+              url: 'https://byzayelle.com',
+              sameAs: [
+                'https://www.instagram.com/byzayelle/',
+                'https://www.tiktok.com/@byzayelle',
+                'https://www.pinterest.com/byzayelle/',
+              ],
+            }).replace(/</g, '\\u003c'),
+          }}
+        />
       </head>
       <body>
         <CurrencyInitializer />

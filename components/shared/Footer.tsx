@@ -51,7 +51,7 @@ function FacebookIcon() {
 
 const SOCIALS = [
     { label: 'Instagram', href: 'https://www.instagram.com/byzayelle/', Icon: InstagramIcon },
-    { label: 'TikTok', href: 'https://www.tiktok.com/@zainab.temi', Icon: TikTokIcon },
+    { label: 'TikTok', href: 'https://www.tiktok.com/@byzayelle', Icon: TikTokIcon },
     { label: 'WhatsApp', href: 'https://wa.me/2348103029972', Icon: WhatsAppIcon },
     { label: 'Facebook', href: 'https://facebook.com/byzayelle', Icon: FacebookIcon },
 ];
