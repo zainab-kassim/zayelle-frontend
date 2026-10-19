@@ -27,19 +27,21 @@ function CategoryTile({ slug, label }: CategoryTile) {
     return (
         <Link
             href={`/products?collection=${slug}`}
-            className="group relative w-full aspect-[4/5] overflow-hidden rounded-2xl bg-surface flex flex-col"
+            className="group relative w-full overflow-hidden rounded-2xl bg-surface flex flex-col"
         >
-            <div className="relative flex-1 min-h-0">
+            {/* fixed height, same convention as ProductCard — matches the scale of
+                Fresh In / Back By Request instead of scaling with tile width */}
+            <div className="relative h-[190px] md:h-[330px]">
                 {isLoading ? (
                     <div className="absolute inset-0 animate-pulse bg-line/40" />
                 ) : image ? (
-                    <div className="absolute inset-9 sm:inset-11">
+                    <div className="absolute inset-6 sm:inset-8">
                         <Image
                             src={image}
                             alt={label}
                             fill
                             className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                            sizes="(max-width: 640px) 70vw, (max-width: 1024px) 320px, 33vw"
+                            sizes="(max-width: 640px) 58vw, (max-width: 1024px) 280px, 33vw"
                         />
                     </div>
                 ) : null}
@@ -88,7 +90,7 @@ export default function CategoryShowcase() {
                 }}
             >
                 {CATEGORIES.map((cat) => (
-                    <div key={cat.slug} className="flex-shrink-0 w-[70vw] sm:w-[320px]">
+                    <div key={cat.slug} className="flex-shrink-0 w-[58vw] max-w-[280px]">
                         <CategoryTile {...cat} />
                     </div>
                 ))}
