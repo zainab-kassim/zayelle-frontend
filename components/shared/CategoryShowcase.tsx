@@ -33,13 +33,13 @@ function CategoryTile({ slug, label }: CategoryTile) {
                 {isLoading ? (
                     <div className="absolute inset-0 animate-pulse bg-line/40" />
                 ) : image ? (
-                    <div className="absolute inset-3 sm:inset-5">
+                    <div className="absolute inset-6 sm:inset-8">
                         <Image
                             src={image}
                             alt={label}
                             fill
                             className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 33vw"
+                            sizes="(max-width: 640px) 70vw, (max-width: 1024px) 320px, 33vw"
                         />
                     </div>
                 ) : null}
@@ -69,9 +69,28 @@ export default function CategoryShowcase() {
                 </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {/* Desktop — 3 tiles in a row */}
+            <div className="hidden lg:flex flex-row gap-5">
                 {CATEGORIES.map((cat) => (
-                    <CategoryTile key={cat.slug} {...cat} />
+                    <div key={cat.slug} className="flex-1 min-w-0">
+                        <CategoryTile {...cat} />
+                    </div>
+                ))}
+            </div>
+
+            {/* Mobile/tablet — horizontally scrollable */}
+            <div
+                className="flex lg:hidden flex-row gap-4 no-scrollbar"
+                style={{
+                    overflowX: 'scroll',
+                    scrollbarWidth: 'none',
+                    WebkitOverflowScrolling: 'touch',
+                }}
+            >
+                {CATEGORIES.map((cat) => (
+                    <div key={cat.slug} className="flex-shrink-0 w-[70vw] sm:w-[320px]">
+                        <CategoryTile {...cat} />
+                    </div>
                 ))}
             </div>
         </section>
