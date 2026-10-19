@@ -16,11 +16,13 @@ export default function Home() {
         collection="floreal-collection"
         eyebrow="Fresh In"
         title="Floreal Collection"
+        mobileImageHeightClassName="h-[220px]"
       />
       <FloralCollection
         collection="ember-collection"
         eyebrow="Back By Request"
         title="Zayelle Luxe Weave"
+        mobileImageHeightClassName="h-[220px]"
       />
       <Newsletter />
     </div>
