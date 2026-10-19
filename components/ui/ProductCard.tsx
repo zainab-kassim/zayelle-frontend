@@ -49,6 +49,7 @@ export default function ProductCard({
                             alt={name}
                             fill
                             style={{ objectFit: 'contain' }}
+                            sizes="(max-width: 640px) 55vw, (max-width: 1024px) 260px, 25vw"
                         />
                     </div>
 
