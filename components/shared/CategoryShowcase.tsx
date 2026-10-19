@@ -33,7 +33,7 @@ function CategoryTile({ slug, label }: CategoryTile) {
                 {isLoading ? (
                     <div className="absolute inset-0 animate-pulse bg-line/40" />
                 ) : image ? (
-                    <div className="absolute inset-6 sm:inset-8">
+                    <div className="absolute inset-9 sm:inset-11">
                         <Image
                             src={image}
                             alt={label}
