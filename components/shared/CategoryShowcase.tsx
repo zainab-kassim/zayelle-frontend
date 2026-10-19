@@ -31,7 +31,7 @@ function CategoryTile({ slug, label }: CategoryTile) {
         >
             {/* fixed height, same convention as ProductCard — matches the scale of
                 Fresh In / Back By Request instead of scaling with tile width */}
-            <div className="relative h-[190px] md:h-[330px]">
+            <div className="relative h-[220px] md:h-[330px]">
                 {isLoading ? (
                     <div className="absolute inset-0 animate-pulse bg-line/40" />
                 ) : image ? (
