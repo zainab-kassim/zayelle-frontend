@@ -27,19 +27,19 @@ function CategoryTile({ slug, label }: CategoryTile) {
     return (
         <Link
             href={`/products?collection=${slug}`}
-            className="group relative w-full aspect-[1/1] overflow-hidden rounded-2xl bg-surface flex flex-col"
+            className="group relative w-full aspect-[4/5] overflow-hidden rounded-2xl bg-surface flex flex-col"
         >
             <div className="relative flex-1 min-h-0">
                 {isLoading ? (
                     <div className="absolute inset-0 animate-pulse bg-line/40" />
                 ) : image ? (
-                    <div className="absolute inset-8 sm:inset-9">
+                    <div className="absolute inset-3 sm:inset-5">
                         <Image
                             src={image}
                             alt={label}
                             fill
                             className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                            sizes="(max-width: 640px) 90vw, 33vw"
+                            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 33vw"
                         />
                     </div>
                 ) : null}
@@ -69,7 +69,7 @@ export default function CategoryShowcase() {
                 </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                 {CATEGORIES.map((cat) => (
                     <CategoryTile key={cat.slug} {...cat} />
                 ))}
