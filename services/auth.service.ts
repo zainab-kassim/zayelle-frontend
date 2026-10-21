@@ -50,4 +50,13 @@ export const resetPassword = async (token: string, password: string) => {
   });
   return response.data;
 };
+
+export const validateResetToken = async (
+  token: string
+): Promise<{ valid: boolean; expiresAt?: string }> => {
+  const response = await axiosInstance.get('/auth/reset-password/validate', {
+    params: { token },
+  });
+  return response.data;
+};
  
