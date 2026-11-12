@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { getProductBySlug } from "@/services/product.service";
 import { addToCart } from "@/services/cart.service";
 import { Product } from "@/types/product";
+import { Measurements } from "@/types/cart";
 import ProductImageViewer from "@/components/shared/product/ProductImageViewer";
 import ProductInfo from "@/components/shared/product/ProductInfo";
 import FloralCollection from "@/components/shared/FlorealCollection";
@@ -27,6 +28,11 @@ export default function ProductSlugPage({ params }: PageProps) {
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [measurements, setMeasurements] = useState<Partial<Measurements>>({});
+
+  const handleMeasurementsChange = (field: keyof Measurements, value: string) => {
+    setMeasurements((prev) => ({ ...prev, [field]: value === "" ? undefined : Number(value) }));
+  };
 
   // ── Fetch product ──────────────────────────────────────────────
   const { data: product, isLoading, error } = useAsyncData<Product | null>(
@@ -44,8 +50,17 @@ export default function ProductSlugPage({ params }: PageProps) {
   const handleAddToCart = async () => {
     if (!product || !selectedSize) return;
     setIsAddingToCart(true);
+    const isMadeToMeasure = product.collections?.slug === "floreal-collection";
+    const hasAllMeasurements = Boolean(measurements.bust && measurements.waist && measurements.hip);
     try {
-      await addToCart({ productid: (product.id), quantity, size: selectedSize });
+      await addToCart({
+        productid: (product.id),
+        quantity,
+        size: selectedSize,
+        ...(isMadeToMeasure && hasAllMeasurements
+          ? { measurements: measurements as Measurements }
+          : {}),
+      });
       showToast.success("Added to cart successfully");
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -128,6 +143,8 @@ export default function ProductSlugPage({ params }: PageProps) {
               onDecrease={() => setQuantity(q => Math.max(1, q - 1))}
               onAddToCart={handleAddToCart}
               isAddingToCart={isAddingToCart}
+              measurements={measurements}
+              onMeasurementsChange={handleMeasurementsChange}
             />
           </div>
         </div>
@@ -144,6 +161,8 @@ export default function ProductSlugPage({ params }: PageProps) {
             onDecrease={() => setQuantity(q => Math.max(1, q - 1))}
             onAddToCart={handleAddToCart}
             isAddingToCart={isAddingToCart}
+            measurements={measurements}
+            onMeasurementsChange={handleMeasurementsChange}
           />
         </div>
       </div>

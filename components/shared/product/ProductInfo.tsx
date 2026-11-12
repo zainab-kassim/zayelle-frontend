@@ -3,7 +3,9 @@
 import Link from "next/link";
 import SizeSelector from "../../ui/SizeSelector";
 import QuantitySelector from "../../ui/QuantitySelector";
+import MeasurementsForm from "./MeasurementsForm";
 import { Product } from "@/types/product";
+import { Measurements } from "@/types/cart";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { slugifyCollectionName } from "@/lib/slugify";
@@ -18,13 +20,18 @@ interface ProductInfoProps {
   onDecrease: () => void;
   onAddToCart: () => void;
   isAddingToCart: boolean;
+  measurements: Partial<Measurements>;
+  onMeasurementsChange: (field: keyof Measurements, value: string) => void;
 }
 
 export default function ProductInfo({
   product, selectedSize, quantity, onSizeChange, onIncrease, onDecrease, onAddToCart, isAddingToCart,
+  measurements, onMeasurementsChange,
 }: ProductInfoProps) {
   const { currency } = useCurrencyStore();
   const displayPrice = product.size_prices?.[selectedSize] ?? product.price;
+  const isMadeToMeasure = product.collections?.slug === "floreal-collection";
+  const hasAllMeasurements = Boolean(measurements.bust && measurements.waist && measurements.hip);
 
   return (
     <div className="flex flex-col gap-4 sm:gap-6 w-full">
@@ -94,6 +101,11 @@ export default function ProductInfo({
         onSizeChange={onSizeChange}
       />
 
+      {/* Measurements — made-to-measure pieces only */}
+      {isMadeToMeasure && (
+        <MeasurementsForm values={measurements} onChange={onMeasurementsChange} />
+      )}
+
       {/* Quantity */}
       <QuantitySelector
         quantity={quantity}
@@ -104,7 +116,7 @@ export default function ProductInfo({
       {/* Add to cart */}
       <button
         onClick={onAddToCart}
-        disabled={isAddingToCart || !selectedSize}
+        disabled={isAddingToCart || !selectedSize || (isMadeToMeasure && !hasAllMeasurements)}
         className="w-full h-12 bg-ink text-paper font-sans font-normal uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isAddingToCart ? <Loader /> : "Add to Cart"}

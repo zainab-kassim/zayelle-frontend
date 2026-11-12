@@ -69,6 +69,7 @@ export interface OrderHistoryItem {
   price: number;
   size: string;
   unit_price: number;
+  measurements?: { bust: number; waist: number; hip: number } | null;
 }
 
 export interface OrderHistoryOrder {

@@ -1,7 +1,14 @@
+export interface Measurements {
+  bust: number;
+  waist: number;
+  hip: number;
+}
+
 export interface AddToCartPayload {
   productid: number;
   quantity: number;
   size: string;
+  measurements?: Measurements;
 }
 
 export interface CartProduct {
@@ -21,4 +28,5 @@ export interface CartItem {
   price: number;
   unitprice: number;
   created_at: string;
+  measurements?: Measurements | null;
 }

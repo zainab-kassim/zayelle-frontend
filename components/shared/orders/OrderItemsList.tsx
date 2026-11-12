@@ -35,6 +35,11 @@ function ItemRow({ item, currency }: { item: OrderHistoryItem; currency: string 
         <p className="font-sans text-muted text-[12px] sm:text-[13px]">
           Size {item.size} &middot; Qty {item.quantity}
         </p>
+        {item.measurements && (
+          <p className="font-sans text-muted/70 text-[11px] sm:text-[12px]">
+            Bust {item.measurements.bust}&Prime; &middot; Waist {item.measurements.waist}&Prime; &middot; Hip {item.measurements.hip}&Prime;
+          </p>
+        )}
       </div>
       <p className="font-sans text-ink/65 font-normal text-[13px] sm:text-[14px] flex-shrink-0">
         {formatPrice(item.price * item.quantity, currency)}
