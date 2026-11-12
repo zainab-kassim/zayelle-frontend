@@ -86,7 +86,7 @@ export default function Footer() {
                     {/* Brand */}
                     <div className="col-span-2 lg:col-span-2 flex flex-col gap-4">
                         <Link href="/" className="w-fit">
-                            <span className="font-serif text-paper text-[20px] sm:text-[24px] font-normal tracking-normal">
+                            <span className="font-serif text-paper text-[20px] sm:text-[24px] font-light tracking-normal">
                                 Byzayelle
                             </span>
                         </Link>
