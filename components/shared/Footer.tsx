@@ -87,7 +87,7 @@ export default function Footer() {
                     <div className="col-span-2 lg:col-span-2 flex flex-col gap-4">
                         <Link href="/" className="w-fit">
                             <span className="font-serif text-paper text-[20px] sm:text-[24px] font-normal tracking-normal">
-                                Zayelle
+                                ByZayelle
                             </span>
                         </Link>
                         <p className="font-sans text-paper/65 max-w-xs leading-relaxed text-[13px]">
@@ -137,7 +137,7 @@ export default function Footer() {
             {/* ── Bottom bar ── */}
             <div className="border-t border-white/10 px-4 md:px-12 lg:px-34 xl:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <p className="font-sans text-paper/50 text-center text-[12px]">
-                    © 2026 Zayelle. All rights reserved.
+                    © 2026 ByZayelle. All rights reserved.
                 </p>
                 <p className="font-sans text-paper/50 text-center text-[12px]">
                     Secure checkout powered by Stripe &amp; Paystack
