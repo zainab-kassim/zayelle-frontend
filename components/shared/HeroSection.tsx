@@ -10,11 +10,11 @@ export default function HeroSection() {
             aria-label="Zayelle hero"
         >
             <Image
-                src="https://images.unsplash.com/photo-1543157145-f78c636d023d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="/hero-box.png"
                 alt="Zayelle, designed for every version of you"
                 fill
                 priority
-                className="object-cover object-[50%_12%]"
+                className="object-cover object-[35%_center] sm:object-center"
                 sizes="100vw"
             />
 
