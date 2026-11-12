@@ -88,7 +88,7 @@ export default function Navbar() {
                     {/* LEFT — Brand */}
                     <Link href="/" className="flex-shrink-0">
                         <span className="font-serif text-[20px] sm:text-[22px] md:text-[25px] font-normal text-ink tracking-normal">
-                            ByZayelle
+                            Byzayelle
                         </span>
                     </Link>
 
@@ -281,7 +281,7 @@ export default function Navbar() {
                             className="fixed top-0 right-0 h-screen w-72 bg-white z-40 xl:hidden shadow-lg"
                         >
                             <div className="flex items-center justify-between px-6 py-5 border-b border-line">
-                                <span className="font-serif text-[19px] font-normal text-ink">ByZayelle</span>
+                                <span className="font-serif text-[19px] font-normal text-ink">Byzayelle</span>
                                 <button
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                     className="flex items-center justify-center w-7 h-7 rounded-md transition-colors duration-200 hover:bg-surface"
