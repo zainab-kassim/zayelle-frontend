@@ -10,9 +10,10 @@ import { AxiosError } from "axios";
 interface AddToCartButtonPlusIconProps {
     productid: number; // The product ID
     variant?: "icon" | "bar";
+    soldOut?: boolean;
 }
 
-export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }: AddToCartButtonPlusIconProps) {
+export default function AddToCartButtonPlusIcon({ productid, variant = "icon", soldOut = false }: AddToCartButtonPlusIconProps) {
     const payload: AddToCartPayload = {
         productid,
         quantity: 1,
@@ -22,6 +23,10 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
     const [isLoading, setIsLoading] = useState(false);
 
     const handleAddToCart = async () => {
+        if (soldOut) {
+            showToast.error("This item is sold out");
+            return;
+        }
         // Block duplicate requests
         if (isLoading) return;
 
@@ -48,8 +53,8 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
             <button
                 onClick={handleAddToCart}
                 disabled={isLoading}
-                aria-label={isLoading ? "Adding to cart..." : "Quick add to cart"}
-                className="
+                aria-label={soldOut ? "Sold out" : isLoading ? "Adding to cart..." : "Quick add to cart"}
+                className={`
           w-full bg-ink text-white
           py-3
           flex items-center justify-center gap-2
@@ -57,9 +62,10 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
           disabled:opacity-70 disabled:cursor-not-allowed
           transition-colors duration-200
           hover:bg-button-primary-active
-        "
+          ${soldOut ? "opacity-50 hover:bg-ink" : ""}
+        `}
             >
-                {isLoading ? <TinySpinner size={14} /> : "Quick Add"}
+                {isLoading ? <TinySpinner size={14} /> : soldOut ? "Sold Out" : "Quick Add"}
             </button>
         );
     }
@@ -68,8 +74,8 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
         <button
             onClick={handleAddToCart}
             disabled={isLoading}
-            aria-label={isLoading ? "Adding to cart..." : "Add to cart"}
-            className="
+            aria-label={soldOut ? "Sold out" : isLoading ? "Adding to cart..." : "Add to cart"}
+            className={`
         absolute right-2 top-2
         w-7 h-7 md:w-8 md:h-8 flex-shrink-0
         rounded-full bg-paper/95 backdrop-blur-sm border border-line text-ink
@@ -78,7 +84,8 @@ export default function AddToCartButtonPlusIcon({ productid, variant = "icon" }:
         transition-all duration-200
         hover:bg-ink hover:text-paper hover:border-ink
         disabled:opacity-70 disabled:cursor-not-allowed
-      "
+        ${soldOut ? "opacity-50 hover:bg-paper/95 hover:text-ink hover:border-line" : ""}
+      `}
         >
             {isLoading ? (
                 // Spinner — same footprint as the icon to prevent layout shift

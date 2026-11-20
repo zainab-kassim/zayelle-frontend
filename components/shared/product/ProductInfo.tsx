@@ -32,6 +32,7 @@ export default function ProductInfo({
   const displayPrice = product.size_prices?.[selectedSize] ?? product.price;
   const isMadeToMeasure = product.collections?.slug === "floreal-collection";
   const hasAllMeasurements = Boolean(measurements.bust && measurements.waist && measurements.hip);
+  const isSoldOut = product.quantity <= 0;
 
   return (
     <div className="flex flex-col gap-4 sm:gap-6 w-full">
@@ -56,6 +57,13 @@ export default function ProductInfo({
         <p className="font-sans text-muted text-[15px] sm:text-[16px] mt-0.5">
           {formatPrice(displayPrice, currency)}
         </p>
+
+        {/* Sold out notice */}
+        {isSoldOut && (
+          <span className="font-sans text-red-600 font-medium uppercase tracking-[0.1em] text-[11px] w-fit">
+            Sold Out
+          </span>
+        )}
 
         {/* Pre-order notice */}
         <p className="font-sans text-red-600 text-[12px] sm:text-[13px] leading-relaxed mt-1">
@@ -99,10 +107,11 @@ export default function ProductInfo({
         sizes={product.size}
         selectedSize={selectedSize}
         onSizeChange={onSizeChange}
+        disabled={isSoldOut}
       />
 
       {/* Measurements — made-to-measure pieces only */}
-      {isMadeToMeasure && (
+      {isMadeToMeasure && !isSoldOut && (
         <MeasurementsForm values={measurements} onChange={onMeasurementsChange} />
       )}
 
@@ -116,7 +125,7 @@ export default function ProductInfo({
       {/* Add to cart */}
       <button
         onClick={onAddToCart}
-        disabled={isAddingToCart || !selectedSize || (isMadeToMeasure && !hasAllMeasurements)}
+        disabled={isSoldOut || isAddingToCart || !selectedSize || (isMadeToMeasure && !hasAllMeasurements)}
         className="w-full h-12 bg-ink text-paper font-sans font-normal uppercase tracking-[0.1em] text-[12px] flex items-center justify-center transition-opacity duration-200 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isAddingToCart ? <Loader /> : "Add to Cart"}

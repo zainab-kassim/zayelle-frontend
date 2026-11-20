@@ -5,6 +5,7 @@ import { formatPrice } from '@/lib/currency';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import AddToCartButtonPlusIcon from '@/components/shared/cart/AddToCartButtonPlusIcon';
+import SoldOutTag from '@/components/ui/SoldOutTag';
 
 interface ProductCardProps {
     id: number;
@@ -12,6 +13,7 @@ interface ProductCardProps {
     name: string;
     price: number;
     slug: string;
+    quantity?: number;
     imageHeightClassName?: string;
     imageWrapperClassName?: string;
     imageInsetClassName?: string;
@@ -22,7 +24,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
-    id, slug, image, name, price,
+    id, slug, image, name, price, quantity,
     imageHeightClassName = 'h-[190px] md:h-[330px]',
     imageWrapperClassName = 'relative pb-3 pt-6 z-0',
     imageInsetClassName = 'inset-6 sm:inset-8',
@@ -33,6 +35,7 @@ export default function ProductCard({
 }: ProductCardProps) {
     const router = useRouter();
     const currency = useCurrencyStore((state) => state.currency);
+    const isSoldOut = quantity !== undefined && quantity <= 0;
 
     return (
         <div
@@ -53,8 +56,10 @@ export default function ProductCard({
                         />
                     </div>
 
-                    {/* only for actual new-arrivals, not decorative */}
-                    {isNew && (
+                    {/* sold-out takes priority over the new-arrival badge */}
+                    {isSoldOut ? (
+                        <SoldOutTag />
+                    ) : isNew && (
                         <span className="absolute top-2 left-2 bg-paper text-ink border border-line rounded-full px-2.5 py-1 font-sans text-[9px] font-medium uppercase tracking-[0.08em]">
                             New
                         </span>
@@ -63,7 +68,7 @@ export default function ProductCard({
                     {/* Quick-add icon */}
                     {showQuickAdd && (
                         <div onClick={(e) => e.stopPropagation()}>
-                            <AddToCartButtonPlusIcon productid={id} />
+                            <AddToCartButtonPlusIcon productid={id} soldOut={isSoldOut} />
                         </div>
                     )}
                 </div>

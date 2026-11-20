@@ -6,6 +6,7 @@ export interface Product {
   size_prices?: Record<string, number> | null; // per-size price override, falls back to price
   slug: string;
   size: string[];
+  quantity: number; // stock on hand — 0 or less means sold out
   description: string;
   // shape varies by endpoint (sometimes only slug, sometimes only name, sometimes missing) — always guard with ?.
   collections?: {

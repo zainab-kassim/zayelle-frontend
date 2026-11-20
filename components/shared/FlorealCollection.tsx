@@ -102,6 +102,7 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
                   image={product.image}
                   name={product.name}
                   price={product.price}
+                  quantity={product.quantity}
                   slug={product.slug}
                   showQuickAdd={showQuickAdd}
                   {...(mobileImageHeightClassName ? { imageHeightClassName: mobileImageHeightClassName } : {})}
@@ -127,6 +128,7 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
                     image={product.image}
                     name={product.name}
                     price={product.price}
+                    quantity={product.quantity}
                     slug={product.slug}
                     {...(desktopImageHeightClassName ? { imageHeightClassName: desktopImageHeightClassName } : {})}
                     {...(desktopImageWrapperClassName ? { imageWrapperClassName: desktopImageWrapperClassName } : {})}
@@ -157,6 +159,7 @@ export default function FloralCollection({ collection, eyebrow, title, mobileIma
                     image={product.image}
                     name={product.name}
                     price={product.price}
+                    quantity={product.quantity}
                     slug={product.slug}
                     {...(mobileImageHeightClassName ? { imageHeightClassName: mobileImageHeightClassName } : {})}
                     {...(mobileImageWrapperClassName ? { imageWrapperClassName: mobileImageWrapperClassName } : {})}

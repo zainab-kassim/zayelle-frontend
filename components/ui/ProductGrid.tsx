@@ -43,6 +43,7 @@ export default function ProductGrid({
               name={product.name}
               price={product.price}
               slug={product.slug}
+              quantity={product.quantity}
               showQuickAdd={false}
               imageHeightClassName={IMAGE_HEIGHT}
               imageWrapperClassName="relative pb-3 z-0"

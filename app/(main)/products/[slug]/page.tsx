@@ -49,6 +49,10 @@ export default function ProductSlugPage({ params }: PageProps) {
   // ── Add to cart ────────────────────────────────────────────────
   const handleAddToCart = async () => {
     if (!product || !selectedSize) return;
+    if (product.quantity <= 0) {
+      showToast.error("This item is sold out");
+      return;
+    }
     setIsAddingToCart(true);
     const isMadeToMeasure = product.collections?.slug === "floreal-collection";
     const hasAllMeasurements = Boolean(measurements.bust && measurements.waist && measurements.hip);
@@ -63,9 +67,11 @@ export default function ProductSlugPage({ params }: PageProps) {
       });
       showToast.success("Added to cart successfully");
     } catch (error) {
-      const axiosError = error as AxiosError;
+      const axiosError = error as AxiosError<{ message?: string }>;
       if (axiosError?.response?.status === 401) {
         showToast.error("Please log in to add items to your cart");
+      } else if (axiosError?.response?.status === 400 && axiosError.response.data?.message) {
+        showToast.error(axiosError.response.data.message);
       } else {
         showToast.error("Failed to add item to cart");
       }
